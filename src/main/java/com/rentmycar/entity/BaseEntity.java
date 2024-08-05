@@ -29,6 +29,6 @@ public class BaseEntity {
 	private LocalDate createdOn;
 	
 	@UpdateTimestamp
-	private LocalDate updatedOn;
+	private LocalDateTime updatedOn;
 
 }
