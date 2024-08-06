@@ -31,7 +31,7 @@ public class Booking extends BaseEntity{
 	@Column(nullable = false)
 	LocalDateTime paymentDateTime; 	// DateTime
 	
-	@Column(nullable = false,length = 20,columnDefinition = "char")
+	@Column(nullable = false,columnDefinition = "char(20)")
 	String transactionId; 	// char (#### 20.
 	
 }
