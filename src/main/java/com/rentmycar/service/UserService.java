@@ -1,9 +1,11 @@
 package com.rentmycar.service;
 
-import com.rentmycar.dto.SignInRequest;
-import com.rentmycar.dto.SignInResponse;
+import java.util.Optional;
+
+import com.rentmycar.dto.SignInRequestDto;
+import com.rentmycar.dto.SignInResponseDto;
 
 public interface UserService {
 
-	SignInResponse authenticateUser(SignInRequest request);
+	Optional<SignInResponseDto> authenticateUser(SignInRequestDto request);
 }

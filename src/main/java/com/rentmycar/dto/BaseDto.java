@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BaseDTO {
+public class BaseDto {
 	// skip these fields during de-serialization - Java obj's setter 
 	//use only during serialization.
 	@JsonProperty(access = Access.READ_ONLY)

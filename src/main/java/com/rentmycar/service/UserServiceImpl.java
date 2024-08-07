@@ -1,5 +1,7 @@
 package com.rentmycar.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -8,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.rentmycar.custom_exceptions.AuthenticationException;
 import com.rentmycar.dao.UserDao;
-import com.rentmycar.dto.SignInRequest;
-import com.rentmycar.dto.SignInResponse;
+import com.rentmycar.dto.SignInRequestDto;
+import com.rentmycar.dto.SignInResponseDto;
 import com.rentmycar.entity.User;
 
 @Service
@@ -23,11 +25,11 @@ public class UserServiceImpl implements UserService{
 	private ModelMapper mapper;
 	
 	@Override
-	public SignInResponse authenticateUser(SignInRequest request) {
-		User userEntity = userDao.findByEmailAndPasswordAndRoleEnum(request.getEmail(),request.getPassword(),request.getRoleEnum())
+	public Optional<SignInResponseDto> authenticateUser(SignInRequestDto signInRequestDto) {
+		User userEntity = userDao.findByEmailAndPasswordAndRoleEnum(signInRequestDto.getEmail(),signInRequestDto.getPassword(),signInRequestDto.getRoleEnum())
 				.orElseThrow(() -> new AuthenticationException("Invalid Email or Password !"));
 		//valid login
-		return mapper.map(userEntity, SignInResponse.class);
+		return Optional.of(mapper.map(userEntity, SignInResponseDto.class));
 	}
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rentmycar.dto.SignInRequest;
+import com.rentmycar.dto.SignInRequestDto;
 import com.rentmycar.service.UserService;
 
 @RestController
@@ -21,9 +21,9 @@ public class UserController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> logInUser(@RequestBody @Valid SignInRequest request){
-		System.out.println("in Log in " + request);
+	public ResponseEntity<?> logInUser(@RequestBody @Valid SignInRequestDto signInRequestDto){
+		System.out.println("in Log in " + signInRequestDto);
 		
-		return ResponseEntity.ok(userService.authenticateUser(request));
+		return ResponseEntity.ok(userService.authenticateUser(signInRequestDto));
 	}
 }

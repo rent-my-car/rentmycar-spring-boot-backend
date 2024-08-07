@@ -7,12 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SignInResponse extends BaseDTO {
+public class SignInResponseDto extends BaseDto {
 
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String mobile;
 	private UserRoleEnum roleEnum;
+	public static void main(String[] args) {
+		
+	}
 	
 }

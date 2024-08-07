@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class SignInRequest {
+public class SignInRequestDto {
 
 	@NotEmpty(message = "Email must be supplied !")
 	@Email(message = "Invalid Email format")
