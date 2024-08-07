@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService{
 	public Optional<SignInResponseDto> authenticateUser(SignInRequestDto signInRequestDto) {
 		User userEntity = userDao.findByEmailAndPasswordAndRoleEnum(signInRequestDto.getEmail(),signInRequestDto.getPassword(),signInRequestDto.getRoleEnum())
 				.orElseThrow(() -> new AuthenticationException("Invalid Email or Password !"));
+		 if (userEntity.getIsDeleted()) {
+		        throw new AuthenticationException("User is Deactivated!");
+		    }else
 		//valid login
 		return Optional.of(mapper.map(userEntity, SignInResponseDto.class));
 	}
