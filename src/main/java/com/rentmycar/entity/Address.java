@@ -2,6 +2,9 @@ package com.rentmycar.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -13,23 +16,42 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Address extends BaseEntity{
-	
-	@Column(length = 20,nullable = false)
-	private String country;  	// varchar(20),not null
-	
-	@Column(length = 20,nullable = false)
-	private String state;  	// varchar(20),not null
-	
-	@Column(length = 20,nullable = false)
-	private String city;  	// varchar(20),not null
-	
-	@Column(nullable = false,columnDefinition="char(10)")
-	private String pincode;  	// char(10),not null
-	
-	@Column(length = 30,nullable = false)
-	private String area; 	// varchar(30),not null
-	
-	@Column(nullable = false,columnDefinition="char(10)")
-	private String houseNo; 	// char(10),not null
+
+public class Address extends BaseEntity {
+
+	@Column(name = "adr_line1", length = 100)
+	private String adrLine1; // varchar(100) not null
+
+	@Column(name = "adr_line2", length = 100)
+	private String adrLine2; // varchar(100)
+
+	@Column(length = 20, nullable = false)
+	private String country; // varchar(20),not null
+
+	@Column(length = 20, nullable = false)
+	private String state; // varchar(20),not null
+
+	@Column(length = 20, nullable = false)
+	private String city; // varchar(20),not null
+
+	@Column(nullable = false, columnDefinition = "char(10)")
+	private String pincode; // char(10),not null
+
+	@Column(length = 30, nullable = false)
+	private String area; // varchar(30),not null
+
+	@Column(nullable = false, columnDefinition = "char(10)")
+	private String houseNo; // char(10),not null
+
+	@Column(columnDefinition = "boolean default false", nullable = false)
+	private Boolean isDeleted;
+
+//***************************************************************************************************
+	// many -> Address * <----> 1 User
+	@ManyToOne(fetch = FetchType.LAZY) // mandatory
+	@JoinColumn(name = "guest_id", nullable = false)
+	private User user;
+
+//***************************************************************************************************
+
 }
