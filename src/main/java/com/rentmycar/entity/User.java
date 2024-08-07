@@ -11,13 +11,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table
+@Table(name = "user", uniqueConstraints = {
+	    @UniqueConstraint(columnNames = {"email","mobile", "roleEnum"})})
 @Getter
 @Setter
 @ToString
@@ -32,7 +34,7 @@ public class User extends BaseEntity {
 	@Column(length = 12, nullable = false)
 	private String mobile;
 
-	@Column(length = 20, unique = true, nullable = false)
+	@Column(length = 20, nullable = false)
 	private String email;
 
 	@Column(length = 70, nullable = false)
