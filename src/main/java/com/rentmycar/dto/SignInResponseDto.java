@@ -14,8 +14,5 @@ public class SignInResponseDto extends BaseDto {
 	private String email;
 	private String mobile;
 	private UserRoleEnum roleEnum;
-	public static void main(String[] args) {
-		
-	}
 	
 }
