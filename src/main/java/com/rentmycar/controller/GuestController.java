@@ -13,18 +13,20 @@ import com.rentmycar.service.GuestService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+
 @RestController
-@RequestMapping("/user/guest")
+@RequestMapping("/user")
 public class GuestController {
 
-	@Autowired
-	private GuestService guestService;
+@Autowired
+private GuestService guestService;
 
 	@GetMapping("/profile/{guestId}")
 	@Operation(description = "getProfileDetails By Id")
 	public ResponseEntity<?> getGuestProfileDetails(@PathVariable @Max(100) Long guestId) {
 		System.out.println("In Guest Profile" + guestId);
 		return ResponseEntity.ok(guestService.getGuestProfileDetails(guestId));
+
 	}
 
 	@GetMapping("/get_all_guests")
