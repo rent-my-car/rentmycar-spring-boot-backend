@@ -53,6 +53,7 @@ public class UserController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(registerUserWithDlReqDto)
 				.orElseThrow(() -> new ApiException("internal server error")));
+	}
 
     
 	@PutMapping("/update/{userId}")

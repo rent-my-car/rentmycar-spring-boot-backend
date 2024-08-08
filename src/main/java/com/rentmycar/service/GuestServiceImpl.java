@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.rentmycar.custom_exception.CustomAuthenticationException;
 import com.rentmycar.custom_exception.CustomAuthorizationException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
-import com.rentmycar.dao.GuestDao;
+import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.DrivingLicenseDto;
 import com.rentmycar.dto.GetAllUsersDto;
 import com.rentmycar.dto.GuestDetailsResponseDto;
@@ -27,7 +27,7 @@ import com.rentmycar.entity.UserRoleEnum;
 public class GuestServiceImpl implements GuestService {
 
 	@Autowired
-	private GuestDao guestDao;
+	private UserDao userDao;
 
 	@Autowired
 	private ModelMapper mapper;
@@ -35,7 +35,7 @@ public class GuestServiceImpl implements GuestService {
 	//method to Show Guest Profile details by Id
 	@Override
 	public Optional<GuestDetailsResponseDto> getGuestProfileDetails(Long guestId) {
-		User userEntity = guestDao.findById(guestId)
+		User userEntity = userDao.findById(guestId)
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid User Id !"));
 
 		if (userEntity.getRoleEnum().equals(UserRoleEnum.GUEST)) {
@@ -54,9 +54,10 @@ public class GuestServiceImpl implements GuestService {
 	}
 
 
+	//get all guests
 	@Override
 	public List<GetAllUsersDto> getAllGuests() {
-		List<User> guestList = guestDao.findByRoleEnum(UserRoleEnum.GUEST).orElseThrow(()->new ResourceNotFoundException("Guest List is Empty!!"));
+		List<User> guestList = userDao.findByRoleEnum(UserRoleEnum.GUEST).orElseThrow(()->new ResourceNotFoundException("Guest List is Empty!!"));
 		TypeToken<List<GetAllUsersDto>> getallGuestDtoToken = new TypeToken<>() {};
 		return(mapper.map(guestList, getallGuestDtoToken.getType()));
 		
