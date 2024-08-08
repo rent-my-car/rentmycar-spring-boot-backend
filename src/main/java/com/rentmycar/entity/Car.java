@@ -24,6 +24,10 @@ public class Car extends BaseEntity {
 	@Column(columnDefinition = "TINYINT", nullable = false )
 	private int seatingCapacity; // tinyint(1-6),not null
 	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 10)
+	private TransmisssionTypeEnum transmissionTypeEnum;
+	
 //*************************************************************
 	// Car * ------> 1 CarFeatures
 	// many cars can have same features
