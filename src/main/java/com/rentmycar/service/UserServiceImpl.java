@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rentmycar.custom_exception.AuthenticationException;
+import com.rentmycar.custom_exception.CustomAuthenticationException;
 import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.SignInRequestDto;
 import com.rentmycar.dto.SignInResponseDto;
@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Optional<SignInResponseDto> authenticateUser(SignInRequestDto signInRequestDto) {
 		User userEntity = userDao.findByEmailAndPasswordAndRoleEnum(signInRequestDto.getEmail(),signInRequestDto.getPassword(),signInRequestDto.getRoleEnum())
-				.orElseThrow(() -> new AuthenticationException("Invalid Email or Password !"));
+				.orElseThrow(() -> new CustomAuthenticationException("Invalid Email or Password !"));
 		 if (userEntity.getIsDeleted()) {
-		        throw new AuthenticationException("User is Deactivated!");
+		        throw new CustomAuthenticationException("User is Deactivated!");
 		    }else
 		//valid login
 		return Optional.of(mapper.map(userEntity, SignInResponseDto.class));

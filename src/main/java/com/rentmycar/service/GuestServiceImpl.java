@@ -8,7 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rentmycar.custom_exception.AuthorizationException;
+import com.rentmycar.custom_exception.CustomAuthenticationException;
+import com.rentmycar.custom_exception.CustomAuthorizationException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.GuestDao;
 import com.rentmycar.dto.DrivingLicenseDto;
@@ -30,7 +31,11 @@ public class GuestServiceImpl implements GuestService {
 	public Optional<GuestDetailsResponseDto> getGuestProfileDetails(Long guestId) {
 		User userEntity = guestDao.findById(guestId)
 				.orElseThrow(() -> new ResourceNotFoundException("Invalid User Id !"));
+
 		if (userEntity.getRoleEnum().equals(UserRoleEnum.GUEST)) {
+			if (userEntity.getIsDeleted()) {
+				throw new CustomAuthenticationException("Guest is De-Activated !");
+			}
 			System.out.println(userEntity.getDrivingLicense().getDrivingLicenseNo());
 			userEntity.getDrivingLicense().getIssueDate();
 			DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
@@ -38,7 +43,7 @@ public class GuestServiceImpl implements GuestService {
 			guestDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
 			return Optional.of(guestDetailsResponseDto);
 		} else {
-			throw new AuthorizationException("Not A Guest Role !");
+			throw new CustomAuthorizationException("Not A Guest Role !");
 		}
 
 	}

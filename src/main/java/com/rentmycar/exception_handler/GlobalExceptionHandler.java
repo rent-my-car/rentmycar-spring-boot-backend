@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,7 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.rentmycar.custom_exception.AuthorizationException;
+import com.rentmycar.custom_exception.CustomAuthenticationException;
+import com.rentmycar.custom_exception.CustomAuthorizationException;
 import com.rentmycar.custom_exception.PasswordMismatchException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.custom_exception.UserAlreadyExistsException;
@@ -67,13 +67,18 @@ public class GlobalExceptionHandler {
 	}
 	
 	//handle unauthorized access 
-	@ExceptionHandler(AuthorizationException.class)
-	public ResponseEntity<?> handleAuthorizationException(AuthorizationException e){
+	@ExceptionHandler(CustomAuthorizationException.class)
+	public ResponseEntity<?> handleAuthorizationException(CustomAuthorizationException e){
 		System.out.println("in res of AuthorizationException ");
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponseDto(e.getMessage()));
 	}
 	
-	
+	//handle AuthenticationException 
+	@ExceptionHandler(CustomAuthenticationException.class)
+	public ResponseEntity<?> handleAuthenticationException(CustomAuthenticationException e){
+		System.out.println("in res of AuthenticationException");
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponseDto(e.getMessage()));
+	}
 	
 	
 	
