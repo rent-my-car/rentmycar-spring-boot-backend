@@ -1,20 +1,27 @@
 package com.rentmycar.controller;
 
-import javax.validation.Valid;
 
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.rentmycar.custom_exception.ApiException;
 import com.rentmycar.dto.RegisterUserReqDto;
 import com.rentmycar.dto.RegisterUserWithDlReqDto;
+import com.rentmycar.custom_exception.ResourceNotFoundException;
+import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.SignInRequestDto;
+import com.rentmycar.dto.UpdateBasicUserDetailsDto;
 import com.rentmycar.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+
 
 @RestController
 @RequestMapping("/user")
@@ -23,6 +30,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+
+	// method for role based login for user
 	@PostMapping("/login")
 	public ResponseEntity<?> logInUser(@RequestBody @Valid SignInRequestDto signInRequestDto) {
 		System.out.println("in Log in " + signInRequestDto);
@@ -44,6 +53,31 @@ public class UserController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(registerUserWithDlReqDto)
 				.orElseThrow(() -> new ApiException("internal server error")));
+
+    
+	@PutMapping("/update/{userId}")
+	@Operation(description = "Update User Basic Details By Id")
+	public ResponseEntity<?> updateBasicUserDetails(@PathVariable Long userId,
+			@Valid @RequestBody UpdateBasicUserDetailsDto user) {
+		try {
+			// Call the service method to update the user details
+			Optional<UpdateBasicUserDetailsDto> updatedGuestDto = userService.updateBasicUserDetails(userId, user);
+
+			if (updatedGuestDto.isPresent()) {
+				// Successfully updated user details
+				return ResponseEntity.ok(userService.updateBasicUserDetails(userId, user));
+			} else {
+				// This case is not likely to occur due to exception handling in the service
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponseDto("User not found with ID: "));
+			}
+		} catch (ResourceNotFoundException e) {
+			// Handle the specific exception for not found resource
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponseDto(e.getMessage()));
+		} catch (Exception e) {
+			// Handle any other unexpected exceptions
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ApiResponseDto("An unexpected error occurred: " + e.getMessage()));
+		}
 	}
 
 }
