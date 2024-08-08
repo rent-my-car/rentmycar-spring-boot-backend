@@ -14,9 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BaseDto {
-	// skip these fields during de-ser - Java obj's setter 
-	//use only during ser.
-	@JsonProperty(access = Access.READ_ONLY)
+  @JsonProperty(access = Access.READ_ONLY)
 	private Long id;
 	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdOn;
