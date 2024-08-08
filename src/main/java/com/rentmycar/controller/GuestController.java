@@ -1,6 +1,5 @@
 package com.rentmycar.controller;
 
-
 import javax.validation.constraints.Max;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,22 @@ import io.swagger.v3.oas.annotations.Operation;
 @RequestMapping("/user")
 public class GuestController {
 
-	@Autowired
-	private GuestService userService;
-	
+@Autowired
+private GuestService guestService;
+
 	@GetMapping("/profile/{guestId}")
 	@Operation(description = "getProfileDetails By Id")
-	public ResponseEntity<?> getGuestProfileDetails(@PathVariable @Max(100) Long guestId){
-		System.out.println("In Guest Profile" + guestId);		
-		return ResponseEntity.ok(userService.getGuestProfileDetails(guestId));
+	public ResponseEntity<?> getGuestProfileDetails(@PathVariable @Max(100) Long guestId) {
+		System.out.println("In Guest Profile" + guestId);
+		return ResponseEntity.ok(guestService.getGuestProfileDetails(guestId));
+
+	}
+
+	@GetMapping("/get_all_guests")
+	public ResponseEntity<?> getAllGuests() {
+
+		return ResponseEntity.ok(guestService.getAllGuests());
+
 	}
 
 }
