@@ -10,13 +10,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApiResponseDto {
-
 	private String message;
 	private LocalDateTime timeStamp;
-	
+
 	public ApiResponseDto(String message) {
 		super();
 		this.message = message;
 		this.timeStamp = LocalDateTime.now();
 	}
+
 }

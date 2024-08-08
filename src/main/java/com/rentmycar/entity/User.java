@@ -18,11 +18,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "user", uniqueConstraints = {
-	    @UniqueConstraint(columnNames = {"email","mobile", "roleEnum"})})
 @Getter
 @Setter
 @ToString
+@Table(name = "user", uniqueConstraints = {
+	    @UniqueConstraint(columnNames = {"email","roleEnum"}),
+	    @UniqueConstraint(columnNames = {"mobile","roleEnum"})})
 public class User extends BaseEntity {
 
 	@Column(length = 25, nullable = false)

@@ -1,5 +1,13 @@
 package com.rentmycar.controller;
 
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController("/guest")
+public class GuestController {
+
+
+
 import javax.validation.constraints.Max;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,4 +32,5 @@ public class GuestController {
 		System.out.println("In Guest Profile" + guestId);		
 		return ResponseEntity.ok(guestService.getGuestProfileDetails(guestId));
 	}
+
 }
