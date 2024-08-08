@@ -26,7 +26,8 @@ public class GuestServiceImpl implements GuestService {
 
 	@Autowired
 	private ModelMapper mapper;
-
+	
+	//method to Show Guest Profile details by Id
 	@Override
 	public Optional<GuestDetailsResponseDto> getGuestProfileDetails(Long guestId) {
 		User userEntity = guestDao.findById(guestId)
@@ -43,8 +44,8 @@ public class GuestServiceImpl implements GuestService {
 			guestDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
 			return Optional.of(guestDetailsResponseDto);
 		} else {
-			throw new CustomAuthorizationException("Not A Guest Role !");
-		}
-
+				throw new CustomAuthorizationException("Not A Guest Role !");
+			}
 	}
+
 }
