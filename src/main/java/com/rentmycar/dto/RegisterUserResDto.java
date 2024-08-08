@@ -7,7 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RegisterHostResponseDto extends BaseDto {
+public class RegisterUserResDto extends BaseDto {
+	private Long id;
 	String firstName; // VARCHAR(20),NOT NULL
 	String lastName; // VARCHAR(20),NOT NULL
 	String mobile; // VARCHAR(12),UNIQUE NOT NULL

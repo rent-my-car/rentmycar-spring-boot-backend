@@ -5,8 +5,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.springframework.stereotype.Service;
-
 import com.rentmycar.entity.UserRoleEnum;
 
 import lombok.Getter;
@@ -14,7 +12,9 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class RegisterHostRequestDto {
+public class RegisterUserReqDto {
+	
+	private Long id;
 
 	@NotBlank(message = "firstName must not be blannk")
 	String firstName; // VARCHAR(20),NOT NULL
