@@ -1,10 +1,7 @@
 package com.rentmycar.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
-
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +12,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.rentmycar.custom_exception.ApiException;
+import com.rentmycar.dto.RegisterUserReqDto;
+import com.rentmycar.dto.RegisterUserWithDlReqDto;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.SignInRequestDto;
 import com.rentmycar.dto.UpdateBasicUserDetailsDto;
 import com.rentmycar.service.UserService;
-
 import io.swagger.v3.oas.annotations.Operation;
+
 
 @RestController
 @RequestMapping("/user")
@@ -31,6 +30,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+
 	// method for role based login for user
 	@PostMapping("/login")
 	public ResponseEntity<?> logInUser(@RequestBody @Valid SignInRequestDto signInRequestDto) {
@@ -38,6 +38,23 @@ public class UserController {
 		return ResponseEntity.ok(userService.authenticateUser(signInRequestDto));
 	}
 
+	// register User with basic details
+	@PostMapping("/register_basic")
+	public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterUserReqDto registerUserReqDto) {
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(registerUserReqDto)
+				.orElseThrow(() -> new ApiException("internal server error")));
+
+	}
+
+	// register User with driving license
+	@PostMapping("/register_with_dl")
+	public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterUserWithDlReqDto registerUserWithDlReqDto) {
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(registerUserWithDlReqDto)
+				.orElseThrow(() -> new ApiException("internal server error")));
+
+    
 	@PutMapping("/update/{userId}")
 	@Operation(description = "Update User Basic Details By Id")
 	public ResponseEntity<?> updateBasicUserDetails(@PathVariable Long userId,
@@ -48,9 +65,7 @@ public class UserController {
 
 			if (updatedGuestDto.isPresent()) {
 				// Successfully updated user details
-				return ResponseEntity.ok(userService.updateBasicUserDetails(userId, user));// new ApiResponseDto("Guest
-																							// details updated
-																							// successfully"));
+				return ResponseEntity.ok(userService.updateBasicUserDetails(userId, user));
 			} else {
 				// This case is not likely to occur due to exception handling in the service
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponseDto("User not found with ID: "));

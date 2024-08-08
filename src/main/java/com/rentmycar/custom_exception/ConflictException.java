@@ -1,27 +1,27 @@
 package com.rentmycar.custom_exception;
 
-public class UserAlreadyExistsException extends RuntimeException {
+public class ConflictException extends RuntimeException {
 
-	public UserAlreadyExistsException() {
+	public ConflictException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserAlreadyExistsException(String message) {
+	public ConflictException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserAlreadyExistsException(Throwable cause) {
+	public ConflictException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserAlreadyExistsException(String message, Throwable cause) {
+	public ConflictException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserAlreadyExistsException(String message, Throwable cause, boolean enableSuppression,
+	public ConflictException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub

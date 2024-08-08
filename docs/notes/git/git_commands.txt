@@ -1,0 +1,76 @@
+1. to careate a branch and switch to that branch
+------------------------------------------------
+	> git switch -C <feature-name>
+	eg - git switch -C feature/create-guest-entity
+
+	1. branch creation coding standard
+		1. Feature Branc	hes (feature/):
+			Purpose: For developing new features or enhancements.
+				Naming Example: feature/add-user-profile, feature/implement-searchfunctionality
+				
+		2. Bugfix Branches (bugfix/ or fix/):
+			Purpose: For fixing bugs or issues in the codebase.
+				Naming Example: bugfix/fix-login-error, fix/missing-footer-on-homepage	
+				
+		3. Documentation Branches (docs/):
+			Purpose: For updates or changes to documentation.
+				Naming Example: docs/update-readme, docs/improve-api-docs
+				
+		4. Chore Branches (chore/):
+			Purpose: For maintenance tasks that don’t directly affect functionality, such as refactoring or
+			updating dependencies.
+				Naming Example: chore/update-dependencies, chore/refactor-codebase
+		
+---------------------------------------------------------------------------------------------------------------
+2. to check the all the branches and current branch
+----------------------------------------------------
+
+	> git branch
+
+----------------------------------------------------------------------------------------------------------------
+3. to add the changes to local repo 
+-----------------------------------
+
+	> git add .
+
+----------------------------------------------------------------------------------------------------------------
+4. to commit the changes to local repo
+---------------------------------------
+
+	> git commit -m "feat: add guest entity"
+
+	1. commit creation coding standard
+		1. feat: New features or enhancements
+			Example: feat: add user profile page
+			
+		2. fix: Bug fixes
+			Example: fix: correct header image rendering
+			
+		3. docs: Documentation changes
+			Example: docs: update README with new setup instructions
+			
+		4. style: Formatting, missing semi-colons, etc. (no code change)
+			Example: style: format code according to eslint
+			
+		5. refactor: Code changes that neither fix bugs nor add features
+			Example: refactor: improve variable naming in utils.js
+			
+		6. test: Adding or updating tests
+			Example: test: add unit tests for user login functionality
+			
+		7. chore: Changes to the build process or auxiliary tools/libraries
+			Example: chore: update dependencies
+
+-----------------------------------------------------------------------------------------------------------------
+5. to push the changes to remote branch
+-----------------------------------------------
+
+	> git push -u origin feature/create-guest-entity
+	
+-----------------------------------------------------------------------------------------------------------------
+6. to pull the changes to main branch
+------------------------------------------------
+	> git switch main 
+	> git fetch
+	> git pull origin main
+-----------------------------------------------------------------------------------------------------------------

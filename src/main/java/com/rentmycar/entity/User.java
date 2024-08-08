@@ -26,16 +26,16 @@ import lombok.ToString;
 	    @UniqueConstraint(columnNames = {"mobile","roleEnum"})})
 public class User extends BaseEntity {
 
-	@Column(length = 25, nullable = false)
+	@Column(length = 30, nullable = false)
 	private String firstName;
 
-	@Column(length = 25, nullable = false)
+	@Column(length = 30, nullable = false)
 	private String lastName;
 
 	@Column(length = 12, nullable = false)
 	private String mobile;
 
-	@Column(length = 20, nullable = false)
+	@Column(length = 50, nullable = false)
 	private String email;
 
 	@Column(length = 70, nullable = false)
@@ -93,7 +93,7 @@ public class User extends BaseEntity {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private DrivingLicense drivingLicense;
 
-	public void adddrivingLicense(DrivingLicense drivingLicense) {
+	public void addDrivingLicense(DrivingLicense drivingLicense) {
 		if (drivingLicense == null) {
 			throw new RuntimeException("driving license is null");
 		}
