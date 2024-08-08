@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.rentmycar.custom_exception.AuthorizationException;
 import com.rentmycar.custom_exception.PasswordMismatchException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.custom_exception.UserAlreadyExistsException;
@@ -64,4 +65,19 @@ public class GlobalExceptionHandler {
 		System.out.println("in res of UserAlreadyExistsException ");
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponseDto(e.getMessage()));
 	}
+	
+	//handle unauthorized access 
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<?> handleAuthorizationException(AuthorizationException e){
+		System.out.println("in res of AuthorizationException ");
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponseDto(e.getMessage()));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
