@@ -1,20 +1,26 @@
 package com.rentmycar.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rentmycar.custom_exception.PasswordMismatchException;
+import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.custom_exception.UserAlreadyExistsException;
+import com.rentmycar.dao.HostDao;
 import com.rentmycar.dao.UserDao;
+import com.rentmycar.dto.GetAllUsersDto;
 import com.rentmycar.dto.RegisterHostRequestDto;
 import com.rentmycar.dto.RegisterHostResponseDto;
 import com.rentmycar.entity.User;
+import com.rentmycar.entity.UserRoleEnum;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -27,6 +33,9 @@ public class HostServiceImpl implements HostService {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	HostDao hostdao;
 
 //********************************************************************************************
 	// register host api
@@ -56,6 +65,15 @@ public class HostServiceImpl implements HostService {
 		throw new PasswordMismatchException("password doesn't match");
 	}
 
+	@Override
+	public List<GetAllUsersDto> getAllHost() {
+		List<User> HostList = hostdao.findByRoleEnum(UserRoleEnum.HOST).orElseThrow(()->new ResourceNotFoundException("Host list is empty!"));
+		TypeToken<List<GetAllUsersDto>> getAllHostDtoToken = new TypeToken<>() {};
+		return(mapper.map(HostList, getAllHostDtoToken.getType()));
+	}
+
 //***********************************************************************************************
 
 }
+
+
