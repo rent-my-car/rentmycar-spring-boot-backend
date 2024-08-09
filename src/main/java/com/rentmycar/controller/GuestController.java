@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/guest")
 public class GuestController {
 
 @Autowired
