@@ -9,5 +9,8 @@ public interface AddressService {
 
 	// add address by userId
 	public Optional<AddressResDto> addAddress(AddressDto addressDto, Long userId);
+	
+	// get address by address id
+	public Optional<AddressDto> getAddressByAddressId(Long id);
 
 }
