@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +29,12 @@ public class DrivingLicesnseController {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(drivingLicesnseService.addDrivingLicense(drivingLicenseDto, userId));
 	}
-
+	
+	// update driving license by user id
+		@PutMapping("/{userId}/update/{dlId}")
+		@Operation(description = "update driving license by user id")
+		public ResponseEntity<?> updateDl(@PathVariable Long userId,
+				@RequestBody DrivingLicenseDto drivingLicenseDto){
+			return ResponseEntity.ok(drivingLicesnseService.updateDrivingLicense(drivingLicenseDto, userId));
+		}
 }
