@@ -571,7 +571,7 @@ public class DrivingLicenseDto{
 
   ### 3. AddressController(@RequestMapping=/address)
 
-  #### 1. add Address By UserId
+   #### 1. add Address By UserId
 - **URL** - <http://host:port/address/{userId}>
 - **Method** - POST 
 - **payload** - 
@@ -629,6 +629,14 @@ public class DrivingLicenseDto{
 	```
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
+   #### 2. get address by address id
+- **URL** - <http://host:port/address/{addressId}>
+- **Method** - PUT 
+- **payload** - 
+- **Successful** Resp - SC 200 OK, AddressDto
+- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+
+   
    #### 3.Update Address by UserId
 - **URL** - <http://host:port/user/{userId}/address/{addressId}>
 - **Method** - PUT 

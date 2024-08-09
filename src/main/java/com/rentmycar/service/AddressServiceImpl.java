@@ -42,4 +42,13 @@ public class AddressServiceImpl implements AddressService {
 
 	}
 
+	// get address by address id
+	@Override
+	public Optional<AddressDto> getAddressByAddressId(Long id) {
+		Address pAddress = addressDao.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("invalid adress id"));
+
+		return Optional.of(mapper.map(pAddress, AddressDto.class));
+	}
+
 }
