@@ -349,6 +349,8 @@ public class UserDetailsResponseDto extends BaseDto{
 	private DrivingLicenseDto drivingLicenseDto;
 }
 
+```
+
 ```json	
 
 // Swagger Response 
@@ -412,7 +414,7 @@ Error: response status is 403,if user is deleted
 	private String password;
 }
 
-```java
+```
 
  - **Successful Resp** - SC 201 GuestResponseDto + mesg 
 
