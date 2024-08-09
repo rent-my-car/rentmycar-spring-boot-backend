@@ -1,5 +1,7 @@
 package com.rentmycar.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +49,14 @@ public class AddressController {
 	public ResponseEntity<?> getAddressListbyUSerId(Long userId) {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.getAddressListbyUSerId(userId)
 				.orElseThrow(() -> new ApiException("interanl server error")));
+	}
+
+	// update address by address id
+	@Operation(description = "udpate address by address id")
+	@PutMapping("/{addressId}")
+	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto, Long addressId) {
+		return ResponseEntity.status(HttpStatus.OK).body(addressService.updateAddressbyAddressId(addressDto, addressId)
+				.orElseThrow(() -> new ApiException("internal server error")));
+
 	}
 }
