@@ -2,6 +2,7 @@ package com.rentmycar.service;
 
 import java.util.Optional;
 
+import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.RegisterUserReqDto;
 import com.rentmycar.dto.RegisterUserResDto;
 import com.rentmycar.dto.RegisterUserWithDlReqDto;
@@ -15,17 +16,18 @@ public interface UserService {
 	
 	Optional<SignInResponseDto> authenticateUser(SignInRequestDto request);
 	
-
 	//register user with basic details
 	Optional<RegisterUserResDto> registerUser(RegisterUserReqDto registerHostRequestDto);
 	
 	// Register User with driving license
 	Optional<RegisterUserWithDlResDto> registerUser(RegisterUserWithDlReqDto registerUserWithDlReqDto);
-
+	
+	//update user basic details
 	Optional<UpdateBasicUserDetailsDto> updateBasicUserDetails(Long userId,UpdateBasicUserDetailsDto updatedUserDetails);
 
-
+	//get basic user details
 	Optional<UserDetailsResponseDto> getUserProfileDetails(Long userId);
 
-
+	//soft-delete user with userId
+	ApiResponseDto softDeleteUserById(Long userId);
 }

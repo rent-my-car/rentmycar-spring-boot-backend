@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.rentmycar.custom_exception.CustomAuthenticationException;
 import com.rentmycar.custom_exception.CustomAuthorizationException;
+import com.rentmycar.custom_exception.CustomBadRequestException;
 import com.rentmycar.custom_exception.ConflictException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dto.ApiResponseDto;
@@ -82,5 +83,14 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDto(e.getMessage()));
 
 	}
+	
+	// handle CustomBadRequestException
+		@ExceptionHandler(CustomBadRequestException.class)
+		public ResponseEntity<?> handleCustomBadRequestException(CustomBadRequestException e) {
+
+			System.out.println("in res of CustomBadRequsetException");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDto(e.getMessage()));
+
+		}
 
 }

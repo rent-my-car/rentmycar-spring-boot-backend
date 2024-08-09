@@ -458,7 +458,30 @@ Error: response status is 403, if user is Deleted
   "timeStamp": "2024-08-09T15:28:57.8509981"
 }
 ```
+#### 5.Soft Delete User
+ - **URL** - <http://host:port/user/delete/{userId}>
+ - **Method** - PATCH 
+ - **Successful Resp** - SC 201 
+```json
+// Swagger Response 
+{
+  "message": "User Deleted Successfully!",
+  "timeStamp": "2024-08-09T17:59:38.4990517"
+}
+```
 
+- **Error resp** - SC 400
+- **if user == admin**
+     - SC 400 , bad request
+     - **exception** - CustomBadRequestException("ADMIN users cannot be deleted ", null);
+
+```json
+// Swagger Response
+{
+  "message": "Admin users cannot be deleted.",
+  "timeStamp": "2024-08-09T17:59:04.3849912"
+}
+```
 
 ## 1. guestUI
 ![Local Image](../user_interfaces/guest%20ui/newUI-Guest_UI_svg.svg)
@@ -466,12 +489,6 @@ Error: response status is 403, if user is Deleted
 ## 1.guest APIs
 
 ### 1. GuestController (@RequestMapping=/guest)
-	 
-#### 5.Delete Guest
- - **URL** - <http://host:port/guest/delete/{hostId}>
- - **Method** - PATCH 
- - **Successful Resp** - SC 201 GuestResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 	 
 #### 6.Update Driving License By GuestId
  - **URL** - <http://host:port/guest/update/{guestId}/{dl_update}>
