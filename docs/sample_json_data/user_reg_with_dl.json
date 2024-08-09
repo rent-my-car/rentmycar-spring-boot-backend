@@ -1,0 +1,197 @@
+[
+  {
+    "firstName": "Sophie",
+    "lastName": "Clark",
+    "mobile": "6012345678",
+    "email": "sophie.clark@example.com",
+    "password": "S0ph@e2024",
+    "confirmPassword": "S0ph@e2024",
+    "roleEnum": "ADMIN",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "KL000-1234",
+      "issueDate": "2020-11-01",
+      "expirationDate": "2025-11-01",
+      "licenseClassEnum": "B"
+    }
+  },
+  {
+    "firstName": "Lucas",
+    "lastName": "Dawson",
+    "mobile": "6123456789",
+    "email": "lucas.dawson@example.com",
+    "password": "Luc@s2024!",
+    "confirmPassword": "Luc@s2024!",
+    "roleEnum": "HOST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "MN111-2233",
+      "issueDate": "2018-06-15",
+      "expirationDate": "2023-06-15",
+      "licenseClassEnum": "C"
+    }
+  },
+  {
+    "firstName": "Emma",
+    "lastName": "Wilson",
+    "mobile": "6234567890",
+    "email": "emma.wilson@example.com",
+    "password": "Emm@2024!",
+    "confirmPassword": "Emm@2024!",
+    "roleEnum": "GUEST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "OP222-3344",
+      "issueDate": "2021-09-20",
+      "expirationDate": "2026-09-20",
+      "licenseClassEnum": "D"
+    }
+  },
+  {
+    "firstName": "Aiden",
+    "lastName": "Taylor",
+    "mobile": "6345678901",
+    "email": "aiden.taylor@example.com",
+    "password": "A!den2024",
+    "confirmPassword": "A!den2024",
+    "roleEnum": "HOST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "QR333-4455",
+      "issueDate": "2022-01-10",
+      "expirationDate": "2027-01-10",
+      "licenseClassEnum": "E"
+    }
+  },
+  {
+    "firstName": "Olivia",
+    "lastName": "Moore",
+    "mobile": "6456789012",
+    "email": "olivia.moore@example.com",
+    "password": "0l!via2024",
+    "confirmPassword": "0l!via2024",
+    "roleEnum": "HOST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "ST444-5566",
+      "issueDate": "2019-04-05",
+      "expirationDate": "2024-04-05",
+      "licenseClassEnum": "F"
+    }
+  },
+  {
+    "firstName": "Ethan",
+    "lastName": "Harris",
+    "mobile": "6567890123",
+    "email": "ethan.harris@example.com",
+    "password": "3th@n2024",
+    "confirmPassword": "3th@n2024",
+    "roleEnum": "GUEST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "UV555-6677",
+      "issueDate": "2023-07-01",
+      "expirationDate": "2028-07-01",
+      "licenseClassEnum": "G"
+    }
+  },
+  {
+    "firstName": "Isabella",
+    "lastName": "Martin",
+    "mobile": "6678901234",
+    "email": "isabella.martin@example.com",
+    "password": "1s@bell@2024",
+    "confirmPassword": "1s@bell@2024",
+    "roleEnum": "GUEST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "WX666-7788",
+      "issueDate": "2021-12-30",
+      "expirationDate": "2026-12-30",
+      "licenseClassEnum": "H"
+    }
+  },
+  {
+    "firstName": "Liam",
+    "lastName": "White",
+    "mobile": "6789012345",
+    "email": "liam.white@example.com",
+    "password": "L!am2024",
+    "confirmPassword": "L!am2024",
+    "roleEnum": "HOST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "YZ777-8899",
+      "issueDate": "2022-03-25",
+      "expirationDate": "2027-03-25",
+      "licenseClassEnum": "I"
+    }
+  },
+  {
+    "firstName": "Mia",
+    "lastName": "Anderson",
+    "mobile": "6890123456",
+    "email": "mia.anderson@example.com",
+    "password": "M!a2024",
+    "confirmPassword": "M!a2024",
+    "roleEnum": "HOST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "AB888-9900",
+      "issueDate": "2020-08-15",
+      "expirationDate": "2025-08-15",
+      "licenseClassEnum": "J"
+    }
+  },
+  {
+    "firstName": "Noah",
+    "lastName": "Lee",
+    "mobile": "6901234567",
+    "email": "noah.lee@example.com",
+    "password": "N0@h2024",
+    "confirmPassword": "N0@h2024",
+    "roleEnum": "GUEST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "CD999-0000",
+      "issueDate": "2022-10-10",
+      "expirationDate": "2027-10-10",
+      "licenseClassEnum": "K"
+    }
+  },
+  {
+    "firstName": "Zoe",
+    "lastName": "Robinson",
+    "mobile": "7012345678",
+    "email": "zoe.robinson@example.com",
+    "password": "Z0e2024@",
+    "confirmPassword": "Z0e2024@",
+    "roleEnum": "GUEST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "EF000-1112",
+      "issueDate": "2021-11-20",
+      "expirationDate": "2026-11-20",
+      "licenseClassEnum": "L"
+    }
+  },
+  {
+    "firstName": "Jack",
+    "lastName": "Walker",
+    "mobile": "7123456789",
+    "email": "jack.walker@example.com",
+    "password": "J@ck2024",
+    "confirmPassword": "J@ck2024",
+    "roleEnum": "GUEST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "GH111-2233",
+      "issueDate": "2023-06-05",
+      "expirationDate": "2028-06-05",
+      "licenseClassEnum": "M"
+    }
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Morris",
+    "mobile": "7234567890",
+    "email": "emily.morris@example.com",
+    "password": "Em1ly2024",
+    "confirmPassword": "Em1ly2024",
+    "roleEnum": "HOST",
+    "drivingLicenseDto": {
+      "drivingLicenseNo": "IJ222-3344",
+      "issueDate": "2022-05-12",
+      "expirationDate": "2027-05-12",
+      "licenseClassEnum": "N"
+    }
+  }
+]

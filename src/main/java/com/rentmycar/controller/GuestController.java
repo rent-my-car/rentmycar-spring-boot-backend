@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rentmycar.service.GuestService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/guest")
 public class GuestController {
 
 @Autowired

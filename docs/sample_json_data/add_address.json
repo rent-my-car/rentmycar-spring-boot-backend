@@ -1,0 +1,82 @@
+[
+  {
+    "adrLine1": "123 Elm Street",
+    "adrLine2": "Apt 45B",
+    "pincode": "123456",
+    "city": "Springfield",
+    "state": "Illinois",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "456 Oak Avenue",
+    "adrLine2": null,
+    "pincode": "234567",
+    "city": "Riverside",
+    "state": "California",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "789 Pine Road",
+    "adrLine2": "Suite 12",
+    "pincode": "345678",
+    "city": "Greenwood",
+    "state": "Indiana",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "101 Maple Drive",
+    "adrLine2": null,
+    "pincode": "456789",
+    "city": "Fairfield",
+    "state": "Connecticut",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "202 Birch Lane",
+    "adrLine2": "Floor 3",
+    "pincode": "567890",
+    "city": "Mountain View",
+    "state": "Colorado",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "303 Cedar Street",
+    "adrLine2": "Unit 4",
+    "pincode": "678901",
+    "city": "San Mateo",
+    "state": "California",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "404 Walnut Boulevard",
+    "adrLine2": null,
+    "pincode": "789012",
+    "city": "Pleasantville",
+    "state": "New York",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "505 Cherry Circle",
+    "adrLine2": "Apt 22",
+    "pincode": "890123",
+    "city": "Lakeside",
+    "state": "Ohio",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "606 Fir Terrace",
+    "adrLine2": null,
+    "pincode": "901234",
+    "city": "Eastwood",
+    "state": "Michigan",
+    "country": "USA"
+  },
+  {
+    "adrLine1": "707 Spruce Street",
+    "adrLine2": "Suite A",
+    "pincode": "012345",
+    "city": "Westfield",
+    "state": "New Jersey",
+    "country": "USA"
+  }
+]
