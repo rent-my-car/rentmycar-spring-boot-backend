@@ -9,6 +9,7 @@ import com.rentmycar.dto.RegisterUserWithDlResDto;
 import com.rentmycar.dto.SignInRequestDto;
 import com.rentmycar.dto.SignInResponseDto;
 import com.rentmycar.dto.UpdateBasicUserDetailsDto;
+import com.rentmycar.dto.UserDetailsResponseDto;
 
 public interface UserService {
 	
@@ -22,6 +23,9 @@ public interface UserService {
 	Optional<RegisterUserWithDlResDto> registerUser(RegisterUserWithDlReqDto registerUserWithDlReqDto);
 
 	Optional<UpdateBasicUserDetailsDto> updateBasicUserDetails(Long userId,UpdateBasicUserDetailsDto updatedUserDetails);
+
+
+	Optional<UserDetailsResponseDto> getUserProfileDetails(Long userId);
 
 
 }

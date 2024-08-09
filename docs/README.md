@@ -130,7 +130,7 @@ git pull origin main
 
 ## 1. UserController (@RequestMapping=/user)
 
-#### 1.Login Guest
+#### 1.Login User
  - **URL** - <http://host:port/user/login>
  - **Method** - POST 
  - **payload** -
@@ -176,7 +176,7 @@ Swagger Response
  - **Error resp** - SC 400 ,
  	- **if isdeleted = 0** - mesg - your account is inactive
    	- **if user is not found** -mesg - user not found
-   	- 
+   	
 ------------------------------------------------------------------------
 
   #### 1. register User with basic details
@@ -328,26 +328,16 @@ public class RegisterUserWithDlResDto extends RegisterUserResDto {
      - SC 400 , bad request
      - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
 
-   
-   
-
-
-## 1. guestUI
-![Local Image](../user_interfaces/guest%20ui/newUI-Guest_UI_svg.svg)
-
-## 1.guest APIs
-
-### 1. GuestController (@RequestMapping=/guest)
-
-#### 3.Get guest details (basic details + driving license)
- - **URL** - <http://host:port/guest/profile/{guestId}>
+ #### 3. Get User details (basic details + driving license)  
+ - **URL** - <http://host:port/user/profile/{userId}>
  - **Method** - Get 
- - **Successful Resp** - SC 201
+ - **Successful Resp** - SC 201   
+
 ```java
-public class GuestDetailsResponseDto extends BaseDto{
+public class UserDetailsResponseDto extends BaseDto{
 
 	private String firstName;
-	
+
 	private String lastName;
 	
 	private String mobile;
@@ -358,49 +348,122 @@ public class GuestDetailsResponseDto extends BaseDto{
 	
 	private DrivingLicenseDto drivingLicenseDto;
 }
-```
-```java
-public class DrivingLicenseDto{
 
-	private Long id;
-	
-	private String drivingLicenseNo;
-	
-	private LocalDate issueDate;
+```json	
 
-	private LocalDate expirationDate;
-	
-	private LicenseClassEnum licenseClassEnum;
-}
-```
-```json
-// Swagger Response
+// Swagger Response 
+
 {
-  "id": 1,
+  "id": 2,
   "createdOn": "2024-08-07",
-  "updatedOn": "2024-08-07T12:34:56",
-  "firstName": "John",
-  "lastName": "Doe",
-  "mobile": "1234567890",
-  "email": "doe@example.com",
-  "password": "secure#123",
+  "updatedOn": "2024-08-08T16:18:31.193606",
+  "firstName": "Ashutosh",
+  "lastName": "Kamble",
+  "mobile": "0987654321",
+  "email": "Ashu@123gmail.com",
+  "password": "Ashutosh$222",
   "drivingLicenseDto": {
-    "id": 1,
-    "drivingLicenseNo": "ABC123456789",
-    "issueDate": "2023-08-07",
-    "expirationDate": "2025-08-07",
-    "licenseClassEnum": "A"
+    "id": 2,
+    "drivingLicenseNo": "XYZ987654321",
+    "issueDate": "2024-08-08",
+    "expirationDate": "2026-08-08",
+    "licenseClassEnum": "B"
   }
 }
+
 ```
  - **Error resp** -
+Error: response status is 404,if userId is invalid
+ 
+ ```json
 
-#### 4.Update Guest Basic Details By GuestId
- - **URL** - <http://host:port/guest/update/{guestId}>
+//swagger response
+
+{
+  "message": "Invalid User ID !",
+  "timeStamp": "2024-08-09T15:53:04.1067398"
+}
+
+```
+
+Error: response status is 403,if user is deleted
+ 
+```json
+
+//Swagger Response
+
+{
+  "message": "Guest is De-Activated !",
+  "timeStamp": "2024-08-09T15:28:57.8509981"
+}
+```
+#### 4.Update User Basic details
+- **URL** - <http://host:port/user/update/{userId}>
  - **Method** - PUT 
- - **payload** - GuestUpdateDto (firstName,lastName,email,password)
- - **Successful Resp** - SC 201 GuestResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+ - **payload** - 
+```java
+ 
+ public class UpdateBasicUserDetailsDto {
+	private long id;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String mobile;
+	private String password;
+}
+
+```java
+
+ - **Successful Resp** - SC 201 GuestResponseDto + mesg 
+
+```json
+
+//swagger response
+
+{
+  "id": 1,
+  "firstName": "Vaibhav",
+  "lastName": "Patil",
+  "email": "vaibhav@70gmail.com",
+  "mobile": "9022992233",
+  "password": "vaibhu@2233"
+}
+
+```
+ - **Error resp** - SC 400
+
+ Error: response status is 404,if userId is invalid
+ 
+ ```json
+
+//swagger response
+
+{
+  "message": "Invalid User ID !",
+  "timeStamp": "2024-08-09T15:53:04.1067398"
+}
+
+```
+
+Error: response status is 403, if user is Deleted
+ 
+```json
+
+//Swagger Response
+
+{
+  "message": "Guest is De-Activated !",
+  "timeStamp": "2024-08-09T15:28:57.8509981"
+}
+```
+
+
+## 1. guestUI
+![Local Image](../user_interfaces/guest%20ui/newUI-Guest_UI_svg.svg)
+
+## 1.guest APIs
+
+### 1. GuestController (@RequestMapping=/guest)
 	 
 #### 5.Delete Guest
  - **URL** - <http://host:port/guest/delete/{hostId}>

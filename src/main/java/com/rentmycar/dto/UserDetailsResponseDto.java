@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GuestDetailsResponseDto extends BaseDto{
+public class UserDetailsResponseDto extends BaseDto{
 
 	private String firstName;
 	

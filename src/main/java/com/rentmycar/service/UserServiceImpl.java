@@ -22,6 +22,7 @@ import com.rentmycar.dto.SignInRequestDto;
 import com.rentmycar.dto.SignInResponseDto;
 import com.rentmycar.entity.DrivingLicense;
 import com.rentmycar.dto.UpdateBasicUserDetailsDto;
+import com.rentmycar.dto.UserDetailsResponseDto;
 import com.rentmycar.entity.User;
 import com.rentmycar.entity.UserRoleEnum;
 
@@ -122,8 +123,26 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
+	
+	//method to Show User Profile details by Id
+		@Override
+		public Optional<UserDetailsResponseDto> getUserProfileDetails(Long userId) {
+			User userEntity = userDao.findById(userId)
+					.orElseThrow(() -> new ResourceNotFoundException("Invalid User Id !"));
+			
+				if (userEntity.getIsDeleted()) 
+					throw new CustomAuthenticationException("User is De-Activated !");
+				
+					System.out.println(userEntity.getDrivingLicense().getDrivingLicenseNo());
+					userEntity.getDrivingLicense().getIssueDate();
+					DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
+					UserDetailsResponseDto userDetailsResponseDto = mapper.map(userEntity, UserDetailsResponseDto.class);
+					userDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
+					return Optional.of(userDetailsResponseDto);
+			   
+		}
 
-	// update user basic deatils
+	// update user basic details
 	@Override
 	public Optional<UpdateBasicUserDetailsDto> updateBasicUserDetails(Long userId,
 			UpdateBasicUserDetailsDto updatedUserDetails) {
