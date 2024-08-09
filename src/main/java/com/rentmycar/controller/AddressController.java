@@ -40,4 +40,11 @@ public class AddressController {
 				.orElseThrow(() -> new ApiException("interanl server error")));
 	}
 
+	// get address list by user id
+	@Operation(description = " get address list by user id")
+	@GetMapping("/get_all/{userId}")
+	public ResponseEntity<?> getAddressListbyUSerId(Long userId) {
+		return ResponseEntity.status(HttpStatus.OK).body(addressService.getAddressListbyUSerId(userId)
+				.orElseThrow(() -> new ApiException("interanl server error")));
+	}
 }

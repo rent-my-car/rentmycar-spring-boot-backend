@@ -1,6 +1,8 @@
 package com.rentmycar.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +53,14 @@ public class AddressServiceImpl implements AddressService {
 		return Optional.of(mapper.map(pAddress, AddressDto.class));
 	}
 
+	// get address list by user id
+	@Override
+	public Optional<List<AddressDto>> getAddressListbyUSerId(Long userId) {
+		User pUser = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("invalid user id"));
+
+		// // Map List<Addresss> to List<AdressDto> using Streams and ModelMapper
+		List<AddressDto> addressDtoList = pUser.getAddressList().stream()
+				.map(address -> mapper.map(address, AddressDto.class)).collect(Collectors.toList());
+		return Optional.of(addressDtoList);
+	}
 }
