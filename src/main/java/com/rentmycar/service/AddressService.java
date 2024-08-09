@@ -1,5 +1,6 @@
 package com.rentmycar.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.rentmycar.dto.AddressDto;
@@ -9,8 +10,11 @@ public interface AddressService {
 
 	// add address by userId
 	public Optional<AddressResDto> addAddress(AddressDto addressDto, Long userId);
-	
+
 	// get address by address id
 	public Optional<AddressDto> getAddressByAddressId(Long id);
+
+	// get address list by user id
+	public Optional<List<AddressDto>> getAddressListbyUSerId(Long userId);
 
 }
