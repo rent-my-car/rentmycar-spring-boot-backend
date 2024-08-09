@@ -104,37 +104,97 @@
 	    git commit -m "feat: add guest entity"
 ```
 
-  #### 1. commit creation coding standard
-      - **feat** : New features or enhancements
-        - **Example** - feat: add user profile page
-        - 
-      - **fix** : Bug fixes
-        - **Example** - fix: correct header image rendering
-        - 
-      - **docs**: Documentation changes
-        - **Example** - docs: update README with new setup instructions
-        - 
-      - **style**: Formatting, missing semi-colons, etc. (no code change)
-        - **Example** - style: format code according to eslint
-        - 
-      - **refactor**: Code changes that neither fix bugs nor add features
-        - **Example** - refactor: improve variable naming in utils.js
-        - 
-      - **test**: Adding or updating tests
-        - **Example** - test: add unit tests for user login functionality
-        - 
-      - **chore**: Changes to the build process or auxiliary tools/libraries
-        - **Example** - chore: update dependencies
+#### 1. commit creation coding standard
+- **feat** : New features or enhancements
+	- **Example** - feat: add user profile page
 
-1. **to push the changes to remote branch**
+- **fix** : Bug fixes
+	- **Example** - fix: correct header image rendering
+
+- **docs**: Documentation changes
+	- **Example** - docs: update README with new setup instructions
+ 
+- **style**: Formatting, missing semi-colons, etc. (no code change)
+  - **Example** - style: format code according to eslint 
+
+- **refactor**: Code changes that neither fix bugs nor add features
+  - **Example** - refactor: improve variable naming in utils.js
+
+- **test**: Adding or updating tests
+  - **Example** - test: add unit tests for user login functionality
+ 
+- **chore**: Changes to the build process or auxiliary tools/libraries
+  - **Example** - chore: update dependencies
+
+### 5. to push the changes to remote branch
+
 ```bash
      git push -u origin feature/create-guest-entity
 ```
-1. **to pull the changes to main branch**
+
+### 6. to pull the changes to main branch
+
 ```bash
+
 git switch main
 git fetch
 git pull origin main
+
+```
+
+### 7. what if i have edited files in main branch
+
+```bash
+## This will revert all changes in the working directory to the last committed state.
+git restore .
+
+```
+
+### 8. what if i have staged files in main branch
+
+```bash
+
+#1. Unstage the Changes
+## To unstage all changes that have been added to the staging area, use:
+git reset
+## This command will move all staged changes back to the working directory.
+
+#2. Discard Changes in Working Directory
+##To discard changes in all tracked files:
+git restore .
+##This will revert the changes in your working directory to match the last commit.
+
+```
+
+### 9. what if i have made commit in main branch
+
+```bash
+
+#If you've committed changes to the main branch and you want to undo those commits, there are several approaches you can take, depending on whether you want to keep the changes or discard them completely.
+
+##1. Undo the Last Commit but Keep Changes
+###If you want to undo the last commit but keep the changes in your working directory (so you can adjust them or re-commit):
+
+git reset --soft HEAD~1
+
+###This command moves the branch pointer back one commit but leaves your changes in the working directory and staging area.
+
+##2. Undo the Last Commit and Discard Changes
+###If you want to undo the last commit and discard the changes entirely:
+
+git reset --hard HEAD~1
+
+###This command moves the branch pointer back one commit and discards all changes in the working directory.
+
+##3. Undo Multiple Commits
+
+###To undo more than one commit, adjust the number in HEAD~n where n is the number of commits you want to undo. For example, to undo the last 3 commits:
+
+####Keep Changes:
+git reset --soft HEAD~3
+
+####Discard Changes:
+git reset --hard HEAD~3
 
 ```
 

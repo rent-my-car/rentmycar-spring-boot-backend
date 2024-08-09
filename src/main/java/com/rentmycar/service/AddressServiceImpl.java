@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.ConstraintViolationException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import com.rentmycar.dto.AddressDto;
 import com.rentmycar.dto.AddressResDto;
 import com.rentmycar.entity.Address;
 import com.rentmycar.entity.User;
+
+import io.swagger.v3.oas.annotations.Operation;
 
 @Service
 @Transactional
@@ -62,5 +66,21 @@ public class AddressServiceImpl implements AddressService {
 		List<AddressDto> addressDtoList = pUser.getAddressList().stream()
 				.map(address -> mapper.map(address, AddressDto.class)).collect(Collectors.toList());
 		return Optional.of(addressDtoList);
+	}
+
+	// update address by address id
+	@Override
+	public Optional<AddressDto> updateAddressbyAddressId(AddressDto addressDto, Long addressId) {
+		// making sure that AddressDto has same id as persistent address
+		if (addressDto.getId().equals(addressId)) {
+			Address pAddress = addressDao.findById(addressId)
+					.orElseThrow(() -> new ResourceNotFoundException("invalid address idD"));
+			mapper.map(addressDto, pAddress);
+			Address updataedAddress = addressDao.save(pAddress);
+			return Optional.of(mapper.map(updataedAddress, AddressDto.class));
+
+		}
+		throw new ConstraintViolationException("address id mismatch", null);
+
 	}
 }
