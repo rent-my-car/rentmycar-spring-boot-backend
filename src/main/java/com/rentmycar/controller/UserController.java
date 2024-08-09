@@ -3,9 +3,12 @@ package com.rentmycar.controller;
 
 import java.util.Optional;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -54,8 +57,17 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(registerUserWithDlReqDto)
 				.orElseThrow(() -> new ApiException("internal server error")));
 	}
+	
+	//get Basic User profile details
+	@GetMapping("/profile/{userId}")
+	@Operation(description = "getProfileDetails By Id")
+	public ResponseEntity<?> getUserProfileDetails(@PathVariable @Max(100) Long userId) {
+		System.out.println("In User Profile" + userId);
+		return ResponseEntity.ok(userService.getUserProfileDetails(userId));
 
-    
+	}
+
+    //update user basic details
 	@PutMapping("/update/{userId}")
 	@Operation(description = "Update User Basic Details By Id")
 	public ResponseEntity<?> updateBasicUserDetails(@PathVariable Long userId,
