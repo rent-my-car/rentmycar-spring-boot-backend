@@ -16,7 +16,7 @@ import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.DrivingLicenseDto;
 import com.rentmycar.dto.GetAllUsersDto;
-import com.rentmycar.dto.GuestDetailsResponseDto;
+import com.rentmycar.dto.UserDetailsResponseDto;
 import com.rentmycar.entity.User;
 import com.rentmycar.entity.UserRoleEnum;
 
@@ -32,28 +32,7 @@ public class GuestServiceImpl implements GuestService {
 	@Autowired
 	private ModelMapper mapper;
 	
-	//method to Show Guest Profile details by Id
-	@Override
-	public Optional<GuestDetailsResponseDto> getGuestProfileDetails(Long guestId) {
-		User userEntity = userDao.findById(guestId)
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid User Id !"));
-
-		if (userEntity.getRoleEnum().equals(UserRoleEnum.GUEST)) {
-			if (userEntity.getIsDeleted()) {
-				throw new CustomAuthenticationException("Guest is De-Activated !");
-			}
-			System.out.println(userEntity.getDrivingLicense().getDrivingLicenseNo());
-			userEntity.getDrivingLicense().getIssueDate();
-			DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
-			GuestDetailsResponseDto guestDetailsResponseDto = mapper.map(userEntity, GuestDetailsResponseDto.class);
-			guestDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
-			return Optional.of(guestDetailsResponseDto);
-		} else {
-				throw new CustomAuthorizationException("Not A Guest Role !");
-			}
-	}
-
-
+	
 	//get all guests
 	@Override
 	public List<GetAllUsersDto> getAllGuests() {

@@ -8,11 +8,14 @@ import javax.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.rentmycar.custom_exception.CustomAuthenticationException;
+
 import com.rentmycar.custom_exception.ConflictException;
-import com.rentmycar.dao.DrivingLicenseDao;
+import com.rentmycar.custom_exception.CustomAuthenticationException;
+import com.rentmycar.custom_exception.CustomBadRequestException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
+import com.rentmycar.dao.DrivingLicenseDao;
 import com.rentmycar.dao.UserDao;
+import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.DrivingLicenseDto;
 import com.rentmycar.dto.RegisterUserReqDto;
 import com.rentmycar.dto.RegisterUserResDto;
@@ -20,8 +23,9 @@ import com.rentmycar.dto.RegisterUserWithDlReqDto;
 import com.rentmycar.dto.RegisterUserWithDlResDto;
 import com.rentmycar.dto.SignInRequestDto;
 import com.rentmycar.dto.SignInResponseDto;
-import com.rentmycar.entity.DrivingLicense;
 import com.rentmycar.dto.UpdateBasicUserDetailsDto;
+import com.rentmycar.dto.UserDetailsResponseDto;
+import com.rentmycar.entity.DrivingLicense;
 import com.rentmycar.entity.User;
 import com.rentmycar.entity.UserRoleEnum;
 
@@ -123,7 +127,25 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	// update user basic deatils
+	// method to Show User Profile details by Id
+	@Override
+	public Optional<UserDetailsResponseDto> getUserProfileDetails(Long userId) {
+		User userEntity = userDao.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid User Id !"));
+
+		if (userEntity.getIsDeleted())
+			throw new CustomAuthenticationException("User is De-Activated !");
+
+		System.out.println(userEntity.getDrivingLicense().getDrivingLicenseNo());
+		userEntity.getDrivingLicense().getIssueDate();
+		DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
+		UserDetailsResponseDto userDetailsResponseDto = mapper.map(userEntity, UserDetailsResponseDto.class);
+		userDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
+		return Optional.of(userDetailsResponseDto);
+
+	}
+
+	// update user basic details
 	@Override
 	public Optional<UpdateBasicUserDetailsDto> updateBasicUserDetails(Long userId,
 			UpdateBasicUserDetailsDto updatedUserDetails) {
@@ -140,6 +162,23 @@ public class UserServiceImpl implements UserService {
 			return Optional.of(updatedUserDto);
 		}
 		throw new ResourceNotFoundException("Invalid User ID !");
+	}
+
+	// soft-delete user with userId
+	@Override
+	public ApiResponseDto softDeleteUserById(Long userId) {
+		User puser = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Invalid User Id."));
+		
+		// Check if the user is an admin
+		if ("ADMIN" == puser.getRoleEnum().name()) 
+			throw new CustomBadRequestException("Admin users cannot be deleted.");		
+		
+		if (puser.getIsDeleted())
+			throw new ResourceNotFoundException("User is already deleted.");
+		
+		puser.setIsDeleted(true);
+		System.out.println("user delete status made true");
+		return new ApiResponseDto("User Deleted Successfully!");
 	}
 
 }

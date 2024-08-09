@@ -133,10 +133,10 @@ git pull origin main
 
  ## 1. **user APIs**
 
-  ### 1. UserController (@RequestMapping=/user)
+### 1. UserController (@RequestMapping=/user)
 
    #### 1. login user
- - **URL** - <http://host:port/user/login>
+  - **URL** - <http://host:port/user/login>
  - **Method** - POST 
  - **payload** -
 ```java
@@ -333,19 +333,16 @@ public class RegisterUserWithDlResDto extends RegisterUserResDto {
      - SC 400 , bad request
      - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
 
-   
---------------------------------------------------------------------------------------------------------   
-
+ 
  ## 2. **guest APIs**
 
   ### 1. GuestController (@RequestMapping=/guest)
-
    #### 1.Get guest details (basic details + driving license)
  - **URL** - <http://host:port/guest/profile/{guestId}>
  - **Method** - Get 
  - **Successful Resp** - SC 201
 ```java
-public class GuestDetailsResponseDto extends BaseDto{
+ public class GuestDetailsResponseDto extends BaseDto{
 
 	private String firstName;
 	
@@ -465,13 +462,57 @@ public class DrivingLicenseDto{
  - **Successful Resp** - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
  - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
+ ### 4. DrivingLicenseController(@RequestMapping=/dl)
 
-----------------------------------------------------------------------------------------------------------------------------
+   #### 1.Update Driving License By UserId
+- **URL** - <http://host:port/dl/{userId}/update/{dlId}>
+- **Method** - PUT 
+- **payload** - 
+```java
+	public class DrivingLicenseDto{
+
+	private Long id;
+	
+	@NotNull(message = "Driving license number cannot be null")
+    @Pattern(regexp = "^[A-Z0-9-]+$", message = "Driving license number must only contain uppercase letters, numbers, and dashes")
+    @Size(min = 5, max = 20, message = "Driving license number must be between 5 and 20 characters")
+	private String drivingLicenseNo;
+	
+	@NotNull(message = "Issue date cannot be null")
+	private LocalDate issueDate;
+
+	@NotNull(message = "Expiration date cannot be null")
+	private LocalDate expirationDate;
+	
+	@NotNull(message = "License class cannot be null")
+	private LicenseClassEnum licenseClassEnum;
+}
+```
+- **Successful Resp** - SC 201 
+
+```json	
+	//Response body
+
+		{
+		  "id": 1,
+		  "drivingLicenseNo": "BUPVMWLXC7EN33ASLPEH",
+		  "issueDate": "2020-07-09",
+		  "expirationDate": "2024-06-09",
+		  "licenseClassEnum": "B"
+		}
+```
+- **Error resp** - SC 400
+```json
+	{
+	  "message": "invalid user id",
+	  "timeStamp": "2024-08-09T21:37:13.8046415"
+	}
+```
 
  ## 3. **host APIs**
 
   ### 1. HostController(@RequestMapping=/host)
-
+  
    #### 1.Register Host
 - **URL** - <http://host:port/host/register>
 - **Method** - POST 
@@ -530,7 +571,7 @@ public class DrivingLicenseDto{
 
   ### 3. AddressController(@RequestMapping=/address)
 
-   #### 1. add Address By UserId
+  #### 1. add Address By UserId
 - **URL** - <http://host:port/address/{userId}>
 - **Method** - POST 
 - **payload** - 
@@ -598,22 +639,21 @@ public class DrivingLicenseDto{
   ### 4. BookingController(@RequestMapping=/booking)
 
    #### 1.get upcomming bookings by host id 
+
 - **URL** - <http://host:port/booking/upcomming_booking/{guestId}>
 - **Method** - Get 
 - **Successful** Resp - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-
    #### 2. get past bookings by host id 
+
 - **URL** - <http://host:port/booking/past_booking/{guestId}>
 - **Method** - Get 
 - **Successful** Resp - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
  ## 4. **admin APIs**
-
   ### 1. AdminController(@RequestMapping=/admin)
-
 
   ### 2. GuestController (@RequestMapping=/guest)
 
@@ -630,7 +670,7 @@ public class DrivingLicenseDto{
 
 # 3. Anootated Entities
 
-  ### 1. BaseEntity
+  ### 0. BaseEntity
 		```java
 				package com.rentmycar.entity;
 
@@ -654,7 +694,7 @@ public class DrivingLicenseDto{
 				}
 		```
 
-  ### 2. User
+  ### 1. User
 	```java
 		package com.rentmycar.entity;
 
@@ -740,7 +780,7 @@ public class DrivingLicenseDto{
 				this.drivingLicense = drivingLicense;
 				drivingLicense.setUser(this);
 			}
-
+  
 		// ********************************************************************************************
 
 			// Host 1 <---------> * CarHostAddressPricing
@@ -754,7 +794,7 @@ public class DrivingLicenseDto{
 			}
 	```	
 
-  ### 3. UserRoleEnum
+  ### 1.1. UserRoleEnum
 	```java
 		package com.rentmycar.entity;
 
@@ -764,7 +804,7 @@ public class DrivingLicenseDto{
 
 	```
 
-  ### 4. Address
+  ### 2. Address
 	```java
 			package com.rentmycar.entity;
 
@@ -839,7 +879,7 @@ public class DrivingLicenseDto{
 			String transactionId; // char (#### 20.
 
 		//*****************************************************************************************************
-
+  
 			// Booking * <---> 1 Guest
 			@ManyToOne(fetch = FetchType.LAZY)
 			@JoinColumn(name = "guest_id", nullable = false)
@@ -863,7 +903,7 @@ public class DrivingLicenseDto{
 	```
   
   
-  ### 4. User
+  ### 3.1. BookingStatusEnum
 ```java
 package com.rentmycar.entity;
 
@@ -873,7 +913,7 @@ public enum BookingStatusEnum {
 
 ```
 
-  ### 5. Car
+  ### 4. Car
 	```java
 		package com.rentmycar.entity;
 		
@@ -903,8 +943,7 @@ public enum BookingStatusEnum {
 		//*************************************************************
 		}
 	```
-
-  ### 6. FuelTypeEnum
+  ### 4.1. FuelTypeEnum
 	```java
 		
 		package com.rentmycar.entity;
@@ -914,7 +953,7 @@ public enum BookingStatusEnum {
 		}
 	```
 
-  ### 7. CarFeatures
+  ### 5. CarFeatures
 	```java
 		package com.rentmycar.entity;
 
@@ -942,11 +981,10 @@ public enum BookingStatusEnum {
 
 			@Column(columnDefinition = "boolean default false")
 			private Boolean hasAc; 	// Boolean,default-false
-
 		}
 	```
 
-  ### 8. CarHostAddressPricing
+  ### 6. CarHostAddressPricing
 	```java
 		package com.rentmycar.entity;
 
@@ -1025,7 +1063,7 @@ public enum BookingStatusEnum {
 		}
 	```
 
-  ### 9. CarPricing
+  ### 7. CarPricing
 	```java
 		package com.rentmycar.entity;
 
@@ -1047,7 +1085,7 @@ public enum BookingStatusEnum {
 		}
 	```
 
-  ### 10. DrivingLicense
+  ### 8. DrivingLicense
 		```java
 			package com.rentmycar.entity;
 
@@ -1082,7 +1120,7 @@ public enum BookingStatusEnum {
 			}
 		```
 
-  ### 11. LicenseClassEnum
+  ### 8.1. LicenseClassEnum
 		```java
 			package com.rentmycar.entity;
 	
@@ -1095,7 +1133,7 @@ public enum BookingStatusEnum {
 			}
 		```
 
-  ### 12. Review
+  ### 9. Review
 		```java
 				package com.rentmycar.entity;
 
@@ -1108,7 +1146,6 @@ public enum BookingStatusEnum {
 
 					@Column(length = 50)
 					private String reviewText; // varchar(50)
-
 
 				// ****************************************************************************
 					// Review * <-----------> 1 Guest
@@ -1128,7 +1165,7 @@ public enum BookingStatusEnum {
 				}
 		```
 
-  ### 13. Transaction
+  ### 10. Transaction
 		```java
 			// YET TO BE DECIDED
 			@Entity
@@ -1139,8 +1176,5 @@ public enum BookingStatusEnum {
 			}
 		```
 
-
-
-
-# 4. ERDiagram
+  # 4. ERDiagram
 
