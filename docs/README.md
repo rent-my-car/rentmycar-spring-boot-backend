@@ -70,7 +70,8 @@
 
 ***branch creation coding standard***
 
-- Feature Branc	hes (feature/):
+- Feature Branches (feature/):
+
   - Purpose: For developing new features or enhancements.
     - Naming Example: feature/add-user-profile, feature/implement-searchfunctionality
 
@@ -213,88 +214,41 @@ git reset --hard HEAD~3
   - **if isdeleted = 0** - mesg - your account is inactive
   - **if user is not found** -mesg - user not found 
 
+#### 2.Update User Basic Details By UserId
+- **URL** - <http://host:port/guest/update/{guestId}>
+- **Method** - PUT 
+- **payload** - `UpdateBasicUserDetailsDto`
+- **Successful Resp** - SC 201  `UpdateBasicUserDetailsDto` 
+- **Error resp** - SC 400 `ResourceNotFoundException("Invalid User Id !")` 
+
+#### 3.Get User details (basic details + driving license)
+- **URL** - <http://host:port/user/profile/{guestId}>
+- **Method** - Get 
+- **Successful Resp** - SC 201 `UserDetailsResponseDto`
+- **Error resp** - 
+	- SC 400 `ConstraintViolationException("issue date is before expiry date")`
+	- SC 404 `ResourceNotFoundException("invalid user id")`
+
+#### 4.Delete User
+- **URL** - <http://host:port/user/delete/{userId}>
+- **Method** - PATCH 
+- **Successful Resp** - SC 201 ApiResponseDto
+- **Error resp** - 
+	- SC 404 `ResourceNotFoundException("Invalid User Id")`
+	- SC 400 `CustomBadRequestException("Admin users cannot be deleted.")`
 
 ### 2. GuestController (@RequestMapping=/guest)
 
-#### 1.Get guest details (basic details + driving license)
- - **URL** - <http://host:port/guest/profile/{guestId}>
- - **Method** - Get 
- - **Successful Resp** - SC 201
-```java
- public class GuestDetailsResponseDto extends BaseDto{
-
-	private String firstName;
-	
-	private String lastName;
-	
-	private String mobile;
-	
-	private String email;
-	
-	private String password;
-	
-	private DrivingLicenseDto drivingLicenseDto;
-}
-```
-```java
-public class DrivingLicenseDto{
-
-	private Long id;
-	
-	private String drivingLicenseNo;
-	
-	private LocalDate issueDate;
-
-	private LocalDate expirationDate;
-	
-	private LicenseClassEnum licenseClassEnum;
-}
-```
-```json
-// Swagger Response
-{
-  "id": 1,
-  "createdOn": "2024-08-07",
-  "updatedOn": "2024-08-07T12:34:56",
-  "firstName": "John",
-  "lastName": "Doe",
-  "mobile": "1234567890",
-  "email": "doe@example.com",
-  "password": "secure#123",
-  "drivingLicenseDto": {
-    "id": 1,
-    "drivingLicenseNo": "ABC123456789",
-    "issueDate": "2023-08-07",
-    "expirationDate": "2025-08-07",
-    "licenseClassEnum": "A"
-  }
-}
-```
- - **Error resp** -
-
-#### 2.Update Guest Basic Details By GuestId
- - **URL** - <http://host:port/guest/update/{guestId}>
- - **Method** - PUT 
- - **payload** - GuestUpdateDto (firstName,lastName,email,password)
- - **Successful Resp** - SC 201 GuestResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-	 
-#### 3.Delete Guest
- - **URL** - <http://host:port/guest/delete/{hostId}>
- - **Method** - PATCH 
- - **Successful Resp** - SC 201 GuestResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-
 ### 3. CarController  (@RequestMapping=/car)
    
-   #### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
+#### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
  - **URL** - <http://host:port/car/get_cars_by_city?city=value,pickupDateTime,dropOffDateTime>
  - **Method** - GET 
  - **Successful Resp** - SC 201 * Successful Resp - SC 201 ArrayList<CarsCardDetailsDto>
 			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
  - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-   #### 2.Get CarCards Details By CarId(Car + Features)
+#### 2.Get CarCards Details By CarId(Car + Features)
  - **URL** - <http://host:port/car/get_specific_car_details/{carId}>
  - **Method** - GET 
  - **Successful Resp** - SC 201 CompleteCarDetailsDto + mesg (ApiResponse)
@@ -337,48 +291,11 @@ public class DrivingLicenseDto{
 #### 1.Update Driving License By UserId
 - **URL** - <http://host:port/dl/{userId}/update/{dlId}>
 - **Method** - PUT 
-- **payload** - 
-```java
-	public class DrivingLicenseDto{
-
-	private Long id;
-	
-	@NotNull(message = "Driving license number cannot be null")
-    @Pattern(regexp = "^[A-Z0-9-]+$", message = "Driving license number must only contain uppercase letters, numbers, and dashes")
-    @Size(min = 5, max = 20, message = "Driving license number must be between 5 and 20 characters")
-	private String drivingLicenseNo;
-	
-	@NotNull(message = "Issue date cannot be null")
-	private LocalDate issueDate;
-
-	@NotNull(message = "Expiration date cannot be null")
-	private LocalDate expirationDate;
-	
-	@NotNull(message = "License class cannot be null")
-	private LicenseClassEnum licenseClassEnum;
-}
-```
-- **Successful Resp** - SC 201 
-
-```json	
-	//Response body
-
-		{
-		  "id": 1,
-		  "drivingLicenseNo": "BUPVMWLXC7EN33ASLPEH",
-		  "issueDate": "2020-07-09",
-		  "expirationDate": "2024-06-09",
-		  "licenseClassEnum": "B"
-		}
-```
-- **Error resp** - SC 400
-```json
-	{
-	  "message": "invalid user id",
-	  "timeStamp": "2024-08-09T21:37:13.8046415"
-	}
-```
-
+- **payload** - DrivingLicenseDto
+- **Successful Resp** - SC 201 DrivingLicenseDto
+- **Error resp** - 
+	- SC 400 `ResourceNotFoundException("invalid user id")`
+	- SC 409 `ConflictException`
 
 ## 2. host APIs
 
