@@ -1,23 +1,25 @@
 # 1. Coding Standards
- ## 1. java
-  ### 1. class, interface, enums 
+
+## 1. java
+
+### 1. class, interface, enums 
   - pascal case
     - eg - GuestDao, HostDto
 
- ### 2. Enums 
+### 2. Enums 
   - should be appended with Enum.
   - should be decalred as seprate files
 
- ### 3. method,interface,fields 
+### 3. method,interface,fields 
   - camel case
     - eg - guestDao, hostDto
 
- ### 4. final fields , final static fields, enum constants 
+### 4. final fields , final static fields, enum constants 
   - SCREAMING_SNAKE_CASE
     - eg- public enum RoleEnum{HOST, GUEST, ADMIN}
 
 
- ### 5. packages
+### 5. packages
   - package name - snakecase and all lower and singular
     - base_package - com.rentmycar
     - **all packages**
@@ -33,7 +35,7 @@
        
        ```
  
- ### 6. Exceptions and status codes
+### 6. Exceptions and status codes
    - **if already registerd** -
       - SC 409 , conflict 
       - **exception** - 
@@ -47,7 +49,7 @@
      - SC 400 , bad request
      - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
 
- ## 2. mysql 
+## 2. mysql 
  - all table name should be snake case and lower and singular
  - all column names must be snake case and lower 
    - eg- user_id
@@ -57,368 +59,190 @@
    - user 1 <------ * address
 
 
- ## 3. git
- ### 1. to careate a branch and switch to that branch
+## 3. git
+
+### 1. to careate a branch and switch to that branch
+
 ```bash
 	    git switch -C <feature-name>
         git switch -C feature/create-guest-entity
 ```
-   -  ***branch creation coding standard***
-      -  Feature Branc	hes (feature/):
-         -   Purpose: For developing new features or enhancements.
-             -   Naming Example: feature/add-user-profile, feature/implement-searchfunctionality
-				
-      - Bugfix Branches (bugfix/ or fix/):
-        - Purpose: For fixing bugs or issues in the codebase.
-         - Naming Example: bugfix/fix-login-error, fix/missing-footer-on-homepage	
-				
-      - Documentation Branches (docs/):
-        - Purpose: For updates or changes to documentation.
-         - Naming Example: docs/update-readme, docs/improve-api-docs
-				
-      - Chore Branches (chore/):
-        - Purpose: For maintenance tasks that don’t directly affect functionality, such as refactoring or updating dependencies.
-         - Naming Example: chore/update-dependencies, chore/refactor-codebase
+
+***branch creation coding standard***
+
+- Feature Branches (feature/):
+  - Purpose: For developing new features or enhancements.
+    - Naming Example: feature/add-user-profile, feature/implement-searchfunctionality
+
+- Bugfix Branches (bugfix/ or fix/):
+  - Purpose: For fixing bugs or issues in the codebase.
+    - Naming Example: bugfix/fix-login-error, fix/missing-footer-on-homepage
+	
+- Documentation Branches (docs/):
+  - Purpose: For updates or changes to documentation.
+    - Naming Example: docs/update-readme, docs/improve-api-docs
+
+- Chore Branches (chore/):
+  - Purpose: For maintenance tasks that don’t directly affect functionality, such as refactoring or updating dependencies.
+    - Naming Example: chore/update-dependencies, chore/refactor-codebase
 		
- ### 2. to check the all the branches and current branch
+### 2. to check the all the branches and current branch
+
 ```bash
     git branch
 ```
 
- ### 3. to add the changes to local repo
+### 3. to add the changes to local repo
+
 ```bash
     git add .
 ```
 
- ### 4. to commit the changes to local repo
-	```bash
+### 4. to commit the changes to local repo
+
+```bash
 	    git commit -m "feat: add guest entity"
-	```
+```
 
-  #### 1. commit creation coding standard
-      - **feat** : New features or enhancements
-        - **Example** - feat: add user profile page
-        - 
-      - **fix** : Bug fixes
-        - **Example** - fix: correct header image rendering
-        - 
-      - **docs**: Documentation changes
-        - **Example** - docs: update README with new setup instructions
-        - 
-      - **style**: Formatting, missing semi-colons, etc. (no code change)
-        - **Example** - style: format code according to eslint
-        - 
-      - **refactor**: Code changes that neither fix bugs nor add features
-        - **Example** - refactor: improve variable naming in utils.js
-        - 
-      - **test**: Adding or updating tests
-        - **Example** - test: add unit tests for user login functionality
-        - 
-      - **chore**: Changes to the build process or auxiliary tools/libraries
-        - **Example** - chore: update dependencies
+#### 1. commit creation coding standard
+- **feat** : New features or enhancements
+	- **Example** - feat: add user profile page
 
-1. **to push the changes to remote branch**
+- **fix** : Bug fixes
+	- **Example** - fix: correct header image rendering
+
+- **docs**: Documentation changes
+	- **Example** - docs: update README with new setup instructions
+ 
+- **style**: Formatting, missing semi-colons, etc. (no code change)
+  - **Example** - style: format code according to eslint 
+
+- **refactor**: Code changes that neither fix bugs nor add features
+  - **Example** - refactor: improve variable naming in utils.js
+
+- **test**: Adding or updating tests
+  - **Example** - test: add unit tests for user login functionality
+ 
+- **chore**: Changes to the build process or auxiliary tools/libraries
+  - **Example** - chore: update dependencies
+
+### 5. to push the changes to remote branch
+
 ```bash
      git push -u origin feature/create-guest-entity
 ```
-1. **to pull the changes to main branch**
+
+### 6. to pull the changes to main branch
+
 ```bash
+
 git switch main
 git fetch
 git pull origin main
 
 ```
 
+### 7. what if i have edited files in main branch
+
+```bash
+## This will revert all changes in the working directory to the last committed state.
+git restore .
+
+```
+
+### 8. what if i have staged files in main branch
+
+```bash
+
+#1. Unstage the Changes
+## To unstage all changes that have been added to the staging area, use:
+git reset
+## This command will move all staged changes back to the working directory.
+
+#2. Discard Changes in Working Directory
+##To discard changes in all tracked files:
+git restore .
+##This will revert the changes in your working directory to match the last commit.
+
+```
+
+### 9. what if i have made commit in main branch
+
+```bash
+
+#If you've committed changes to the main branch and you want to undo those commits, there are several approaches you can take, depending on whether you want to keep the changes or discard them completely.
+
+##1. Undo the Last Commit but Keep Changes
+###If you want to undo the last commit but keep the changes in your working directory (so you can adjust them or re-commit):
+
+git reset --soft HEAD~1
+
+###This command moves the branch pointer back one commit but leaves your changes in the working directory and staging area.
+
+##2. Undo the Last Commit and Discard Changes
+###If you want to undo the last commit and discard the changes entirely:
+
+git reset --hard HEAD~1
+
+###This command moves the branch pointer back one commit and discards all changes in the working directory.
+
+##3. Undo Multiple Commits
+
+###To undo more than one commit, adjust the number in HEAD~n where n is the number of commits you want to undo. For example, to undo the last 3 commits:
+
+####Keep Changes:
+git reset --soft HEAD~3
+
+####Discard Changes:
+git reset --hard HEAD~3
+
+```
+
 # 2. api descptions
 
- ## 1. **user APIs**
+## 1. guest APIs
 
-  ### 1. UserController (@RequestMapping=/user)
+### 1. UserController (@RequestMapping=/user)
 
-   #### 1.Login Guest
- - **URL** - <http://host:port/user/login>
- - **Method** - POST 
- - **payload** -
-```java
-    public class SignInRequestDto {
+#### 1. login user
+- **URL** - <http://host:port/user/login>
+- **Method** - POST 
+- **payload** - `SignInRequestDto`
+- **Successful Resp** - SC 201 SignInResponseDto
+- **Error resp** - SC 400 ,
+  - **if isdeleted = 0** - mesg - your account is inactive
+  - **if user is not found** -mesg - user not found 
 
-	@NotEmpty(message = "Email must be supplied !")
-	@Email(message = "Invalid Email format")
-	private String email;
-	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{5,20})", message = "Blank or Invalid password!!!!")
-	private String password;
-	
-	private UserRoleEnum roleEnum;
-}
-```
- - **Successful Resp** - SC 201
-```java
-public class SignInResponseDto extends BaseDto {
+#### 2.Update User Basic Details By UserId
+- **URL** - <http://host:port/guest/update/{guestId}>
+- **Method** - PUT 
+- **payload** - `UpdateBasicUserDetailsDto`
+- **Successful Resp** - SC 201  `UpdateBasicUserDetailsDto` 
+- **Error resp** - SC 400 `ResourceNotFoundException("Invalid User Id !")` 
 
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String mobile;
-	private UserRoleEnum roleEnum;
-	
-}
-```
-```json
-Swagger Response
-{
-  "id": 1,
-  "createdOn": "2024-08-07",
-  "updatedOn": "2024-08-07T12:34:56",
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "doe@example.com",
-  "mobile": "1234567890",
-  "roleEnum": "ADMIN"
-}
+#### 3.Get User details (basic details + driving license)
+- **URL** - <http://host:port/user/profile/{guestId}>
+- **Method** - Get 
+- **Successful Resp** - SC 201 `UserDetailsResponseDto`
+- **Error resp** - 
+	- SC 400 `ConstraintViolationException("issue date is before expiry date")`
+	- SC 404 `ResourceNotFoundException("invalid user id")`
 
-```
+#### 4.Delete User
+- **URL** - <http://host:port/user/delete/{userId}>
+- **Method** - PATCH 
+- **Successful Resp** - SC 201 ApiResponseDto
+- **Error resp** - 
+	- SC 404 `ResourceNotFoundException("Invalid User Id")`
+	- SC 400 `CustomBadRequestException("Admin users cannot be deleted.")`
 
- - **Error resp** - SC 400 ,
- 	- **if isdeleted = 0** - mesg - your account is inactive
-   	- **if user is not found** -mesg - user not found
-   	- 
-------------------------------------------------------------------------
+### 2. GuestController (@RequestMapping=/guest)
 
-   #### 1. register User with basic details
- - **URL** - <http://host:port/user/register_basic>
- - **Method** - POST 
- - **payload** - 
-```java
-@Setter
-@Getter
-public class RegisterUserReqDto {
-	
-	private Long id;
 
-	@NotBlank(message = "firstName must not be blannk")
-	String firstName; // VARCHAR(20),NOT NULL
 
-	@NotBlank(message = "last name must have a value")
-	String lastName; // VARCHAR(20),NOT NULL
 
-	@Pattern(regexp = "^[6-9]\\d{9}$", message = "Invalid mobile number. It should be exactly 10 digits long and start with 6, 7, 8, or 9.")
-	String mobile; // VARCHAR(12),UNIQUE NOT NULL
 
-	@NotBlank
-	@Email(message = "invalid email id ")
-	String email; // VARCHAR(25),UNIQUE NOT NULL
-
-	@NotBlank
-	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{5,20})", message = "Blank or Invalid password!!!!")
-	String password; // VARCHAR(70), NOT NULL
-
-	@NotBlank
-	@Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[#@$*]).{5,20})", message = "Blank or Invalid password!!!!")
-	String confirmPassword; // VARCHAR(70), NOT NULL
-	
-	@NotNull
-	private UserRoleEnum roleEnum;
-}
-
-```
- - **Successful Resp** - SC 201 HttpStatus.CREATED
-```java
-@Getter
-@Setter
-public class RegisterUserResDto extends BaseDto {
-	private Long id;
-	String firstName; // VARCHAR(20),NOT NULL
-	String lastName; // VARCHAR(20),NOT NULL
-	String mobile; // VARCHAR(12),UNIQUE NOT NULL
-	String email; // VARCHAR(25),UNIQUE NOT NULL
-	private UserRoleEnum roleEnum;
-}
-```
-```json
-{
-  "id": 1,
-  "createdOn": "2024-08-08",
-  "updatedOn": "2024-08-08T10:24:23.556208",
-  "firstName": "asheesh",
-  "lastName": "patel",
-  "mobile": "6720003609",
-  "email": "user@gmailff.com",
-  "roleEnum": "HOST"
-}
-```
- - **Error resp** -
-   - **if already registerd** -
-      - SC 409 , conflict 
-      - **exception** - 
-        - ConflictException("user with given email and mobile already registered");
-        - ConflictException("user with given email already registered");
-        - ConflictException("user with given mobile already registered");
-   - **if password and confirm password doesn't match** - 
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("password mismatch", null);
-   - **if expiry date is before creation date**
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
-     
----------------------------------------------------------------------------------
-
-   #### 2. register User with driving license
- - **URL** - <http://host:port/user/register_with_dl>
- - **Method** - POST 
- - **payload** - 
-```java
-public class RegisterUserWithDlReqDto extends RegisterUserReqDto {
-
-	@NotNull
-	DrivingLicenseDto drivingLicenseDto;
-}
-```
-```json
-{
- "firstName": "Jane",
-  "lastName": "Smith",
-  "mobile": "9876543215",
-  "email": "smith@example.com",
-  "password": "another@456",
-  "confirmPassword": "another@456",
-  "roleEnum": "GUEST",
-  "drivingLicenseDto": {
-    "drivingLicenseNo": "XYZ987554323",
-    "issueDate": "2024-08-08",
-    "expirationDate": "2026-08-08",
-    "licenseClassEnum": "B"
-  }
-}
-```
- - **Successful Resp** - SC 201 HttpStatus.CREATED
-```java
-@Data
-public class RegisterUserWithDlResDto extends RegisterUserResDto {
-
-	DrivingLicenseDto drivingLicenseDto;
-
-}
-```
-```json
-//Response body
-{
-  "id": 2,
-  "createdOn": "2024-08-08",
-  "updatedOn": "2024-08-08T23:39:40.042376",
-  "firstName": "Jane",
-  "lastName": "Smith",
-  "mobile": "9876543215",
-  "email": "smith@example.com",
-  "roleEnum": "GUEST",
-  "drivingLicenseDto": {
-    "id": 2,
-    "drivingLicenseNo": "XYZ987554323",
-    "issueDate": "2024-08-08",
-    "expirationDate": "2026-08-08",
-    "licenseClassEnum": "B"
-  }
-}
-```
- - **Error resp** -
-   - **if already registerd** -
-      - SC 409 , conflict 
-      - **exception** - 
-        - ConflictException("user with given email and mobile already registered");
-        - ConflictException("user with given email already registered");
-        - ConflictException("user with given mobile already registered");
-   - **if password and confirm password doesn't match** - 
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("password mismatch", null);
-   - **if expiry date is before creation date**
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
-
-   
---------------------------------------------------------------------------------------------------------   
-
- ## 2. **guest APIs**
-
-  ### 1. GuestController (@RequestMapping=/guest)
-
-   #### 1.Get guest details (basic details + driving license)
- - **URL** - <http://host:port/guest/profile/{guestId}>
- - **Method** - Get 
- - **Successful Resp** - SC 201
-```java
-public class GuestDetailsResponseDto extends BaseDto{
-
-	private String firstName;
-	
-	private String lastName;
-	
-	private String mobile;
-	
-	private String email;
-	
-	private String password;
-	
-	private DrivingLicenseDto drivingLicenseDto;
-}
-```
-```java
-public class DrivingLicenseDto{
-
-	private Long id;
-	
-	private String drivingLicenseNo;
-	
-	private LocalDate issueDate;
-
-	private LocalDate expirationDate;
-	
-	private LicenseClassEnum licenseClassEnum;
-}
-```
-```json
-// Swagger Response
-{
-  "id": 1,
-  "createdOn": "2024-08-07",
-  "updatedOn": "2024-08-07T12:34:56",
-  "firstName": "John",
-  "lastName": "Doe",
-  "mobile": "1234567890",
-  "email": "doe@example.com",
-  "password": "secure#123",
-  "drivingLicenseDto": {
-    "id": 1,
-    "drivingLicenseNo": "ABC123456789",
-    "issueDate": "2023-08-07",
-    "expirationDate": "2025-08-07",
-    "licenseClassEnum": "A"
-  }
-}
-```
- - **Error resp** -
-
-   #### 2.Update Guest Basic Details By GuestId
- - **URL** - <http://host:port/guest/update/{guestId}>
- - **Method** - PUT 
- - **payload** - GuestUpdateDto (firstName,lastName,email,password)
- - **Successful Resp** - SC 201 GuestResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-	 
-   #### 3.Delete Guest
- - **URL** - <http://host:port/guest/delete/{hostId}>
- - **Method** - PATCH 
- - **Successful Resp** - SC 201 GuestResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-	 
-   #### 4.Update Driving License By GuestId
- - **URL** - <http://host:port/guest/update/{guestId}/{dl_update}>
- - **Method** - PUT 
- - **payload** - GuestUpdateDto (firstName,lastName,email,password,drivingLicenseNo,issueDate,expirationDate,licenseClass)
- - **Successful Resp** - SC 201 GuestResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-
--------------------------------------------------------------------------------------------
- 
-  ### 2. CarController  (@RequestMapping=/car)
+### 3. CarController  (@RequestMapping=/car)
    
    #### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
  - **URL** - <http://host:port/car/get_cars_by_city?city=value,pickupDateTime,dropOffDateTime>
@@ -437,7 +261,7 @@ public class DrivingLicenseDto{
 
 -------------------------------------------------------------------------------------------
  
-  ### 3. BookingController (@RequestMapping=/booking)
+### 4. BookingController (@RequestMapping=/booking)
 
    #### 1.Add Booking by guestId, CarId, AddressId of guest
  - **URL** - <http://host:port/booking/add_booking/gues_id/{guestId}/car_id/{carId}/address_id/{addressId}>
@@ -465,81 +289,63 @@ public class DrivingLicenseDto{
  - **Successful Resp** - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
  - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
+### 5. DrivingLicenseController(@RequestMapping=/dl)
 
-----------------------------------------------------------------------------------------------------------------------------
-
-  ### 4. DrivingLicenseController(@RequestMapping=/dl)
-
-   #### 1.Update Driving License By UserId
+#### 1.Update Driving License By UserId
 - **URL** - <http://host:port/dl/{userId}/update/{dlId}>
 - **Method** - PUT 
-- **payload** - 
-```java
-	public class DrivingLicenseDto{
+- **payload** - DrivingLicenseDto
+- **Successful Resp** - SC 201 DrivingLicenseDto
+- **Error resp** - 
+	- SC 400 `ResourceNotFoundException("invalid user id")`
+	- SC 409 `ConflictException`
 
-	private Long id;
-	
-	@NotNull(message = "Driving license number cannot be null")
-    @Pattern(regexp = "^[A-Z0-9-]+$", message = "Driving license number must only contain uppercase letters, numbers, and dashes")
-    @Size(min = 5, max = 20, message = "Driving license number must be between 5 and 20 characters")
-	private String drivingLicenseNo;
-	
-	@NotNull(message = "Issue date cannot be null")
-	private LocalDate issueDate;
+## 2. host APIs
 
-	@NotNull(message = "Expiration date cannot be null")
-	private LocalDate expirationDate;
-	
-	@NotNull(message = "License class cannot be null")
-	private LicenseClassEnum licenseClassEnum;
-}
-```
-- **Successful Resp** - SC 201 
+### 1. UserController (@RequestMapping=/user)
 
-```json	
-	//Response body
+#### 1. register User with basic details
+ - **URL** - <http://host:port/user/register_basic>
+ - **Method** - POST 
+ - **payload** - `RegisterUserReqDto`
+ - **Successful Resp** - SC 201 HttpStatus.CREATED `RegisterUserResDto`
+ - **Error resp** -
+   - **if already registerd** -
+      - SC 409 , conflict 
+      - **exception** - 
+        - ConflictException("user with given email and mobile already registered");
+        - ConflictException("user with given email already registered");
+        - ConflictException("user with given mobile already registered");
+   - **if password and confirm password doesn't match** - 
+     - SC 400 , bad request
+     - **exception** - ConstraintViolationException("password mismatch", null);
+   - **if expiry date is before creation date**
+     - SC 400 , bad request
+     - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
 
-		{
-		  "id": 1,
-		  "drivingLicenseNo": "BUPVMWLXC7EN33ASLPEH",
-		  "issueDate": "2020-07-09",
-		  "expirationDate": "2024-06-09",
-		  "licenseClassEnum": "B"
-		}
-```
-- **Error resp** - SC 400
-```json
-	{
-	  "message": "invalid user id",
-	  "timeStamp": "2024-08-09T21:37:13.8046415"
-	}
-```
+#### 2. register User with driving license
+ - **URL** - <http://host:port/user/register_with_dl>
+ - **Method** - POST 
+ - **payload** - `RegisterUserWithDlReqDto`
+ - **Successful Resp** - SC 201 HttpStatus.CREATED `RegisterUserWithDlResDto`
+ - **Error resp** -
+   - **if already registerd** -
+      - SC 409 , conflict 
+      - **exception** - 
+        - ConflictException("user with given email and mobile already registered");
+        - ConflictException("user with given email already registered");
+        - ConflictException("user with given mobile already registered");
+   - **if password and confirm password doesn't match** - 
+     - SC 400 , bad request
+     - **exception** - ConstraintViolationException("password mismatch", null);
+   - **if expiry date is before creation date**
+     - SC 400 , bad request
+     - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
 
- ## 3. **host APIs**
-
-  ### 1. HostController(@RequestMapping=/host)
-
-   #### 1.Register Host
-- **URL** - <http://host:port/host/register>
-- **Method** - POST 
-- **payload** - RegisterHostDto (firstName,lastName,Mobile,email,password)
-- **Successful** Resp - SC 201 HostResponseDto + mesg (ApiResponse)
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-
-   #### 2.get Host by host id
-- **URL** - <http://host:port/host/{hostId}>
-- **Method** - GET 
-- **Successful** Resp - SC 201 HostProfileDto(firstName, lastName, email, mobile, password, ArrayList<AdressDto> + mesg (ApiResponse)
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-
-   #### 3.Update Host By HostId
-- **URL** - <http://host:port/host/update/{hostId}>
-- **Method** - PUT 
-- **payload** - HostUpdateDto (firstName,lastName,mobile,email,password)
-- **Successful** Resp - SC 201 HostResponseDto + mesg (ApiResponse)
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)	 
-
-  ### 2. CarController(@RequestMapping=/car)
+   
+### 1. HostController(@RequestMapping=/host)
+   
+### 2. CarController(@RequestMapping=/car)
 
    #### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
@@ -575,60 +381,127 @@ public class DrivingLicenseDto{
 	 
 -------------------------------------------------------------------------------------------
 
-  ### 3. AddressController(@RequestMapping=/address)
+### 3. AddressController(@RequestMapping=/address)
 
-   #### 1.Add Address By UserId
-- **URL** - <http://host:port/user/{userId}/add_address>
+   #### 1. add Address By UserId
+- **URL** - <http://host:port/address/{userId}>
 - **Method** - POST 
-- **payload** - AddressDto (country,state,city,pincode,area,houseNo)
-- **Successful** Resp - SC 201 AddressResponseDto + mesg (ApiResponse)
+- **payload** - 
+	```java
+			@Data
+			public class AddressDto {
+			
+				private Long id;
+
+				@NotBlank
+				private String adrLine1; // varchar(100) not null
+
+				private String adrLine2; // varchar(100)
+
+				@NotBlank
+				@Pattern(regexp = "^\\d{6}$", message = "Must be a 6-digit number")
+				private String pincode; // char(10),not null
+
+				@NotBlank(message = "city should not be blank")
+				private String city; // varchar(20),not null
+
+				@NotBlank(message = "state should not be blank")
+				private String state; // varchar(20),not null
+
+				@NotBlank(message = "country should not be blank")
+				private String country; // varchar(20),not null
+
+			}
+	```
+- **Successful** Resp - SC 201  
+	```java
+		@Data
+		@AllArgsConstructor
+		public class AddressResDto {
+			@NotNull
+			Long userId
+			@NotNull
+			AddressDto addressDto;
+		}
+	```
+	```json
+		//Response body
+		{
+		  "userId": 1,
+		  "addressDto": {
+		    "id": 1,
+		    "adrLine1": "123 Elm Street",
+		    "adrLine2": "Apt 45B",
+		    "pincode": "123456",
+		    "city": "Springfield",
+		    "state": "Illinois",
+		    "country": "USA"
+		  }
+		}
+	```
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-	 
-   #### 3.Update Address by UserId
+
+   #### 2. get address by address id
+- **URL** - <http://host:port/address/{addressId}>
+- **Method** - GET
+- **payload** - 
+- **Successful** Resp - SC 200 OK, `AddressDto`
+- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+
+  #### 3.Get AddressList by UserId
+- **URL** - <http://host:port/address/get_all/{userId}>
+- **Method** - GET 
+- **payload** - 
+- **Successful** Resp - SC 201 `List<AddressDto>`
+- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+
+   #### 4.Update Address by UserId
 - **URL** - <http://host:port/user/{userId}/address/{addressId}>
 - **Method** - PUT 
-- **payload** - AddressDto (country,state,city,pincode,area,houseNo)
+- **payload** - 
 - **Successful** Resp - SC 201 AddressResponseDto + mesg (ApiResponse)
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-  ### 4. BookingController(@RequestMapping=/booking)	 
 
-   #### 3.get upcomming bookings by host id 
+
+
+
+### 4. BookingController(@RequestMapping=/booking)
+
+#### 1.get upcomming bookings by host id 
+
 - **URL** - <http://host:port/booking/upcomming_booking/{guestId}>
 - **Method** - Get 
 - **Successful** Resp - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-	 
-   #### 1. get past bookings by host id 
+
+#### 2. get past bookings by host id 
+
 - **URL** - <http://host:port/booking/past_booking/{guestId}>
 - **Method** - Get 
 - **Successful** Resp - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
+## 3. admin APIs
 
-----------------------------------------------------------------------------------------------------------------------------
+### 1. AdminController(@RequestMapping=/admin)
 
- ## 4. **admin APIs**
+### 2. GuestController (@RequestMapping=/guest)
 
-  ### 1. AdminController(@RequestMapping=/admin)
-
-
-  ### 2. GuestController (@RequestMapping=/guest)
-
-   #### 1.get all guests 
+#### 1.get all guests 
  - **URL** - <http://host:port/guest/get_all_guests>
  - **Method** - Get
  - **Successful Resp** - SC 201 ArrayList<GetAllGuestDto>
    	- GetAllGuestDto (firstName,lastName,Mobile,email)
  - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-  ### 3. HostController(@RequestMapping=/host)
+### 3. HostController(@RequestMapping=/host)
 
-  ### 2. CarController(@RequestMapping=/car)
+### 4. CarController(@RequestMapping=/car)
 
 # 3. Anootated Entities
 
-  ### 1. BaseEntity
+### 0. BaseEntity
 		```java
 				package com.rentmycar.entity;
 
@@ -652,7 +525,7 @@ public class DrivingLicenseDto{
 				}
 		```
 
-  ### 2. User
+### 1. User
 	```java
 		package com.rentmycar.entity;
 
@@ -738,7 +611,7 @@ public class DrivingLicenseDto{
 				this.drivingLicense = drivingLicense;
 				drivingLicense.setUser(this);
 			}
-
+  
 		// ********************************************************************************************
 
 			// Host 1 <---------> * CarHostAddressPricing
@@ -752,7 +625,7 @@ public class DrivingLicenseDto{
 			}
 	```	
 
-  ### 3. UserRoleEnum
+### 1.1. UserRoleEnum
 	```java
 		package com.rentmycar.entity;
 
@@ -762,7 +635,7 @@ public class DrivingLicenseDto{
 
 	```
 
-  ### 4. Address
+### 2. Address
 	```java
 			package com.rentmycar.entity;
 
@@ -806,7 +679,7 @@ public class DrivingLicenseDto{
 			}
 	```
 
-  ### 3. Booking
+### 3. Booking
 	```java
 		package com.rentmycar.entity;
 
@@ -837,7 +710,7 @@ public class DrivingLicenseDto{
 			String transactionId; // char (#### 20.
 
 		//*****************************************************************************************************
-
+  
 			// Booking * <---> 1 Guest
 			@ManyToOne(fetch = FetchType.LAZY)
 			@JoinColumn(name = "guest_id", nullable = false)
@@ -861,7 +734,7 @@ public class DrivingLicenseDto{
 	```
   
   
-  ### 4. User
+### 3.1. BookingStatusEnum
 ```java
 package com.rentmycar.entity;
 
@@ -871,7 +744,7 @@ public enum BookingStatusEnum {
 
 ```
 
-  ### 5. Car
+### 4. Car
 	```java
 		package com.rentmycar.entity;
 		
@@ -902,7 +775,7 @@ public enum BookingStatusEnum {
 		}
 	```
 
-  ### 6. FuelTypeEnum
+### 4.1. FuelTypeEnum
 	```java
 		
 		package com.rentmycar.entity;
@@ -912,7 +785,7 @@ public enum BookingStatusEnum {
 		}
 	```
 
-  ### 7. CarFeatures
+### 5. CarFeatures
 	```java
 		package com.rentmycar.entity;
 
@@ -940,11 +813,10 @@ public enum BookingStatusEnum {
 
 			@Column(columnDefinition = "boolean default false")
 			private Boolean hasAc; 	// Boolean,default-false
-
 		}
 	```
 
-  ### 8. CarHostAddressPricing
+### 6. CarHostAddressPricing
 	```java
 		package com.rentmycar.entity;
 
@@ -1023,7 +895,7 @@ public enum BookingStatusEnum {
 		}
 	```
 
-  ### 9. CarPricing
+### 7. CarPricing
 	```java
 		package com.rentmycar.entity;
 
@@ -1045,7 +917,7 @@ public enum BookingStatusEnum {
 		}
 	```
 
-  ### 10. DrivingLicense
+### 8. DrivingLicense
 		```java
 			package com.rentmycar.entity;
 
@@ -1080,7 +952,7 @@ public enum BookingStatusEnum {
 			}
 		```
 
-  ### 11. LicenseClassEnum
+### 8.1. LicenseClassEnum
 		```java
 			package com.rentmycar.entity;
 	
@@ -1093,7 +965,7 @@ public enum BookingStatusEnum {
 			}
 		```
 
-  ### 12. Review
+### 9. Review
 		```java
 				package com.rentmycar.entity;
 
@@ -1106,7 +978,6 @@ public enum BookingStatusEnum {
 
 					@Column(length = 50)
 					private String reviewText; // varchar(50)
-
 
 				// ****************************************************************************
 					// Review * <-----------> 1 Guest
@@ -1126,7 +997,7 @@ public enum BookingStatusEnum {
 				}
 		```
 
-  ### 13. Transaction
+### 10. Transaction
 		```java
 			// YET TO BE DECIDED
 			@Entity
@@ -1136,9 +1007,6 @@ public enum BookingStatusEnum {
 				DateTime paymentDate; // DateTime
 			}
 		```
-
-
-
 
 # 4. ERDiagram
 

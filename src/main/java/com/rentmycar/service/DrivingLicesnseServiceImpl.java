@@ -46,23 +46,20 @@ public class DrivingLicesnseServiceImpl implements DrivingLicesnseService {
 		DrivingLicense pDrivingLicense = drivingLicenseDao.save(tDrivingLicense);
 		return mapper.map(pDrivingLicense, DrivingLicenseDto.class);
 	}
-
+	
+	//method to update driving license
 	@Override
 	public DrivingLicenseDto updateDrivingLicense(DrivingLicenseDto drivingLicenseDto, Long userId) {
 		if (drivingLicenseDto.getIssueDate().isAfter(drivingLicenseDto.getExpirationDate())) {
 			throw new ConstraintViolationException("issue date is before expiry date", null);
 		}
 		User pUser = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("invalid user id"));
-		if (pUser.getDrivingLicense() == null) 
+		if (pUser.getDrivingLicense() == null)
 			throw new ConflictException("dl does not exist !");
-		pUser.setId(drivingLicenseDto.getId());
-		pUser.getDrivingLicense().setDrivingLicenseNo(drivingLicenseDto.getDrivingLicenseNo());
-		pUser.getDrivingLicense().setIssueDate(drivingLicenseDto.getIssueDate());
-		pUser.getDrivingLicense().setExpirationDate(drivingLicenseDto.getExpirationDate());
-		pUser.getDrivingLicense().setLicenseClassEnum(drivingLicenseDto.getLicenseClassEnum());
-		DrivingLicenseDto dto = mapper.map(drivingLicenseDto, DrivingLicenseDto.class);
-		return dto;
-		
+		DrivingLicense dl = pUser.getDrivingLicense();
+		mapper.map(drivingLicenseDto, dl);
+		DrivingLicense dl1 = drivingLicenseDao.save(dl);
+		return mapper.map(dl1, DrivingLicenseDto.class);
 	}
 
 }
