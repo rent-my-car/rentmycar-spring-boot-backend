@@ -71,6 +71,7 @@
 ***branch creation coding standard***
 
 - Feature Branches (feature/):
+
   - Purpose: For developing new features or enhancements.
     - Naming Example: feature/add-user-profile, feature/implement-searchfunctionality
 
@@ -238,20 +239,16 @@ git reset --hard HEAD~3
 
 ### 2. GuestController (@RequestMapping=/guest)
 
-
-
-
-
 ### 3. CarController  (@RequestMapping=/car)
    
-   #### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
+#### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
  - **URL** - <http://host:port/car/get_cars_by_city?city=value,pickupDateTime,dropOffDateTime>
  - **Method** - GET 
  - **Successful Resp** - SC 201 * Successful Resp - SC 201 ArrayList<CarsCardDetailsDto>
 			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
  - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-   #### 2.Get CarCards Details By CarId(Car + Features)
+#### 2.Get CarCards Details By CarId(Car + Features)
  - **URL** - <http://host:port/car/get_specific_car_details/{carId}>
  - **Method** - GET 
  - **Successful Resp** - SC 201 CompleteCarDetailsDto + mesg (ApiResponse)

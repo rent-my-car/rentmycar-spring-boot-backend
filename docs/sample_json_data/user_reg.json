@@ -1,0 +1,101 @@
+[
+    {
+      "firstName": "Alice",
+      "lastName": "Smith",
+      "mobile": "9876543210",
+      "email": "alice.smith@example.com",
+      "password": "Password1!",
+      "confirmPassword": "Password1!",
+      "roleEnum": "ADMIN"
+    },
+    {
+      "firstName": "Bob",
+      "lastName": "Brown",
+      "mobile": "9123456789",
+      "email": "bob.brown@example.com",
+      "password": "MyPass#2024",
+      "confirmPassword": "MyPass#2024",
+      "roleEnum": "GUEST"
+    },
+    {
+      "firstName": "Charlie",
+      "lastName": "Davis",
+      "mobile": "9234567890",
+      "email": "charlie.davis@example.com",
+      "password": "Ch@ng3Me!",
+      "confirmPassword": "Ch@ng3Me!",
+      "roleEnum": "GUEST"
+    },
+    {
+      "firstName": "Diana",
+      "lastName": "Evans",
+      "mobile": "9345678901",
+      "email": "diana.evans@example.com",
+      "password": "Secure#123",
+      "confirmPassword": "Secure#123",
+      "roleEnum": "HOST"
+    },
+    {
+      "firstName": "Edward",
+      "lastName": "Garcia",
+      "mobile": "9456789012",
+      "email": "edward.garcia@example.com",
+      "password": "Passw0rd$",
+      "confirmPassword": "Passw0rd$",
+      "roleEnum": "HOST"
+    },
+    {
+      "firstName": "Fiona",
+      "lastName": "Harris",
+      "mobile": "9567890123",
+      "email": "fiona.harris@example.com",
+      "password": "F1ona#2024",
+      "confirmPassword": "F1ona#2024",
+      "roleEnum": "GUEST"
+    },
+    {
+      "firstName": "George",
+      "lastName": "Jones",
+      "mobile": "9678901234",
+      "email": "george.jones@example.com",
+      "password": "Gr33n$Pass",
+      "confirmPassword": "Gr33n$Pass",
+      "roleEnum": "GUEST"
+    },
+    {
+      "firstName": "Hannah",
+      "lastName": "King",
+      "mobile": "9789012345",
+      "email": "hannah.king@example.com",
+      "password": "H@ppy2024",
+      "confirmPassword": "H@ppy2024",
+      "roleEnum": "HOST"
+    },
+    {
+      "firstName": "Ian",
+      "lastName": "Lee",
+      "mobile": "9890123456",
+      "email": "ian.lee@example.com",
+      "password": "1@nL33",
+      "confirmPassword": "1@nL33",
+      "roleEnum": "GUEST"
+    },
+    {
+      "firstName": "Jenna",
+      "lastName": "Miller",
+      "mobile": "9901234567",
+      "email": "jenna.miller@example.com",
+      "password": "J3nn@2024",
+      "confirmPassword": "J3nn@2024",
+      "roleEnum": "HOST"
+    },
+    {
+      "firstName": "Kyle",
+      "lastName": "Nelson",
+      "mobile": "9012345678",
+      "email": "kyle.nelson@example.com",
+      "password": "Kyl3#Pass",
+      "confirmPassword": "Kyl3#Pass",
+      "roleEnum": "HOST"
+    }
+  ]
