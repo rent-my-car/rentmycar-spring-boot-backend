@@ -348,32 +348,38 @@ git reset --hard HEAD~3
    
 ### 1. HostController(@RequestMapping=/host)
    
-### 2. CarController(@RequestMapping=/car)
+### 2. CarListingController(@RequestMapping=/car)
 
-   #### 1.Get CarCards By HostId
+#### 1.Add CarListing By `hostId` and `hostAddressId`
+- **URL** - <http://host:port/car_listing/{hostId}/{hostAddressId}>
+- **Method** - POST 
+- **payload** - `AddCarListingDto`			
+- **Successful** Resp - SC 201 - `HttpStatus.CREATED` - `AddCarListingResponseDto` 
+- **Error resp**
+	- `ConflictException("registration no alreday exists")`
+		- 409 - `HttpStatus.CONFLICT`
+	- `ResourceNotFoundException("invalid host id")`
+		- 404 - `HttpStatus.NOT_FOUND`
+    - `ResourceNotFoundException("invalid address id")`
+        - 404 - `HttpStatus.NOT_FOUND`
+
+#### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
 - **Method** - GET 
 - **Successful** Resp - SC 201 ArrayList<CarsCardDetailsDto>
 			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-   #### 2.Add Car By HostId
-- **URL** - <http://host:port/car/add_car/{hostId}/{addressId}>
-- **Method** - POST 
-- **payload** - RegisterCarDto (brand,model,fuelTypeEnum,kmDriven,seatingCapacity,registrationNo,spareTyreCount,transmissionTypeEnum,CarPricingDto,CarFeatureDto)
-			CarPricingDto(pricePerHr,pricePerDay,securityDeposit)
-			CarFeatureDto(hasUsbCharger,hasBluetooth,hasPowerSteering,hasAbs,hasAc,hasAirBags)
-- **Successful** Resp - SC 201 CarResponseDto + mesg (ApiResponse)
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+
 	 
-   #### 3.Get complete Details of Specific Car and it's Address by CarId
+#### 3.Get complete Details of Specific Car and it's Address by CarId
 - **URL** - <http://host:port/car/{hostId}/car_address/{carId}>
 - **Method** - GET 
 - **Successful** Resp - SC 201 ArrayList<CarsCardDetailsDto>
 			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-   #### 4.Upadate Car and its address by hostId , carId
+#### 4.Upadate Car and its address by hostId , carId
 - **URL** - <http://host:port/car/{carId}/update_car/{hostId}>
 - **Method** - PUT 
 - **payload** - CarUpdateDto (fuelType, kmDriven,fuelMeter,SpareTyre,spareTyreCount, CarPricingDto, AddressDto )

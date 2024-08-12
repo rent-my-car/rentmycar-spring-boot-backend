@@ -11,4 +11,6 @@ public interface CarListingDao extends JpaRepository<CarListing, Long> {
 	// get all car-listing in a particular address
 	List<CarListing> findByAddress(Address address);
 
+	boolean existsByRegistrationNo(String registrationNo);
+
 }
