@@ -36,4 +36,11 @@ public class BookingController {
 		return ResponseEntity.status(HttpStatus.OK).body(bookingService.getPastBookings(userId)
 				.orElseThrow(() -> new ApiException("Internal Server Error")));
 		}
+	
+	//method to get upcoming bookings By userId
+		@GetMapping("/upcoming_booking/{userId}")
+		public ResponseEntity<?> getUpcomingBookings(@PathVariable Long userId){
+			return ResponseEntity.status(HttpStatus.OK).body(bookingService.getUpcomingBookings(userId)
+					.orElseThrow(() -> new ApiException("Internal Server Error")));
+			}
 }
