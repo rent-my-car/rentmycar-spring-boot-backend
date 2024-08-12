@@ -373,6 +373,17 @@ git reset --hard HEAD~3
         - 404 - `HttpStatus.NOT_FOUND`
 
 
+#### 3. update car_listing by car_listing_id
+- **URL** - <http://host:port/car_listing/{carListingId}>
+- **Method** - PATCH
+- **payload** - `UpdateCarListingDto`
+- **Successful** Resp - SC 200 - `HttpStatus.OK` - `GetCarListingResponseDto`
+- **Error resp** 
+	- `ResourceNotFoundException("car_listing_doesn't exist")`
+        - 404 - `HttpStatus.NOT_FOUND`
+
+
+
 
 #### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
@@ -389,6 +400,16 @@ git reset --hard HEAD~3
 - **Successful** Resp - SC 201 ArrayList<CarsCardDetailsDto>
 			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+
+#### 1.Get CarCards By HostId
+- **URL** - <http://host:port/car/{hostId}>
+- **Method** - GET 
+- **Successful** Resp - SC 201 ArrayList<CarsCardDetailsDto>
+			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
+- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+
+
+	 
 
 #### 4.Upadate Car and its address by hostId , carId
 - **URL** - <http://host:port/car/{carId}/update_car/{hostId}>
