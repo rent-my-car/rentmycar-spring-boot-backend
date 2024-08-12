@@ -13,13 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.AddressDao;
+import com.rentmycar.dao.CarListingDao;
 import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.AddressDto;
 import com.rentmycar.dto.AddressResDto;
+import com.rentmycar.dto.CarListingDto;
+import com.rentmycar.dto.DeleteAddressResDto;
 import com.rentmycar.entity.Address;
+import com.rentmycar.entity.CarListing;
 import com.rentmycar.entity.User;
-
-import io.swagger.v3.oas.annotations.Operation;
 
 @Service
 @Transactional
@@ -33,6 +35,9 @@ public class AddressServiceImpl implements AddressService {
 
 	@Autowired
 	AddressDao addressDao;
+
+	@Autowired
+	CarListingDao carListingDao;
 
 	// add address by user id
 	@Override
@@ -82,5 +87,39 @@ public class AddressServiceImpl implements AddressService {
 		}
 		throw new ConstraintViolationException("address id mismatch", null);
 
+	}
+
+	// soft delete address by address id
+	@Override
+	public Optional<DeleteAddressResDto> deleteAddressByAddressId(Long addressId) {
+		Address pAddress = addressDao.findById(addressId)
+				.orElseThrow(() -> new ResourceNotFoundException("invalid adress id"));
+		List<CarListing> carListingList = carListingDao.findByAddress(pAddress);
+		// no car is listed in particular address
+		if (carListingList.isEmpty()) {
+			// change isDelted = true in address
+			pAddress.setIsDeleted(true);
+			Address deletedAddress = addressDao.save(pAddress);
+			return Optional.of(mapper.map(deletedAddress, DeleteAddressResDto.class));
+		}
+		// one or more cars are lsisted at particualr address
+
+		// changing the is deleted = true for listings
+		carListingList.forEach((carListing -> {
+			carListing.setIsDeleted(true);
+		}));
+
+		List<CarListing> dCarListingList = carListingList.stream().map(carListing -> carListingDao.save(carListing))
+				.collect(Collectors.toList());
+
+		// mapping list of CarListing to list of CarListingDto
+		List<CarListingDto> carListingDtoList = dCarListingList.stream()
+				.map(carListing -> mapper.map(carListing, CarListingDto.class)).collect(Collectors.toList());
+
+		pAddress.setIsDeleted(true);
+		Address deletedAddress = addressDao.save(pAddress);
+		DeleteAddressResDto deleteAddressResDto = mapper.map(deletedAddress, DeleteAddressResDto.class);
+		deleteAddressResDto.setCarListingDtoList(carListingDtoList);
+		return Optional.of(deleteAddressResDto);
 	}
 }

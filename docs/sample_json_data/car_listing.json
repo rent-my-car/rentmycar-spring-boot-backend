@@ -1,0 +1,124 @@
+[
+    {
+      "kmDriven": 12000,
+      "fuelMeter": 8,
+      "carImage": "image1.jpg",
+      "noOfTrips": 15,
+      "isAvailable": true,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "ABC1234",
+      "spareTyreCount": 1
+    },
+    {
+      "kmDriven": 45000,
+      "fuelMeter": 5,
+      "carImage": "image2.jpg",
+      "noOfTrips": 25,
+      "isAvailable": false,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "XYZ5678",
+      "spareTyreCount": 2
+    },
+    {
+      "kmDriven": 3000,
+      "fuelMeter": 9,
+      "carImage": "image3.jpg",
+      "noOfTrips": 5,
+      "isAvailable": true,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "LMN9012",
+      "spareTyreCount": 0
+    },
+    {
+      "kmDriven": 60000,
+      "fuelMeter": 4,
+      "carImage": "image4.jpg",
+      "noOfTrips": 40,
+      "isAvailable": true,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "PQR3456",
+      "spareTyreCount": 1
+    },
+    {
+      "kmDriven": 22000,
+      "fuelMeter": 7,
+      "carImage": "image5.jpg",
+      "noOfTrips": 12,
+      "isAvailable": false,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "STU7890",
+      "spareTyreCount": 2
+    },
+    {
+      "kmDriven": 8000,
+      "fuelMeter": 10,
+      "carImage": "image6.jpg",
+      "noOfTrips": 8,
+      "isAvailable": true,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "VWX1234",
+      "spareTyreCount": 1
+    },
+    {
+      "kmDriven": 35000,
+      "fuelMeter": 6,
+      "carImage": "image7.jpg",
+      "noOfTrips": 30,
+      "isAvailable": true,
+      "isDeleted": true,
+      "isApproved": false,
+      "registrationNo": "YZA5678",
+      "spareTyreCount": 2
+    },
+    {
+      "kmDriven": 15000,
+      "fuelMeter": 5,
+      "carImage": "image8.jpg",
+      "noOfTrips": 20,
+      "isAvailable": true,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "BCD9012",
+      "spareTyreCount": 0
+    },
+    {
+      "kmDriven": 5000,
+      "fuelMeter": 9,
+      "carImage": "image9.jpg",
+      "noOfTrips": 10,
+      "isAvailable": false,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "EFG3456",
+      "spareTyreCount": 1
+    },
+    {
+      "kmDriven": 90000,
+      "fuelMeter": 3,
+      "carImage": "image10.jpg",
+      "noOfTrips": 50,
+      "isAvailable": true,
+      "isDeleted": false,
+      "isApproved": false,
+      "registrationNo": "HIJ7890",
+      "spareTyreCount": 2
+    },
+    {
+      "kmDriven": 20000,
+      "fuelMeter": 7,
+      "carImage": "image11.jpg",
+      "noOfTrips": 18,
+      "isAvailable": false,
+      "isDeleted": true,
+      "isApproved": false,
+      "registrationNo": "KLM1234",
+      "spareTyreCount": 1
+    }
+  ]
+  

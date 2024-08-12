@@ -61,7 +61,7 @@ public class Booking extends BaseEntity {
 	
 	// Booking * <-----------> 1 CarHostAddrssPricing
 	@ManyToOne(fetch = FetchType.LAZY)
-	private CarHostAddressPricing carHostAddressPricing;
+	private CarListing carHostAddressPricing;
 	
 //****************************************************************************************************
 }

@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class CarHostAddressPricing extends BaseEntity {
+public class CarListing extends BaseEntity {
 	int kmDriven; // int,not null
 
 	@Column(columnDefinition = "TINYINT")
@@ -47,35 +47,35 @@ public class CarHostAddressPricing extends BaseEntity {
 
 //**************************************************************************
 
-	// CarHostAddressPricing * ---------> 1 Car
+	// CarListing * ---------> 1 Car
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Car car;
 
 //**************************************************************************
 
-	// CarHostAddressPricing * -------> 1 CarPricing
+	// CarListing * -------> 1 CarPricing
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private CarPricing carPricing;;
 
 //**************************************************************************
 
-	// CarHostAddressPricing * --------> 1 Address
+	// CarListing * --------> 1 Address
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Address address;
 
 //**************************************************************************
 
-	// CarHostAddressPricing * <------------> 1 Host
+	// CarListing * <------------> 1 Host
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private User host;
 
 //***************************************************************************
 
-	// CarHostAddressPricing 1 <-------------> * Booking
+	// CarListing 1 <-------------> * Booking
 	@OneToMany(mappedBy = "carHostAddressPricing", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Booking> bookingList = new ArrayList<Booking>();
 

@@ -31,7 +31,7 @@ public class Review extends BaseEntity{
 	// Review * -----------> 1 CarHostAddressPricing
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private CarHostAddressPricing carHostAddressPricing;
+	private CarListing carHostAddressPricing;
 	
 //****************************************************************************
 	

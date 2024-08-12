@@ -43,7 +43,7 @@ public class Address extends BaseEntity {
 //***************************************************************************************************
 	// many -> Address * <----> 1 User
 	@ManyToOne(fetch = FetchType.LAZY) // mandatory
-	@JoinColumn(name = "guest_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 //***************************************************************************************************

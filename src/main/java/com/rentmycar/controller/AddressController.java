@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rentmycar.custom_exception.ApiException;
 import com.rentmycar.dto.AddressDto;
+import com.rentmycar.dto.DeleteAddressResDto;
 import com.rentmycar.service.AddressService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,5 +60,13 @@ public class AddressController {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.updateAddressbyAddressId(addressDto, addressId)
 				.orElseThrow(() -> new ApiException("internal server error")));
 
+	}
+
+	// soft delete address by address id
+	@PatchMapping("/delete/{addressId}")
+	public ResponseEntity<?> deleteAddressByAddressId(@PathVariable Long addressId) {
+
+		return ResponseEntity.status(HttpStatus.OK).body(addressService.deleteAddressByAddressId(addressId)
+				.orElseThrow(() -> new ApiException("interanl server errorF")));
 	}
 }

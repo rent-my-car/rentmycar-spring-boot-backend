@@ -380,7 +380,7 @@ git reset --hard HEAD~3
 
 ### 3. AddressController(@RequestMapping=/address)
 
-   #### 1. add Address By UserId
+#### 1. add Address By UserId
 - **URL** - <http://host:port/address/{userId}>
 - **Method** - POST 
 - **payload** - 
@@ -438,29 +438,36 @@ git reset --hard HEAD~3
 	```
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-   #### 2. get address by address id
+#### 2. get address by address id
 - **URL** - <http://host:port/address/{addressId}>
 - **Method** - GET
 - **payload** - 
 - **Successful** Resp - SC 200 OK, `AddressDto`
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-  #### 3.Get AddressList by UserId
+#### 3. Get AddressList by UserId
 - **URL** - <http://host:port/address/get_all/{userId}>
 - **Method** - GET 
 - **payload** - 
 - **Successful** Resp - SC 201 `List<AddressDto>`
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-   #### 4.Update Address by UserId
+#### 4. Update Address by addressId
 - **URL** - <http://host:port/user/{userId}/address/{addressId}>
 - **Method** - PUT 
 - **payload** - 
-- **Successful** Resp - SC 201 AddressResponseDto + mesg (ApiResponse)
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+- **Successful** Resp - SC 201 `AddressDto`
+- **Error resp** 
+  - 404 `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid address id")`
+  - 400 `HttpStatus.BAD_REQUEST` - `ConstraintViolationException("address id mismatch", null)`
 
-
-
+#### 4. Delete Address by AddressId
+- **URL** - <http://host:port/user/{userId}/address/{addressId}>
+- **Method** - PATCH 
+- **payload** - 
+- **Successful** Resp - 200 `HttpStatus.OK` - `DeleteAddressResDto`
+- **Error resp** 
+  - 404 `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid address id")`
 
 
 ### 4. BookingController(@RequestMapping=/booking)
