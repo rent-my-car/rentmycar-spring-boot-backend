@@ -278,15 +278,16 @@ git reset --hard HEAD~3
  - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 	 
    #### 3.get upcomming bookings by user id 
- - **URL** - <http://host:port/booking/upcomming_booking/{guestId}>
+ - **URL** - <http://host:port/booking/upcomming_booking/{userId}>
  - **Method** - Get 
- - **Successful Resp** - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+ - **Successful Resp** - SC 201 BookingCardDto
+ - **Error resp** - SC 400 `ApiException("Internal Server Error")`
+	-SC 400 `RuntimeException("User not found")`
 	 
    #### 4. get past bookings by user id 
  - **URL** - <http://host:port/past_booking/{userId}>
  - **Method** - Get 
- - **Successful Resp** - SC 201 BookingCardDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
+ - **Successful Resp** - SC 201 BookingCardDto
  - **Error resp** - SC 400 `ApiException("Internal Server Error")`
 	-SC 400 `RuntimeException("User not found")`
 

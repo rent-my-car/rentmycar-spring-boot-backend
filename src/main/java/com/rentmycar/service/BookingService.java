@@ -12,4 +12,6 @@ public interface BookingService {
 	public Optional<BookingResponseDto> addBooking(BookingDto bookingDto,Long guestId,Long guestAddressId,Long carListingId);
 	
 	public Optional<List<BookingCardDto>> getPastBookings(Long userId);
+	
+	public Optional<List<BookingCardDto>> getUpcomingBookings(Long userId);
 }
