@@ -2,11 +2,11 @@
 
 -- Listing 1
 INSERT INTO car_listing (km_driven, fuel_meter, car_image, no_of_trips, is_available, is_deleted, is_approved, registration_no, spare_tyre_count, car_id, car_pricing_id, address_id, host_id)
-VALUES (15000, 7, 'evelisting1.jpg', 4, true, false, true, 'EVE1001', 2, 1, 1, 1, 4);
+VALUES (15000, 7, 'evelisting1.jpg', 4, true, false, true, 'EVE1001', 2, 1, 1, 46, 6);
 
 -- Listing 2
 INSERT INTO car_listing (km_driven, fuel_meter, car_image, no_of_trips, is_available, is_deleted, is_approved, registration_no, spare_tyre_count, car_id, car_pricing_id, address_id, host_id)
-VALUES (16000, 6, 'evelisting2.jpg', 5, true, false, true, 'EVE1002', 2, 2, 2, 2, 5);
+VALUES (16000, 6, 'evelisting2.jpg', 5, true, false, true, 'EVE1002', 2, 2, 2, 47, 6);
 
 -- Listing 3
 INSERT INTO car_listing (km_driven, fuel_meter, car_image, no_of_trips, is_available, is_deleted, is_approved, registration_no, spare_tyre_count, car_id, car_pricing_id, address_id, host_id)

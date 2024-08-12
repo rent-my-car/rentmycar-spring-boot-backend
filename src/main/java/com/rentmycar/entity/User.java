@@ -103,7 +103,7 @@ public class User extends BaseEntity {
 
 // ********************************************************************************************
 
-	// Host 1 <---------> * CarHostAddressPricing
+	// Host 1 <---------> * CarListing
 	@OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CarListing> carListingList = new ArrayList<CarListing>();
 	
