@@ -363,6 +363,17 @@ git reset --hard HEAD~3
     - `ResourceNotFoundException("invalid address id")`
         - 404 - `HttpStatus.NOT_FOUND`
 
+#### 2.get CarListing By `carListingId`
+- **URL** - <http://host:port/car_listing/{carListingId}>
+- **Method** - GET
+- **payload** - 		
+- **Successful** Resp - SC 200 - `HttpStatus.OK` - `GetCarListingResponseDto` 
+- **Error resp**
+    - `ResourceNotFoundException("car_listing_doesn't exist")`
+        - 404 - `HttpStatus.NOT_FOUND`
+
+
+
 #### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
 - **Method** - GET 

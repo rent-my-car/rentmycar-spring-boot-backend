@@ -19,9 +19,11 @@ import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.AddCarListingDto;
 import com.rentmycar.dto.AddCarListingResponseDto;
 import com.rentmycar.dto.AddressDto;
+import com.rentmycar.dto.CarDetailsDto;
 import com.rentmycar.dto.CarDto;
 import com.rentmycar.dto.CarFeaturesDto;
 import com.rentmycar.dto.CarPricingDto;
+import com.rentmycar.dto.GetCarListingResponseDto;
 import com.rentmycar.dto.UserDto;
 import com.rentmycar.entity.Address;
 import com.rentmycar.entity.Car;
@@ -117,6 +119,24 @@ public class CarListingServiceImpl implements CarListingService {
 		return Optional.of(addCarListingResponseDto);
 
 		//
+	}
+
+	// get car Listing by car_listing_id
+	@Override
+	public Optional<GetCarListingResponseDto> getCarListingByCarListingId(Long carListingId) {
+		CarListing pCarListing = carListingDao.findById(carListingId)
+				.orElseThrow(() -> new ResourceNotFoundException("car_listing_doesn't exist"));
+
+		GetCarListingResponseDto getCarListingResponseDto = new GetCarListingResponseDto(new CarDetailsDto(),
+				new CarPricingDto(), new CarFeaturesDto(), new AddressDto());
+
+		mapper.map(pCarListing, getCarListingResponseDto.getCarDetailsDto());
+		mapper.map(pCarListing.getCar(), getCarListingResponseDto.getCarDetailsDto());
+		mapper.map(pCarListing.getCarPricing(), getCarListingResponseDto.getCarPricingDto());
+		mapper.map(pCarListing.getCar().getCarFeatures(), getCarListingResponseDto.getCarFeaturesDto());
+		mapper.map(pCarListing.getAddress(), getCarListingResponseDto.getCarAddressDto());
+
+		return Optional.of(getCarListingResponseDto);
 	}
 
 }
