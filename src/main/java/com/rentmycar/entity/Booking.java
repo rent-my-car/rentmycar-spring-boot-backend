@@ -37,10 +37,9 @@ public class Booking extends BaseEntity {
 	@Column(nullable = false)
 	Double amount; // double,not null
 
-	@Column(nullable = false)
 	LocalDateTime paymentDateTime; // DateTime
 
-	@Column(nullable = false, columnDefinition = "char(20)")
+	@Column(columnDefinition = "char(20)")
 	String transactionId; // char (#### 20.
 
 //*****************************************************************************************************
@@ -59,9 +58,10 @@ public class Booking extends BaseEntity {
 
 //****************************************************************************************************
 	
-	// Booking * <-----------> 1 CarHostAddrssPricing
+	// Booking * <-----------> 1 CarListing
 	@ManyToOne(fetch = FetchType.LAZY)
-	private CarListing carHostAddressPricing;
+	@JoinColumn(nullable = false)
+	private CarListing carListing;
 	
 //****************************************************************************************************
 }

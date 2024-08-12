@@ -1,7 +1,6 @@
 package com.rentmycar.dto;
 
 import javax.validation.constraints.NotBlank;
-
 import lombok.Data;
 
 @Data
@@ -14,7 +13,7 @@ public class CarListingDto extends BaseDto {
 	int fuelMeter; // tinyint(1-10),not null
 
 	String carImage; // varchar(20),
-
+  
 	@NotBlank
 	int noOfTrips;
 
@@ -32,5 +31,4 @@ public class CarListingDto extends BaseDto {
 
 	@NotBlank
 	int spareTyreCount; // tinyint,not null
-
 }

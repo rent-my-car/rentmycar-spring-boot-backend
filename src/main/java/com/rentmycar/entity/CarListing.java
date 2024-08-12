@@ -76,12 +76,12 @@ public class CarListing extends BaseEntity {
 //***************************************************************************
 
 	// CarListing 1 <-------------> * Booking
-	@OneToMany(mappedBy = "carHostAddressPricing", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "carListing", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Booking> bookingList = new ArrayList<Booking>();
 
 	public void addBooking(Booking booking) {
 		bookingList.add(booking);
-		booking.setCarHostAddressPricing(this);
+		booking.setCarListing(this);
 	}
 
 //***************************************************************************
