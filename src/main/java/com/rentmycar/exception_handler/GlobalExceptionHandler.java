@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
 
 	// handle AuthenticationException
 	@ExceptionHandler(CustomAuthenticationException.class)
-	public ResponseEntity<?> handleAuthenticationException(CustomAuthenticationException e) {
+	public ResponseEntity<?> handleCustomAuthenticationException(CustomAuthenticationException e) {
 		System.out.println("in res of AuthenticationException");
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponseDto(e.getMessage()));
 	}

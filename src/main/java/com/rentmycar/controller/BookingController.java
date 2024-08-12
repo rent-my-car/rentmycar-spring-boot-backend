@@ -23,34 +23,34 @@ public class BookingController {
 	@Autowired
 	private BookingService bookingService;
 
-	@PostMapping("/{guestId}/{carId}/{addressId}")
+	@PostMapping("/{guestId}/{carId}/{guestAddressId}")
 	public ResponseEntity<?> createBooking(@RequestBody BookingDto bookingDto, @PathVariable Long guestId,
-			@PathVariable Long addressId, Long carListingId) {
+			@PathVariable Long guestAddressId, Long carListingId) {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(bookingService.addBooking(bookingDto, guestId, addressId, carListingId)
+				.body(bookingService.addBooking(bookingDto, guestId, guestAddressId, carListingId)
 						.orElseThrow(() -> new ApiException("Internal server error")));
 	}
 
-	//method to get past bookings By userId
+	// method to get past bookings By userId
 	@GetMapping("/past_booking/{userId}")
-	public ResponseEntity<?> getPastBookings(@PathVariable Long userId){
-		return ResponseEntity.status(HttpStatus.OK).body(bookingService.getPastBookings(userId)
-				.orElseThrow(() -> new ApiException("Internal Server Error")));
-		}
-	
-	//method to get upcoming bookings By userId
-		@GetMapping("/upcoming_booking/{userId}")
-		public ResponseEntity<?> getUpcomingBookings(@PathVariable Long userId){
-			return ResponseEntity.status(HttpStatus.OK).body(bookingService.getUpcomingBookings(userId)
-					.orElseThrow(() -> new ApiException("Internal Server Error")));
-			}
-		
-	//method to update booking after payment is made
-		@PatchMapping("/confirm_booking/{bookingId}")
-		public ResponseEntity<?> confirmBooking(@PathVariable Long bookingId , @RequestBody PaymentRequestDto paymentRequestDto){
-		return ResponseEntity.status(HttpStatus.OK).body(bookingService.confirmBooking(bookingId,paymentRequestDto)
-				.orElseThrow(() -> new ApiException("Internal Server Error")));
-		}
+	public ResponseEntity<?> getPastBookings(@PathVariable Long userId) {
+		return ResponseEntity.status(HttpStatus.OK).body(
+				bookingService.getPastBookings(userId).orElseThrow(() -> new ApiException("Internal Server Error")));
 	}
 
+	// method to get upcoming bookings By userId
+	@GetMapping("/upcoming_booking/{userId}")
+	public ResponseEntity<?> getUpcomingBookings(@PathVariable Long userId) {
+		return ResponseEntity.status(HttpStatus.OK).body(bookingService.getUpcomingBookings(userId)
+				.orElseThrow(() -> new ApiException("Internal Server Error")));
+	}
+
+	// method to update booking after payment is made
+	@PatchMapping("/confirm_booking/{bookingId}")
+	public ResponseEntity<?> confirmBooking(@PathVariable Long bookingId,
+			@RequestBody PaymentRequestDto paymentRequestDto) {
+		return ResponseEntity.status(HttpStatus.OK).body(bookingService.confirmBooking(bookingId, paymentRequestDto)
+				.orElseThrow(() -> new ApiException("Internal Server Error")));
+	}
+}

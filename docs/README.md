@@ -1,4 +1,4 @@
-# 1. Coding Standards
+# 1. **Coding Standards**
 
 ## 1. java
 
@@ -199,29 +199,29 @@ git reset --hard HEAD~3
 
 ```
 
-# 2. api descptions
+# 2. **Api Descptions**
 
 ## 1. guest APIs
 
-### 1. UserController (@RequestMapping=/user)
+### 1. `UserController (@RequestMapping="/user")`
 
-#### 1. login user
+#### 1. login `User`
 - **URL** - <http://host:port/user/login>
 - **Method** - POST 
 - **payload** - `SignInRequestDto`
-- **Successful Resp** - SC 201 SignInResponseDto
-- **Error resp** - SC 400 ,
-  - **if isdeleted = 0** - mesg - your account is inactive
-  - **if user is not found** -mesg - user not found 
+- **Successful Resp** - SC 200 - `HttpStatus.OK` - `SignInResponseDto`
+- **Error resp** 
+  - **if isdeleted = 0** - 403 - `HttpStatus.FORBIDDEN` -  `CustomAuthorizationException("User is Deactivated!")`
+  - **if user is not found** - `CustomAuthenticationException("Invalid Email or Password !")`
 
-#### 2.Update User Basic Details By UserId
+#### 2. update `User` Basic Details By `UserId`
 - **URL** - <http://host:port/guest/update/{guestId}>
 - **Method** - PUT 
 - **payload** - `UpdateBasicUserDetailsDto`
-- **Successful Resp** - SC 201  `UpdateBasicUserDetailsDto` 
-- **Error resp** - SC 400 `ResourceNotFoundException("Invalid User Id !")` 
+- **Successful Resp** - SC 201 - `UpdateBasicUserDetailsDto` 
+- **Error resp** - SC 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("Invalid User Id !")` 
 
-#### 3.Get User details (basic details + driving license)
+#### 3. get `User` details (basic details + driving license)
 - **URL** - <http://host:port/user/profile/{guestId}>
 - **Method** - Get 
 - **Successful Resp** - SC 201 `UserDetailsResponseDto`
@@ -229,17 +229,17 @@ git reset --hard HEAD~3
 	- SC 400 `ConstraintViolationException("issue date is before expiry date")`
 	- SC 404 `ResourceNotFoundException("invalid user id")`
 
-#### 4.Delete User
+#### 4. delete `User`
 - **URL** - <http://host:port/user/delete/{userId}>
 - **Method** - PATCH 
-- **Successful Resp** - SC 201 ApiResponseDto
+- **Successful Resp** - SC 201 `ApiResponseDto`
 - **Error resp** - 
-	- SC 404 `ResourceNotFoundException("Invalid User Id")`
-	- SC 400 `CustomBadRequestException("Admin users cannot be deleted.")`
+	- SC 404 -  `ResourceNotFoundException("Invalid User Id")`
+	- SC 400 -  `CustomBadRequestException("Admin users cannot be deleted.")`
 
-### 2. GuestController (@RequestMapping=/guest)
+### 2. `GuestController (@RequestMapping="/guest")`
 
-### 3. CarController  (@RequestMapping=/car)
+### 3. `CarController  (@RequestMapping="/car")`
    
 #### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
  - **URL** - <http://host:port/car/get_cars_by_city?city=value,pickupDateTime,dropOffDateTime>
@@ -256,135 +256,130 @@ git reset --hard HEAD~3
 			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
  - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
--------------------------------------------------------------------------------------------
  
-### 4. BookingController (@RequestMapping=/booking)
+### 4. `BookingController (@RequestMapping="/booking")`
 
-   #### 1.Add Booking by guestId, CarId, AddressId of guest
- - **URL** - <http://host:port/booking/{guestId}/{carId}/{addressId}>
- - **Method** - POST 
- - **payload**  - BookingDto(pickupDateTime,dropOffDateTime,double ammount)
- - **Successful Resp** - SC 201 BookingResponseDto
- - **Error resp** - SC 400 `RuntimeException("Pickup Date is invalid !")`
-	-SC 400 `RuntimeException("Guest Not Found!") ;`
-	-SC 400 `RuntimeException("Address not found!") ;`
-	-SC 400 `RuntimeException("Car Listing not found!") ;`
+#### 1. add `Booking` by `guestId`, `CarId`, `guestAddressId` of guest
+- **URL** - <http://host:port/booking/{guestId}/{carId}/{guestAddressId}>
+- **Method** - POST 
+- **payload**  - `BookingDto`
+- **Successful Resp** - SC 201 `BookingResponseDto`
+- **Error resp** - SC 400 `RuntimeException("Pickup Date is invalid !")`
+  - SC 400 `RuntimeException("Guest Not Found!") ;`
+  - SC 400 `RuntimeException("Address not found!") ;`
+  - SC 400 `RuntimeException("Car Listing not found!") ;`
 
-   #### 2.update booking after payment is made 
- - **URL** - <http://host:port/confirm_booking/{booking_id}>
- - **Method** - Patch 
- - **payload** - PaymentRequestDto
- - **Successful Resp** - SC 201 PaymentResponseDto
- - **Error resp** - SC 400 `RuntimeException("Booking not found")`
-	 - SC 400 `ApiException("Internal Server Error")`
+#### 2. update `Booking` after payment is made 
+- **URL** - <http://host:port/confirm_booking/{booking_id}>
+- **Method** - Patch 
+- **payload** - `PaymentRequestDto`
+- **Successful Resp** - SC 201 - `PaymentResponseDto`
+- **Error resp** 
+  - SC 400 - `RuntimeException("Booking not found")`
+  - SC 400 - `ApiException("Internal Server Error")`
 
-   #### 3.get upcomming bookings by user id 
+#### 3. get **upcomming** `Bookings` by `UserId` 
  - **URL** - <http://host:port/booking/upcomming_booking/{userId}>
  - **Method** - Get 
- - **Successful Resp** - SC 201 BookingCardDto
- - **Error resp** - SC 400 `ApiException("Internal Server Error")`
-	-SC 400 `RuntimeException("User not found")`
+ - **Successful Resp** - SC 201 - `List<BookingCardDto>`
+ - **Error resp** 
+   - SC 400 - `ApiException("Internal Server Error")`
+   - SC 400 - `RuntimeException("User not found")`
 	 
-   #### 4. get past bookings by user id 
+#### 4. get **past** `Bookings` by `UserId` 
  - **URL** - <http://host:port/past_booking/{userId}>
  - **Method** - Get 
  - **Successful Resp** - SC 201 BookingCardDto
- - **Error resp** - SC 400 `ApiException("Internal Server Error")`
-	-SC 400 `RuntimeException("User not found")`
+ - **Error resp** 
+   - SC 400 - `ApiException("Internal Server Error")`
+   - SC 400 - `RuntimeException("User not found")`
 
-### 5. DrivingLicenseController(@RequestMapping=/dl)
+### 5. `DrivingLicenseController(@RequestMapping="/dl")`
 
-#### 1.Update Driving License By UserId
+#### 1. update `DrivingLicense` By `UserId`
 - **URL** - <http://host:port/dl/{userId}/update/{dlId}>
 - **Method** - PUT 
-- **payload** - DrivingLicenseDto
-- **Successful Resp** - SC 201 DrivingLicenseDto
-- **Error resp** - 
-	- SC 400 `ResourceNotFoundException("invalid user id")`
-	- SC 409 `ConflictException`
+- **payload** - `DrivingLicenseDto`
+- **Successful Resp** - SC 200 - `DrivingLicenseDto`
+- **Error resp** 
+  - SC 400 - `ResourceNotFoundException("invalid user id")`
+  - SC 409 - `ConflictException`
 
 ## 2. host APIs
 
-### 1. UserController (@RequestMapping=/user)
+### 1. `UserController (@RequestMapping="/user")`
 
-#### 1. register User with basic details
- - **URL** - <http://host:port/user/register_basic>
- - **Method** - POST 
- - **payload** - `RegisterUserReqDto`
- - **Successful Resp** - SC 201 HttpStatus.CREATED `RegisterUserResDto`
- - **Error resp** -
-   - **if already registerd** -
+#### 1. register `User` with basic details
+- **URL** - <http://host:port/user/register_basic>
+- **Method** - POST 
+- **payload** - `RegisterUserReqDto`
+- **Successful Resp** - SC 201 HttpStatus.CREATED `RegisterUserResDto`
+- **Error resp** -
+  - **if already registerd** -
       - SC 409 , conflict 
       - **exception** - 
-        - ConflictException("user with given email and mobile already registered");
-        - ConflictException("user with given email already registered");
-        - ConflictException("user with given mobile already registered");
-   - **if password and confirm password doesn't match** - 
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("password mismatch", null);
-   - **if expiry date is before creation date**
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
+        - `ConflictException("user with given email and mobile already registered");`
+        - `ConflictException("user with given email already registered");`
+        - `ConflictException("user with given mobile already registered");`
+  - **if password and confirm password doesn't match** - 
+      - SC 400 , bad request
+      - **exception** - `ConstraintViolationException("password mismatch", null);`
+  - **if expiry date is before creation date**
+      - SC 400 , bad request
+      -  **exception** - `ConstraintViolationException("expiry should come after issue date of dl ", null);`
 
-#### 2. register User with driving license
- - **URL** - <http://host:port/user/register_with_dl>
- - **Method** - POST 
- - **payload** - `RegisterUserWithDlReqDto`
- - **Successful Resp** - SC 201 HttpStatus.CREATED `RegisterUserWithDlResDto`
- - **Error resp** -
-   - **if already registerd** -
-      - SC 409 , conflict 
-      - **exception** - 
-        - ConflictException("user with given email and mobile already registered");
-        - ConflictException("user with given email already registered");
-        - ConflictException("user with given mobile already registered");
-   - **if password and confirm password doesn't match** - 
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("password mismatch", null);
-   - **if expiry date is before creation date**
-     - SC 400 , bad request
-     - **exception** - ConstraintViolationException("expiry should come after issue date of dl ", null);
+#### 2. register `User` with `DrivingLicense`
+- **URL** - <http://host:port/user/register_with_dl>
+- **Method** - POST 
+- **payload** - `RegisterUserWithDlReqDto`
+- **Successful Resp** - SC 201 `HttpStatus.CREATED` - `RegisterUserWithDlResDto`
+- **Error resp** -
+  - **if already registerd** -
+    - SC 409 , conflict 
+    - **exception** - 
+      - `ConflictException("user with given email and mobile already registered");`
+      - `ConflictException("user with given email already registered");`
+      - `ConflictException("user with given mobile already registered");`
+    - **if password and confirm password doesn't match** - 
+      - SC 400 , bad request
+      - **exception** - `ConstraintViolationException("password mismatch", null);`
+    - **if expiry date is before creation date**
+      - SC 400 , bad request
+      - **exception** - `ConstraintViolationException("expiry should come after issue date of dl ", null);`
 
    
-### 1. HostController(@RequestMapping=/host)
+### 1. `HostController(@RequestMapping="/host")`
    
-### 2. CarListingController(@RequestMapping=/car)
+### 2. `CarListingController(@RequestMapping=/car_listing)`
 
-#### 1.Add CarListing By `hostId` and `hostAddressId`
+#### 1. add `CarListing` by `hostId` and `hostAddressId`
 - **URL** - <http://host:port/car_listing/{hostId}/{hostAddressId}>
 - **Method** - POST 
 - **payload** - `AddCarListingDto`			
 - **Successful** Resp - SC 201 - `HttpStatus.CREATED` - `AddCarListingResponseDto` 
 - **Error resp**
-	- `ConflictException("registration no alreday exists")`
-		- 409 - `HttpStatus.CONFLICT`
-	- `ResourceNotFoundException("invalid host id")`
-		- 404 - `HttpStatus.NOT_FOUND`
-    - `ResourceNotFoundException("invalid address id")`
-        - 404 - `HttpStatus.NOT_FOUND`
+	- 409 - `HttpStatus.CONFLICT` - `ConflictException("registration no alreday exists")`
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid host id")`
+    - 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid address id")`
 
-#### 2.get CarListing By `carListingId`
+#### 2. get `CarListing` by `carListingId`
 - **URL** - <http://host:port/car_listing/{carListingId}>
 - **Method** - GET
 - **payload** - 		
 - **Successful** Resp - SC 200 - `HttpStatus.OK` - `GetCarListingResponseDto` 
 - **Error resp**
-    - `ResourceNotFoundException("car_listing_doesn't exist")`
-        - 404 - `HttpStatus.NOT_FOUND`
+    - 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("car_listing_doesn't exist")`
 
 
-#### 3. update car_listing by car_listing_id
+#### 3. update `CarListing` by `carListingId`
 - **URL** - <http://host:port/car_listing/{carListingId}>
 - **Method** - PATCH
 - **payload** - `UpdateCarListingDto`
 - **Successful** Resp - SC 200 - `HttpStatus.OK` - `GetCarListingResponseDto`
 - **Error resp** 
-	- `ResourceNotFoundException("car_listing_doesn't exist")`
-        - 404 - `HttpStatus.NOT_FOUND`
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("car_listing_doesn't exist")`
 
-
-
-
+<!-- 
 #### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
 - **Method** - GET 
@@ -422,101 +417,53 @@ git reset --hard HEAD~3
 	 
 -------------------------------------------------------------------------------------------
 
-### 3. AddressController(@RequestMapping=/address)
+-->
 
-#### 1. add Address By UserId
+### 3. `AddressController(@RequestMapping=/address)`
+
+#### 1. add `Address` By `UserId`
 - **URL** - <http://host:port/address/{userId}>
 - **Method** - POST 
-- **payload** - 
-	```java
-			@Data
-			public class AddressDto {
-			
-				private Long id;
+- **payload** - `AddressDto`
+- **Successful** Resp - SC 201 - `HttpStatus.CREATED` - `AddressResDto`
+- **Error resp** - SC 400 - `HttpStatus.NOT_FOUND` -  `ResourceNotFoundException("invalid id")`
 
-				@NotBlank
-				private String adrLine1; // varchar(100) not null
-
-				private String adrLine2; // varchar(100)
-
-				@NotBlank
-				@Pattern(regexp = "^\\d{6}$", message = "Must be a 6-digit number")
-				private String pincode; // char(10),not null
-
-				@NotBlank(message = "city should not be blank")
-				private String city; // varchar(20),not null
-
-				@NotBlank(message = "state should not be blank")
-				private String state; // varchar(20),not null
-
-				@NotBlank(message = "country should not be blank")
-				private String country; // varchar(20),not null
-
-			}
-	```
-- **Successful** Resp - SC 201  
-	```java
-		@Data
-		@AllArgsConstructor
-		public class AddressResDto {
-			@NotNull
-			Long userId
-			@NotNull
-			AddressDto addressDto;
-		}
-	```
-	```json
-		//Response body
-		{
-		  "userId": 1,
-		  "addressDto": {
-		    "id": 1,
-		    "adrLine1": "123 Elm Street",
-		    "adrLine2": "Apt 45B",
-		    "pincode": "123456",
-		    "city": "Springfield",
-		    "state": "Illinois",
-		    "country": "USA"
-		  }
-		}
-	```
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-
-#### 2. get address by address id
+#### 2. get `Address` by `addressId`
 - **URL** - <http://host:port/address/{addressId}>
 - **Method** - GET
 - **payload** - 
 - **Successful** Resp - SC 200 OK, `AddressDto`
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+- **Error resp** - 404 - `HttpStatus.NOT_FOUND` -  `ResourceNotFoundException("invalid address id")`
 
-#### 3. Get AddressList by UserId
+#### 3. get `AddressList` by `UserId`
 - **URL** - <http://host:port/address/get_all/{userId}>
 - **Method** - GET 
 - **payload** - 
 - **Successful** Resp - SC 201 `List<AddressDto>`
-- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+- **Error resp** - SC 400 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid user id")`
 
-#### 4. Update Address by addressId
+#### 4. update `Address` by `addressId`
 - **URL** - <http://host:port/user/{userId}/address/{addressId}>
 - **Method** - PUT 
 - **payload** - 
 - **Successful** Resp - SC 201 `AddressDto`
 - **Error resp** 
-  - 404 `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid address id")`
-  - 400 `HttpStatus.BAD_REQUEST` - `ConstraintViolationException("address id mismatch", null)`
+  - 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid address id")`
+  - 400 - `HttpStatus.BAD_REQUEST` - `ConstraintViolationException("address id mismatch", null)`
 
-#### 4. Delete Address by AddressId
+#### 4. delete `Address` by `AddressId`
 - **URL** - <http://host:port/user/{userId}/address/{addressId}>
 - **Method** - PATCH 
 - **payload** - 
-- **Successful** Resp - 200 `HttpStatus.OK` - `DeleteAddressResDto`
+- **Successful** Resp - 200 - `HttpStatus.OK` - `DeleteAddressResDto`
 - **Error resp** 
-  - 404 `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid address id")`
+  - 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid address id")`
 
 
-### 4. BookingController(@RequestMapping=/booking)
+### 4. `BookingController(@RequestMapping=/booking)`
 
-#### 1.get upcomming bookings by host id 
+<!--
+#### 1. get upcomming bookings by host id 
 
 - **URL** - <http://host:port/booking/upcomming_booking/{guestId}>
 - **Method** - Get 
@@ -529,25 +476,26 @@ git reset --hard HEAD~3
 - **Method** - Get 
 - **Successful** Resp - SC 201 BookedCarDto(brand, model, transmissionTypeEnum, seatingCapacity, kmDriven, pickupDateTime, dropOffDateTime)
 - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+-->
 
 ## 3. admin APIs
 
-### 1. AdminController(@RequestMapping=/admin)
+### 1. `AdminController(@RequestMapping="/admin")`
 
-### 2. GuestController (@RequestMapping=/guest)
+### 2. `GuestController (@RequestMapping="/guest")`
 
-#### 1.get all guests 
- - **URL** - <http://host:port/guest/get_all_guests>
- - **Method** - Get
- - **Successful Resp** - SC 201 ArrayList<GetAllGuestDto>
-   	- GetAllGuestDto (firstName,lastName,Mobile,email)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+#### 1. get all guests 
+- **URL** - <http://host:port/guest/get_all_guests>
+- **Method** - Get
+- **Successful Resp** - SC 200 - `ArrayList<GetAllGuestDto>`
+- **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
 
-### 3. HostController(@RequestMapping=/host)
+### 3. `HostController(@RequestMapping="/host")`
 
-### 4. CarController(@RequestMapping=/car)
+### 4. `CarController(@RequestMapping="/car")`
 
-# 3. Anootated Entities
+
+# 3. **Anootated Entities**
 
 ### 0. BaseEntity
 		```java
@@ -1056,5 +1004,5 @@ public enum BookingStatusEnum {
 			}
 		```
 
-# 4. ERDiagram
+# 4. **ERDiagram**
 
