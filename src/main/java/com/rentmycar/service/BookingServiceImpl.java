@@ -1,6 +1,10 @@
 package com.rentmycar.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -12,6 +16,7 @@ import com.rentmycar.dao.BookingDao;
 import com.rentmycar.dao.CarListingDao;
 import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.AddressDto;
+import com.rentmycar.dto.BookingCardDto;
 import com.rentmycar.dto.BookingDto;
 import com.rentmycar.dto.BookingResponseDto;
 import com.rentmycar.dto.CarListingDto;
@@ -43,10 +48,10 @@ public class BookingServiceImpl implements BookingService {
 
 	public Optional<BookingResponseDto> addBooking(BookingDto bookingDto, Long guestId, Long guestAddressId,
 			Long carListingId) {
-		
-		if(bookingDto.getPickUp().isAfter(bookingDto.getDropOff()))
+
+		if (bookingDto.getPickUp().isAfter(bookingDto.getDropOff()))
 			throw new RuntimeException("Pickup Date is invalid !");
-		
+
 		User guest = userDao.findById(guestId).orElseThrow(() -> new RuntimeException("Guest not found"));
 
 		Address guestAddress = addressDao.findById(guestAddressId)
@@ -66,5 +71,30 @@ public class BookingServiceImpl implements BookingService {
 		bookingResponseDto.setCarListing(mapper.map(carListing, CarListingDto.class));
 		bookingResponseDto.setGuestAddress(mapper.map(guestAddress, AddressDto.class));
 		return Optional.of(bookingResponseDto);
+	}
+
+	@Override
+	public Optional<List<BookingCardDto>> getPastBookings(Long userId) {
+		User user = userDao.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		if (user.getRoleEnum().name() == "GUEST") {
+			return Optional.of(user.getBookingList().stream()
+					.filter(booking -> booking.getPickUp().isBefore(LocalDateTime.now())).map(booking -> {
+						BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
+						mapper.map(booking.getCarListing(), bookingCardDto);
+						mapper.map(booking.getCarListing().getCar(), bookingCardDto);
+						return bookingCardDto;
+					}).collect(Collectors.toList()));
+
+		}
+		 return Optional.of(user.getCarListingList().stream()
+		            .flatMap(carListing -> carListing.getBookingList().stream())
+		            .filter(booking -> booking.getPickUp().isBefore(LocalDateTime.now()))
+		            .map(booking -> {
+		                BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
+		                mapper.map(booking.getCarListing(), bookingCardDto);
+		                mapper.map(booking.getCarListing().getCar(), bookingCardDto);
+		                return bookingCardDto;
+		            })
+		            .collect(Collectors.toList()));				
 	}
 }
