@@ -24,6 +24,7 @@ import com.rentmycar.dto.CarDto;
 import com.rentmycar.dto.CarFeaturesDto;
 import com.rentmycar.dto.CarPricingDto;
 import com.rentmycar.dto.GetCarListingResponseDto;
+import com.rentmycar.dto.UpdateCarListingDto;
 import com.rentmycar.dto.UserDto;
 import com.rentmycar.entity.Address;
 import com.rentmycar.entity.Car;
@@ -130,13 +131,59 @@ public class CarListingServiceImpl implements CarListingService {
 		GetCarListingResponseDto getCarListingResponseDto = new GetCarListingResponseDto(new CarDetailsDto(),
 				new CarPricingDto(), new CarFeaturesDto(), new AddressDto());
 
-		mapper.map(pCarListing, getCarListingResponseDto.getCarDetailsDto());
 		mapper.map(pCarListing.getCar(), getCarListingResponseDto.getCarDetailsDto());
+		mapper.map(pCarListing, getCarListingResponseDto.getCarDetailsDto());
 		mapper.map(pCarListing.getCarPricing(), getCarListingResponseDto.getCarPricingDto());
 		mapper.map(pCarListing.getCar().getCarFeatures(), getCarListingResponseDto.getCarFeaturesDto());
 		mapper.map(pCarListing.getAddress(), getCarListingResponseDto.getCarAddressDto());
 
 		return Optional.of(getCarListingResponseDto);
+	}
+
+	// update car_listing by car_listing_id
+	@Override
+	public Optional<GetCarListingResponseDto> updateCarListingByCarListingId(Long carListingId,
+			UpdateCarListingDto updateCarListingDto) {
+		CarListing pCarListing = carListingDao.findById(carListingId)
+				.orElseThrow(() -> new ResourceNotFoundException("invalid car_listing_id"));
+		mapper.map(updateCarListingDto.getUpdateCarDetailsDto(), pCarListing);
+//		mapper.map(updateCarListingDto.getUpdateCarDetailsDto(), pCarListing.getCar());
+		mapper.map(updateCarListingDto.getCarAddressDto(), pCarListing.getAddress());
+
+		CarPricing pCarPricing = carPricingDao.findByPricePerHrAndPricePerDayAndSecurityDeposit(
+				updateCarListingDto.getCarPricingDto().getPricePerHr(),
+				updateCarListingDto.getCarPricingDto().getPricePerDay(),
+				updateCarListingDto.getCarPricingDto().getSecurityDeposit()).orElseGet(() -> {
+					CarPricing tCarPricing = mapper.map(updateCarListingDto.getCarPricingDto(), CarPricing.class);
+					tCarPricing.setId(null);
+					return carPricingDao.save(tCarPricing);
+				});
+
+		Car pCar = carDao
+				.findByBrandAndModelAndFuelTypeEnumAndSeatingCapacityAndTransmissionTypeEnum(
+						pCarListing.getCar().getBrand(), pCarListing.getCar().getModel(),
+						updateCarListingDto.getUpdateCarDetailsDto().getFuelTypeEnum(),
+						pCarListing.getCar().getSeatingCapacity(), pCarListing.getCar().getTransmissionTypeEnum())
+				.orElseGet(() -> {
+					Car tCar = mapper.map(pCarListing.getCar(), Car.class);
+					tCar.setId(null);
+					return carDao.save(tCar);
+				});
+
+		pCarListing.setCarPricing(pCarPricing);
+		pCarListing.setCar(pCar);
+		CarListing updatedCarListing = carListingDao.save(pCarListing);
+
+		GetCarListingResponseDto getCarListingResponseDto = new GetCarListingResponseDto(new CarDetailsDto(),
+				new CarPricingDto(), new CarFeaturesDto(), new AddressDto());
+
+		mapper.map(updatedCarListing.getCar(), getCarListingResponseDto.getCarDetailsDto());
+		mapper.map(updatedCarListing, getCarListingResponseDto.getCarDetailsDto());
+		mapper.map(updatedCarListing.getCarPricing(), getCarListingResponseDto.getCarPricingDto());
+		mapper.map(updatedCarListing.getCar().getCarFeatures(), getCarListingResponseDto.getCarFeaturesDto());
+		mapper.map(updatedCarListing.getAddress(), getCarListingResponseDto.getCarAddressDto());
+		return Optional.of(getCarListingResponseDto);
+
 	}
 
 }
