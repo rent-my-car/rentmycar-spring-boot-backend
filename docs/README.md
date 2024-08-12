@@ -264,19 +264,20 @@ git reset --hard HEAD~3
  - **URL** - <http://host:port/booking/{guestId}/{carId}/{addressId}>
  - **Method** - POST 
  - **payload**  - BookingDto(pickupDateTime,dropOffDateTime,double ammount)
- - **Successful Resp** - SC 201 BookingResponseDto 
+ - **Successful Resp** - SC 201 BookingResponseDto
  - **Error resp** - SC 400 `RuntimeException("Pickup Date is invalid !")`
 	-SC 400 `RuntimeException("Guest Not Found!") ;`
 	-SC 400 `RuntimeException("Address not found!") ;`
 	-SC 400 `RuntimeException("Car Listing not found!") ;`
 
    #### 2.update booking after payment is made 
- - **URL** - <http://host:port/booking/booking_id/{booking_id}>
+ - **URL** - <http://host:port/confirm_booking/{booking_id}>
  - **Method** - Patch 
- - **payload** - PaymentRequestDto(ammount,cardNO, cardHoldersName, expiry Date, CVV)
- - **Successful Resp** - SC 201 PaymentResponse(Staus,txn time, txnId, ammount)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-	 
+ - **payload** - PaymentRequestDto
+ - **Successful Resp** - SC 201 PaymentResponseDto
+ - **Error resp** - SC 400 `RuntimeException("Booking not found")`
+	 - SC 400 `ApiException("Internal Server Error")`
+
    #### 3.get upcomming bookings by user id 
  - **URL** - <http://host:port/booking/upcomming_booking/{userId}>
  - **Method** - Get 

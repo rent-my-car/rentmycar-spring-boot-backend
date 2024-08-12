@@ -21,7 +21,7 @@ public class CarListingDto extends BaseDto {
 	Boolean isAvailable; // Boolean,default-true
 
 	@NotBlank
-	Boolean isDeleted; // Booleane,default-false
+	Boolean isDeleted; // Boolean,default-false
 
 	@NotBlank
 	Boolean isApproved; // Boolean,default-false
