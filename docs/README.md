@@ -261,11 +261,14 @@ git reset --hard HEAD~3
 ### 4. BookingController (@RequestMapping=/booking)
 
    #### 1.Add Booking by guestId, CarId, AddressId of guest
- - **URL** - <http://host:port/booking/add_booking/gues_id/{guestId}/car_id/{carId}/address_id/{addressId}>
+ - **URL** - <http://host:port/booking/{guestId}/{carId}/{addressId}>
  - **Method** - POST 
- - **payload**  - AddBookingDto(pickupDateTime,dropOffDateTime,double ammount)
- - **Successful Resp** - SC 201 HostResponseDto + mesg (ApiResponse)
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+ - **payload**  - BookingDto(pickupDateTime,dropOffDateTime,double ammount)
+ - **Successful Resp** - SC 201 BookingResponseDto 
+ - **Error resp** - SC 400 `RuntimeException("Pickup Date is invalid !")`
+	-SC 400 `RuntimeException("Guest Not Found!") ;`
+	-SC 400 `RuntimeException("Address not found!") ;`
+	-SC 400 `RuntimeException("Car Listing not found!") ;`
 
    #### 2.update booking after payment is made 
  - **URL** - <http://host:port/booking/booking_id/{booking_id}>

@@ -105,11 +105,11 @@ public class User extends BaseEntity {
 
 	// Host 1 <---------> * CarHostAddressPricing
 	@OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<CarHostAddressPricing> carHostAddressPricingList = new ArrayList<CarHostAddressPricing>();
+	private List<CarListing> carListingList = new ArrayList<CarListing>();
 	
-	public void addCarHostAddressPricing(CarHostAddressPricing carHostAddressPricing) {
-		this.carHostAddressPricingList.add(carHostAddressPricing);
-		carHostAddressPricing.setHost(this);
+	public void addCarListing(CarListing carListing) {
+		this.carListingList.add(carListing);
+		carListing.setHost(this);
 	}
 	
 //***********************************************************************************************
