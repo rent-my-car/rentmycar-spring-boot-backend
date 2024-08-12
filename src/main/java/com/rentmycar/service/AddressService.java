@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.rentmycar.dto.AddressDto;
 import com.rentmycar.dto.AddressResDto;
+import com.rentmycar.dto.ApiResponseDto;
+import com.rentmycar.dto.DeleteAddressResDto;
 
 public interface AddressService {
 
@@ -22,6 +24,9 @@ public interface AddressService {
 	public Optional<List<AddressDto>> getAddressListbyUSerId(Long userId);
 
 	// update address by address id
-	public Optional<AddressDto> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto ,Long addressId);
+	public Optional<AddressDto> updateAddressbyAddressId(AddressDto addressDto, Long addressId);
+
+	// soft delete address by address id
+	public Optional<DeleteAddressResDto> deleteAddressByAddressId(Long addressId);
 
 }
