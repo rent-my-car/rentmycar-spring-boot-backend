@@ -30,4 +30,7 @@ public interface CarListingService {
 	// update car_listing by car_listing_id
 	public Optional<GetCarListingResponseDto> updateCarListingByCarListingId(Long carListingId,
 			UpdateCarListingDto updateCarListingDto);
+	
+	//get specific car details
+	public Optional<CarCardDto> getSpecificCarDetails(Long carListingId);
 }

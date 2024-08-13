@@ -79,5 +79,13 @@ public class CarListingController {
 						.orElseThrow(() -> new ApiException("interanl server error")));
 
 	}
-
+	
+	//get specific car details
+	@GetMapping("/specific_car_details/{carListingId}")
+	@Operation(description = "get car specific car details by car_listing_id")
+	public ResponseEntity<?> getSpecificCarDetails(@RequestParam Long carListingId){
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(carListingService.getCarListingByCarListingId(carListingId)
+						.orElseThrow(() -> new ApiException("internal server error")));
+	}
 }
