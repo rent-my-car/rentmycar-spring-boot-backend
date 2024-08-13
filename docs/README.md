@@ -375,6 +375,26 @@ git reset --hard HEAD~3
 - **Error resp** 
 	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("car_listing_doesn't exist")`
 
+#### 4. get *pending* approvals by `hostId`
+- **URL** - <http://host:port/car_listing//pending_approvals/{hostId}>
+- **Method** - GET
+- **payload** - 
+- **Successful** Resp - SC 200 - `HttpStatus.OK` - `List<CarCardDto>`
+- **Error resp** 
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid host_id")`
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("no car listed for this host_id")`
+
+#### 4. get *confirmed* approvals by `hostId`
+- **URL** - <http://host:port/car_listing//pending_approvals/{hostId}>
+- **Method** - GET
+- **payload** - 
+- **Successful** Resp - SC 200 - `HttpStatus.OK` - `List<CarCardDto>`
+- **Error resp** 
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid host_id")`
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("no car listed for this host_id")`
+
+
+
 <!-- 
 #### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
@@ -414,6 +434,7 @@ git reset --hard HEAD~3
 -------------------------------------------------------------------------------------------
 
 -->
+
 
 ### 3. `AddressController(@RequestMapping=/address)`
 

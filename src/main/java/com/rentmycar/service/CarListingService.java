@@ -19,11 +19,12 @@ public interface CarListingService {
 	public Optional<AddCarListingResponseDto> addCarListing(Long hostId, Long hostAddressId,
 			AddCarListingDto addCarListingDto);
 
-	// get car Listing by car_listing_id
+	
 		
 	//get car details by city and date public api
 	public Optional<List<CarCardDto>> getCarListing(String city,LocalDateTime pickUp,LocalDateTime dropOff);
 
+	// get car Listing by car_listing_id
 	public Optional<GetCarListingResponseDto> getCarListingByCarListingId(Long carListingId);
 
 
@@ -31,6 +32,14 @@ public interface CarListingService {
 	public Optional<GetCarListingResponseDto> updateCarListingByCarListingId(Long carListingId,
 			UpdateCarListingDto updateCarListingDto);
 	
+
 	//get specific car details
 	public Optional<CarCardDto> getSpecificCarDetails(Long carListingId);
+
+	// get pending car_listing approvals by host_id
+	public Optional<List<CarCardDto>> getPendingApprovalsByHostId(Long hostId);
+	
+	// get confirmed car_listings by host_id
+	public Optional<List<CarCardDto>> getConfirmedApprovalsByHostId(Long hostId);
+	
 }
