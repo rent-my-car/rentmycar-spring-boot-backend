@@ -211,4 +211,18 @@ public class CarListingServiceImpl implements CarListingService {
 		return Optional.of(getCarListingResponseDto);
 	}
 
+	// get car cards by host_id
+	public Optional<List<CarCardDto>> getPendingApprovalsByHostId(Long hostId) {
+		User pHost = userDao.findById(hostId).orElseThrow(() -> new ResourceNotFoundException("invalid host_id"));
+		List<CarListing> carListings = carListingDao.findByHost(pHost)
+				.orElseThrow(() -> new ResourceNotFoundException("no car listed for this host_id"));
+
+		return Optional.of(carListings.stream().filter(carListing -> !carListing.getIsApproved()).map((carListing) -> {
+			CarCardDto carCardDto = mapper.map(carListing.getCar(), CarCardDto.class);
+			mapper.map(carListing.getCarPricing(), carCardDto);
+			mapper.map(carListing, carCardDto);
+			return carCardDto;
+		}).collect(Collectors.toList()));
+	}
+
 }

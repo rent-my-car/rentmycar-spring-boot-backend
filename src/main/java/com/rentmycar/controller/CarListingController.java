@@ -80,4 +80,12 @@ public class CarListingController {
 
 	}
 
+	// get pending car cards by host_id
+	@Operation(description = "get pending car cards by host_id")
+	@GetMapping("/pending_approvals/{hostId}")
+	public ResponseEntity<?> getPendingApprovalsByHostId(Long hostId) {
+		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getPendingApprovalsByHostId(hostId)
+				.orElseThrow(() -> new ApiException("interanl server error")));
+	}
+
 }
