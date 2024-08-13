@@ -1,6 +1,5 @@
 package com.rentmycar.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -128,8 +127,7 @@ public class CarListingServiceImpl implements CarListingService {
 		//
 	}
 
-
-	//method to get all cars available for booking
+	// method to get all cars available for booking
 	@Override
 	public Optional<List<CarCardDto>> getCarListing(String city, LocalDateTime pickUp, LocalDateTime dropOff) {
 		List<CarListing> carListings = carListingDao.getCarListCarListingByCity(city)
@@ -148,6 +146,7 @@ public class CarListingServiceImpl implements CarListingService {
 					return carCardDetailsDto;
 				}).collect(Collectors.toList());
 		return Optional.of(availableCars);
+	}
 
 	// get car Listing by car_listing_id
 	@Override
