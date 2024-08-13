@@ -40,7 +40,6 @@ public class CarListingController {
 						.orElseThrow(() -> new ApiException("interanl server error")));
 	}
 
-
 	// get all cars by city public api
 	@GetMapping("/get_cars_by_city")
 	public ResponseEntity<?> getCarListingByCity(@RequestParam String city, @RequestParam String pickupDateTime,
@@ -49,8 +48,7 @@ public class CarListingController {
 		LocalDateTime dropOff = LocalDateTime.parse(dropOffDateTime);
 
 		// Call the service method to get the car listings
-		Optional<List<CarCardDto>> carCardDetailsDtos = carListingService.getCarListing(city, pickUp,
-				dropOff);
+		Optional<List<CarCardDto>> carCardDetailsDtos = carListingService.getCarListing(city, pickUp, dropOff);
 
 		// Check if the list is present and not empty
 		if (carCardDetailsDtos.isPresent() && !carCardDetailsDtos.get().isEmpty()) {
@@ -61,6 +59,7 @@ public class CarListingController {
 			ApiResponseDto errorResponse = new ApiResponseDto("No cars available for the specified criteria");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 		}
+	}
 
 	// get car Listing by car_listing_id
 	@Operation(description = "get car Listing by car_listing_id")
