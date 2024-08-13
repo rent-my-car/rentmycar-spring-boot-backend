@@ -1,6 +1,10 @@
 package com.rentmycar.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -19,6 +23,7 @@ import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.AddCarListingDto;
 import com.rentmycar.dto.AddCarListingResponseDto;
 import com.rentmycar.dto.AddressDto;
+import com.rentmycar.dto.CarCardDto;
 import com.rentmycar.dto.CarDetailsDto;
 import com.rentmycar.dto.CarDto;
 import com.rentmycar.dto.CarFeaturesDto;
@@ -27,6 +32,7 @@ import com.rentmycar.dto.GetCarListingResponseDto;
 import com.rentmycar.dto.UpdateCarListingDto;
 import com.rentmycar.dto.UserDto;
 import com.rentmycar.entity.Address;
+import com.rentmycar.entity.BookingStatusEnum;
 import com.rentmycar.entity.Car;
 import com.rentmycar.entity.CarFeatures;
 import com.rentmycar.entity.CarListing;
@@ -122,6 +128,27 @@ public class CarListingServiceImpl implements CarListingService {
 		//
 	}
 
+
+	//method to get all cars available for booking
+	@Override
+	public Optional<List<CarCardDto>> getCarListing(String city, LocalDateTime pickUp, LocalDateTime dropOff) {
+		List<CarListing> carListings = carListingDao.getCarListCarListingByCity(city)
+				.orElseThrow(() -> new ResourceNotFoundException("No car list for particular city"));
+
+		List<CarCardDto> availableCars = carListings.stream()
+				.filter(carListing -> carListing.getBookingList().stream()
+						.filter(booking -> booking.getBookingStatusEnum().equals(BookingStatusEnum.SUCCESS))
+						.noneMatch(booking -> (booking.getPickUp().minusHours(5).isBefore(dropOff)
+								&& booking.getDropOff().plusHours(5).isAfter(pickUp))))
+				.map(carListing -> {
+					// Map CarListing to CarCardDetailsDto using ModelMapper
+					CarCardDto carCardDetailsDto = mapper.map(carListing.getCar(), CarCardDto.class);
+					mapper.map(carListing.getCarPricing(), carCardDetailsDto);
+					mapper.map(carListings, carCardDetailsDto);
+					return carCardDetailsDto;
+				}).collect(Collectors.toList());
+		return Optional.of(availableCars);
+
 	// get car Listing by car_listing_id
 	@Override
 	public Optional<GetCarListingResponseDto> getCarListingByCarListingId(Long carListingId) {
@@ -183,7 +210,6 @@ public class CarListingServiceImpl implements CarListingService {
 		mapper.map(updatedCarListing.getCar().getCarFeatures(), getCarListingResponseDto.getCarFeaturesDto());
 		mapper.map(updatedCarListing.getAddress(), getCarListingResponseDto.getCarAddressDto());
 		return Optional.of(getCarListingResponseDto);
-
 	}
 
 }
