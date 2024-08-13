@@ -32,7 +32,10 @@ public interface CarListingService {
 	public Optional<GetCarListingResponseDto> updateCarListingByCarListingId(Long carListingId,
 			UpdateCarListingDto updateCarListingDto);
 	
-	// get car pending car cards by host_id
+	// get pending car_listing approvals by host_id
 	public Optional<List<CarCardDto>> getPendingApprovalsByHostId(Long hostId);
+	
+	// get confirmed car_listings by host_id
+	public Optional<List<CarCardDto>> getConfirmedApprovalsByHostId(Long hostId);
 	
 }
