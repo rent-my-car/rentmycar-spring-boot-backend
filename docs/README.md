@@ -242,20 +242,16 @@ git reset --hard HEAD~3
 ### 3. `CarController  (@RequestMapping="/car")`
    
 #### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
- - **URL** - <http://host:port/car/get_cars_by_city?city=value,pickupDateTime,dropOffDateTime>
+ - **URL** - <http://host:port/car_listing/get_cars_by_city
  - **Method** - GET 
- - **Successful Resp** - SC 201 * Successful Resp - SC 201 ArrayList<CarsCardDetailsDto>
-			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+ - **Successful Resp** - SC 201 * Successful Resp - SC 201 `List<CarCardDto>`
+ - **Error resp** - SC 400 `ResourceNotFoundException("No car list for particular city")`
 
 #### 2.Get CarCards Details By CarId(Car + Features)
- - **URL** - <http://host:port/car/get_specific_car_details/{carId}>
+ - **URL** - <http://host:port/get_specific_car_details/{carListingId}>
  - **Method** - GET 
- - **Successful Resp** - SC 201 CompleteCarDetailsDto + mesg (ApiResponse)
-	 *ArrayList<CarsCardDetailsDto>
-			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-
+ - **Successful Resp** - SC 201 `CarCardDto` 
+ - **Error resp** - SC 400 `ResourceNotFoundException("No car Found")`
  
 ### 4. `BookingController (@RequestMapping="/booking")`
 
