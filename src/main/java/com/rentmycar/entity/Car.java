@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -34,7 +35,7 @@ public class Car extends BaseEntity {
 //*************************************************************
 	// Car * ------> 1 CarFeatures
 	// many cars can have same features
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private CarFeatures carFeatures;
 
 //*************************************************************
