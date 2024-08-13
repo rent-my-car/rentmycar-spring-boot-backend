@@ -19,31 +19,31 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CarListing extends BaseEntity {
-	int kmDriven; // int,not null
+	private int kmDriven; // int,not null
 
 	@Column(columnDefinition = "TINYINT")
-	int fuelMeter; // tinyint(1-10),not null
+	private int fuelMeter; // tinyint(1-10),not null
 
 	@Column(length = 20)
-	String carImage; // varchar(20),
+	private String carImage; // varchar(20),
 
 	@Column
-	int noOfTrips;
+	private int noOfTrips;
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-	Boolean isAvailable; // Boolean,default-true
+	private Boolean isAvailable; // Boolean,default-true
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
-	Boolean isDeleted; // Booleane,default-false
+	private Boolean isDeleted; // Boolean,default-false
 
 	@Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
-	Boolean isApproved; // Boolean,default-false
+	private Boolean isApproved; // Boolean,default-false
 
 	@Column(length = 20, nullable = false)
-	String registrationNo; // varchar(20),not null
+	private String registrationNo; // varchar(20),not null
 
 	@Column(columnDefinition = "TINYINT NOT NULL")
-	int spareTyreCount; // tinyint,not null
+	private int spareTyreCount; // tinyint,not null
 
 //**************************************************************************
 

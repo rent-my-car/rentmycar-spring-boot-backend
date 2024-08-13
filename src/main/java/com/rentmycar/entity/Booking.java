@@ -24,23 +24,23 @@ import lombok.ToString;
 @Table
 public class Booking extends BaseEntity {
 	@Column(nullable = false)
-	LocalDateTime pickUp; // DateTime,not null
+	private LocalDateTime pickUp; // DateTime,not null
 
 	@Column(nullable = false)
-	LocalDateTime dropOff; // DateTime,not null
+	private LocalDateTime dropOff; // DateTime,not null
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 10)
 	@ColumnDefault("'PENDING'")
-	BookingStatusEnum bookingStatusEnum; // not null,default - PENDING
+	private BookingStatusEnum bookingStatusEnum; // not null,default - PENDING
 
 	@Column(nullable = false)
-	Double amount; // double,not null
+	private Double amount; // double,not null
 
-	LocalDateTime paymentDateTime; // DateTime
+	private LocalDateTime paymentDateTime; // DateTime
 
 	@Column(columnDefinition = "char(50)")
-	String transactionId; // char (#### 50.
+	private String transactionId; // char (#### 50.
 
 //*****************************************************************************************************
 	
