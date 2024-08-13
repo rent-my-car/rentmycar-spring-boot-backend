@@ -1,7 +1,6 @@
 package com.rentmycar.entity;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,7 +53,7 @@ public class Booking extends BaseEntity {
 //****************************************************************************************************
 
 	// Booking * -------> 1 Address
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Address guestAddress;
 

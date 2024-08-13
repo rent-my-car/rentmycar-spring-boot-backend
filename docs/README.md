@@ -301,6 +301,24 @@ git reset --hard HEAD~3
   - SC 400 - `ResourceNotFoundException("invalid user id")`
   - SC 409 - `ConflictException`
 
+### 6. `ReviewController(@RequestMapping="/review")`
+#### 1. add `Review` By `BookingId,UserId`
+- **URL** - <http://host:port/review/add_review/{bookingId}/{userId}>
+- **Method** - Post 
+- **payload** - `ReviewDto`
+- **Successful Resp** - SC 200 - `ReviewDto`
+- **Error resp** 
+  - SC 400 - `ResourceNotFoundException("User not found")`
+  - SC 400 - `ResourceNotFoundException("Booking not found")`
+
+#### 2. update `Review` By `reviewId`
+- **URL** - <http://host:port/review/update_review/{reviewId}>
+- **Method** - Patch 
+- **payload** - `ReviewDto`
+- **Successful Resp** - SC 200 - `ReviewDto`
+- **Error resp** 
+  - SC 400 - `ResourceNotFoundException("Review not found")`
+  
 ## 2. host APIs
 
 ### 1. `UserController (@RequestMapping="/user")`
