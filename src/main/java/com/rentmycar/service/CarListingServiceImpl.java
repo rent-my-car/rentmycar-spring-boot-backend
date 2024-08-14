@@ -137,6 +137,8 @@ public class CarListingServiceImpl implements CarListingService {
 			throw new ResourceNotFoundException("No car list for particular city");
 		}
 		List<CarCardDto> availableCars = carListings.stream()
+				.filter(carListing -> carListing.getIsApproved() == true && carListing.getIsAvailable() == true
+						&& carListing.getIsDeleted() == false)
 				.filter(carListing -> carListing.getBookingList().stream()
 						.filter(booking -> booking.getBookingStatusEnum().equals(BookingStatusEnum.SUCCESS))
 						.noneMatch(booking -> (booking.getPickUp().minusHours(5).isBefore(dropOff)
@@ -212,6 +214,23 @@ public class CarListingServiceImpl implements CarListingService {
 		mapper.map(updatedCarListing.getCar().getCarFeatures(), getCarListingResponseDto.getCarFeaturesDto());
 		mapper.map(updatedCarListing.getAddress(), getCarListingResponseDto.getCarAddressDto());
 		return Optional.of(getCarListingResponseDto);
+	}
+
+	// method to get specific details of car
+	@Override
+	public Optional<CarCardDto> getSpecificCarDetails(Long carListingId) {
+		CarListing carListing = carListingDao.findById(carListingId)
+				.orElseThrow(() -> new ResourceNotFoundException("Car Not Found!"));
+		if(carListing.getIsApproved() == true && carListing.getIsAvailable() == true && carListing.getIsDeleted() == false)
+		{
+			CarCardDto carCardDto = mapper.map(carListing, CarCardDto.class);
+			mapper.map(carListing.getAddress(), carCardDto);
+			mapper.map(carListing.getCar(), carCardDto);
+			mapper.map(carListing.getCarPricing(), carCardDto);
+			mapper.map(carListing.getBookingList(), carCardDto);
+			return Optional.of(carCardDto);
+		}else
+			return Optional.empty();		
 	}
 
 	// get car cards by host_id
