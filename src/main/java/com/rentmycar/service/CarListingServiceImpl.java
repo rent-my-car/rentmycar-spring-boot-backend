@@ -134,6 +134,8 @@ public class CarListingServiceImpl implements CarListingService {
 				.orElseThrow(() -> new ResourceNotFoundException("No car list for particular city"));
 
 		List<CarCardDto> availableCars = carListings.stream()
+				.filter(carListing -> carListing.getIsApproved() == true && carListing.getIsAvailable() == true
+						&& carListing.getIsDeleted() == false)
 				.filter(carListing -> carListing.getBookingList().stream()
 						.filter(booking -> booking.getBookingStatusEnum().equals(BookingStatusEnum.SUCCESS))
 						.noneMatch(booking -> (booking.getPickUp().minusHours(5).isBefore(dropOff)
@@ -211,4 +213,51 @@ public class CarListingServiceImpl implements CarListingService {
 		return Optional.of(getCarListingResponseDto);
 	}
 
+	// method to get specific details of car
+	@Override
+	public Optional<CarCardDto> getSpecificCarDetails(Long carListingId) {
+		CarListing carListing = carListingDao.findById(carListingId)
+				.orElseThrow(() -> new ResourceNotFoundException("Car Not Found!"));
+		if(carListing.getIsApproved() == true && carListing.getIsAvailable() == true && carListing.getIsDeleted() == false)
+		{
+			CarCardDto carCardDto = mapper.map(carListing, CarCardDto.class);
+			mapper.map(carListing.getAddress(), carCardDto);
+			mapper.map(carListing.getCar(), carCardDto);
+			mapper.map(carListing.getCarPricing(), carCardDto);
+			mapper.map(carListing.getBookingList(), carCardDto);
+			return Optional.of(carCardDto);
+		}else
+			return Optional.empty();		
+	}
+
+	// get car cards by host_id
+	public Optional<List<CarCardDto>> getPendingApprovalsByHostId(Long hostId) {
+		User pHost = userDao.findById(hostId).orElseThrow(() -> new ResourceNotFoundException("invalid host_id"));
+		List<CarListing> carListings = carListingDao.findByHost(pHost)
+				.orElseThrow(() -> new ResourceNotFoundException("no car listed for this host_id"));
+
+		return Optional.of(carListings.stream()
+				.filter(carListing -> !carListing.getIsApproved() && !carListing.getIsDeleted()).map((carListing) -> {
+					CarCardDto carCardDto = mapper.map(carListing.getCar(), CarCardDto.class);
+					mapper.map(carListing.getCarPricing(), carCardDto);
+					mapper.map(carListing, carCardDto);
+					return carCardDto;
+				}).collect(Collectors.toList()));
+	}
+
+	// get confirmed car_listings by host_id
+	@Override
+	public Optional<List<CarCardDto>> getConfirmedApprovalsByHostId(Long hostId) {
+		User pHost = userDao.findById(hostId).orElseThrow(() -> new ResourceNotFoundException("invalid host_id"));
+		List<CarListing> carListings = carListingDao.findByHost(pHost)
+				.orElseThrow(() -> new ResourceNotFoundException("no car listed for this host_id"));
+
+		return Optional.of(carListings.stream()
+				.filter(carListing -> carListing.getIsApproved() && !carListing.getIsDeleted()).map((carListing) -> {
+					CarCardDto carCardDto = mapper.map(carListing.getCar(), CarCardDto.class);
+					mapper.map(carListing.getCarPricing(), carCardDto);
+					mapper.map(carListing, carCardDto);
+					return carCardDto;
+				}).collect(Collectors.toList()));
+	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -48,35 +49,35 @@ public class CarListing extends BaseEntity {
 //**************************************************************************
 
 	// CarListing * ---------> 1 Car
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Car car;
 
 //**************************************************************************
 
 	// CarListing * -------> 1 CarPricing
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private CarPricing carPricing;;
 
 //**************************************************************************
 
 	// CarListing * --------> 1 Address
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Address address;
 
 //**************************************************************************
 
 	// CarListing * <------------> 1 Host
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private User host;
 
 //***************************************************************************
 
 	// CarListing 1 <-------------> * Booking
-	@OneToMany(mappedBy = "carListing", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "carListing", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Booking> bookingList = new ArrayList<Booking>();
 
 	public void addBooking(Booking booking) {

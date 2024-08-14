@@ -80,4 +80,30 @@ public class CarListingController {
 
 	}
 
+	
+	//get specific car details
+	@GetMapping("/specific_car_details/{carListingId}")
+	@Operation(description = "get car specific car details by car_listing_id")
+	public ResponseEntity<?> getSpecificCarDetails(@RequestParam Long carListingId){
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(carListingService.getCarListingByCarListingId(carListingId)
+						.orElseThrow(() -> new ApiException("internal server error")));
+	}
+
+
+	// get pending car_listing by host_id
+	@Operation(description = "get pending car cards by host_id")
+	@GetMapping("/pending_approvals/{hostId}")
+	public ResponseEntity<?> getPendingApprovalsByHostId(Long hostId) {
+		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getPendingApprovalsByHostId(hostId)
+				.orElseThrow(() -> new ApiException("interanl server error")));
+	}
+
+	// get confirmed car_listings by host_id
+	@Operation(description = "get confirmed car_listings by host_id")
+	@GetMapping("/confirmed_approvals/{hostId}")
+	public ResponseEntity<?> getConfirmedApprovalsByHostId(Long hostId) {
+		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getConfirmedApprovalsByHostId(hostId)
+				.orElseThrow(() -> new ApiException("interanl server error")));
+	}
 }

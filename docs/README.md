@@ -242,20 +242,16 @@ git reset --hard HEAD~3
 ### 3. `CarController  (@RequestMapping="/car")`
    
 #### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
- - **URL** - <http://host:port/car/get_cars_by_city?city=value,pickupDateTime,dropOffDateTime>
+ - **URL** - <http://host:port/car_listing/get_cars_by_city>
  - **Method** - GET 
- - **Successful Resp** - SC 201 * Successful Resp - SC 201 ArrayList<CarsCardDetailsDto>
-			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
+ - **Successful Resp** - SC 201 * Successful Resp - SC 201 `List<CarCardDto>`
+ - **Error resp** - SC 400 `ResourceNotFoundException("No car list for particular city")`
 
 #### 2.Get CarCards Details By CarId(Car + Features)
- - **URL** - <http://host:port/car/get_specific_car_details/{carId}>
+ - **URL** - <http://host:port/get_specific_car_details/{carListingId}>
  - **Method** - GET 
- - **Successful Resp** - SC 201 CompleteCarDetailsDto + mesg (ApiResponse)
-	 *ArrayList<CarsCardDetailsDto>
-			CarsCardDetailsDto(brand,model,transmissionTypeEnum,fuelTypeEnum,seatingCapacity,noOfTrips,carPricePerHr,carPricePerDay) 
- - **Error resp** - SC 400 , error mesg -wrapped in DTO(ApiResponse)
-
+ - **Successful Resp** - SC 201 `CarCardDto` 
+ - **Error resp** - SC 400 `ResourceNotFoundException("No car Found")`
  
 ### 4. `BookingController (@RequestMapping="/booking")`
 
@@ -305,6 +301,24 @@ git reset --hard HEAD~3
   - SC 400 - `ResourceNotFoundException("invalid user id")`
   - SC 409 - `ConflictException`
 
+### 6. `ReviewController(@RequestMapping="/review")`
+#### 1. add `Review` By `BookingId,UserId`
+- **URL** - <http://host:port/review/add_review/{bookingId}/{userId}>
+- **Method** - Post 
+- **payload** - `ReviewDto`
+- **Successful Resp** - SC 200 - `ReviewDto`
+- **Error resp** 
+  - SC 400 - `ResourceNotFoundException("User not found")`
+  - SC 400 - `ResourceNotFoundException("Booking not found")`
+
+#### 2. update `Review` By `reviewId`
+- **URL** - <http://host:port/review/update_review/{reviewId}>
+- **Method** - Patch 
+- **payload** - `ReviewDto`
+- **Successful Resp** - SC 200 - `ReviewDto`
+- **Error resp** 
+  - SC 400 - `ResourceNotFoundException("Review not found")`
+  
 ## 2. host APIs
 
 ### 1. `UserController (@RequestMapping="/user")`
@@ -379,6 +393,26 @@ git reset --hard HEAD~3
 - **Error resp** 
 	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("car_listing_doesn't exist")`
 
+#### 4. get *pending* approvals by `hostId`
+- **URL** - <http://host:port/car_listing//pending_approvals/{hostId}>
+- **Method** - GET
+- **payload** - 
+- **Successful** Resp - SC 200 - `HttpStatus.OK` - `List<CarCardDto>`
+- **Error resp** 
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid host_id")`
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("no car listed for this host_id")`
+
+#### 4. get *confirmed* approvals by `hostId`
+- **URL** - <http://host:port/car_listing//pending_approvals/{hostId}>
+- **Method** - GET
+- **payload** - 
+- **Successful** Resp - SC 200 - `HttpStatus.OK` - `List<CarCardDto>`
+- **Error resp** 
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid host_id")`
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("no car listed for this host_id")`
+
+
+
 <!-- 
 #### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
@@ -418,6 +452,7 @@ git reset --hard HEAD~3
 -------------------------------------------------------------------------------------------
 
 -->
+
 
 ### 3. `AddressController(@RequestMapping=/address)`
 
