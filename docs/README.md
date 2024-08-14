@@ -399,6 +399,8 @@ git reset --hard HEAD~3
 
 
 
+
+
 <!-- 
 #### 1.Get CarCards By HostId
 - **URL** - <http://host:port/car/{hostId}>
@@ -513,8 +515,15 @@ git reset --hard HEAD~3
 
 ### 3. `HostController(@RequestMapping="/host")`
 
-### 4. `CarController(@RequestMapping="/car")`
+### 4. `CarListingController(@RequestMapping="/car_listing")`
 
+#### 1. approve the `CarListing` by `carListingId`
+- **URL** - <http://host:port/car_listing/approve/{carListingId}>
+- **Method** - PATCH
+- **payload** - 
+- **Successful** Resp - SC 200 - `HttpStatus.OK` - `ApiResponseDto("car is approved")`
+- **Error resp** 
+	- 404 - `HttpStatus.NOT_FOUND` - `ResourceNotFoundException("invalid car_listing_Id")`
 
 # 3. **Anootated Entities**
 

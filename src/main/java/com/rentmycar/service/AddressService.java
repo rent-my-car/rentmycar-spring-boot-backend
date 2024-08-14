@@ -29,4 +29,6 @@ public interface AddressService {
 	// soft delete address by address id
 	public Optional<DeleteAddressResDto> deleteAddressByAddressId(Long addressId);
 
+	// get distinct cities from car_listing_address
+	public Optional<List<String>> getdistinctCityNames();
 }

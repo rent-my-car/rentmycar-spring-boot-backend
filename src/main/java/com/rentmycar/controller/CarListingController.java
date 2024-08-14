@@ -1,8 +1,6 @@
 package com.rentmycar.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.rentmycar.custom_exception.ApiException;
 import com.rentmycar.dto.AddCarListingDto;
-import com.rentmycar.dto.ApiResponseDto;
-import com.rentmycar.dto.CarCardDto;
 import com.rentmycar.dto.UpdateCarListingDto;
 import com.rentmycar.service.CarListingService;
+
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
@@ -29,6 +27,7 @@ public class CarListingController {
 
 	@Autowired
 	CarListingService carListingService;
+	
 
 	// add car listing by host id and host address id
 	@Operation(description = "add car listing by host id and host address id")
@@ -47,18 +46,9 @@ public class CarListingController {
 		LocalDateTime pickUp = LocalDateTime.parse(pickupDateTime);
 		LocalDateTime dropOff = LocalDateTime.parse(dropOffDateTime);
 
-		// Call the service method to get the car listings
-		Optional<List<CarCardDto>> carCardDetailsDtos = carListingService.getCarListing(city, pickUp, dropOff);
+		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getCarListing(city, pickUp, dropOff)
+				.orElseThrow(() -> new ApiException("interanl server error")));
 
-		// Check if the list is present and not empty
-		if (carCardDetailsDtos.isPresent() && !carCardDetailsDtos.get().isEmpty()) {
-			// Return the list of car cards with a status of 201
-			return ResponseEntity.status(HttpStatus.OK).body(carCardDetailsDtos.get());
-		} else {
-			// Return a 400 Bad Request with an appropriate error message
-			ApiResponseDto errorResponse = new ApiResponseDto("No cars available for the specified criteria");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-		}
 	}
 
 	// get car Listing by car_listing_id
@@ -95,5 +85,7 @@ public class CarListingController {
 		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getConfirmedApprovalsByHostId(hostId)
 				.orElseThrow(() -> new ApiException("interanl server error")));
 	}
+
+
 
 }

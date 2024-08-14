@@ -122,4 +122,12 @@ public class AddressServiceImpl implements AddressService {
 		deleteAddressResDto.setCarListingDtoList(carListingDtoList);
 		return Optional.of(deleteAddressResDto);
 	}
+	
+	// get distinct cities from car_listing_address
+		@Override
+		public Optional<List<String>> getdistinctCityNames() {
+			List<String> cityList = addressDao.getDistinctCityNames();
+			return Optional.of(cityList);
+		}
+
 }
