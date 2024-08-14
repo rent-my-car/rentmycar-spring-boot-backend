@@ -69,4 +69,13 @@ public class AddressController {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.deleteAddressByAddressId(addressId)
 				.orElseThrow(() -> new ApiException("interanl server errorF")));
 	}
+	
+	//get city names
+	@GetMapping("/cities")
+	public ResponseEntity<?> getCities() {
+
+		return ResponseEntity.status(HttpStatus.OK).body(addressService.getdistinctCityNames()
+				.orElseThrow(() -> new ApiException("interanl server errorF")));
+	}
+	
 }

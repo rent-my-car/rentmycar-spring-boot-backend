@@ -22,6 +22,7 @@ import com.rentmycar.dao.UserDao;
 import com.rentmycar.dto.AddCarListingDto;
 import com.rentmycar.dto.AddCarListingResponseDto;
 import com.rentmycar.dto.AddressDto;
+import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.CarCardDto;
 import com.rentmycar.dto.CarDetailsDto;
 import com.rentmycar.dto.CarDto;
@@ -130,9 +131,11 @@ public class CarListingServiceImpl implements CarListingService {
 	// method to get all cars available for booking
 	@Override
 	public Optional<List<CarCardDto>> getCarListing(String city, LocalDateTime pickUp, LocalDateTime dropOff) {
-		List<CarListing> carListings = carListingDao.getCarListCarListingByCity(city)
-				.orElseThrow(() -> new ResourceNotFoundException("No car list for particular city"));
+		List<CarListing> carListings = carListingDao.getCarListCarListingByCity(city);
 
+		if (carListings.isEmpty()) {
+			throw new ResourceNotFoundException("No car list for particular city");
+		}
 		List<CarCardDto> availableCars = carListings.stream()
 				.filter(carListing -> carListing.getIsApproved() == true && carListing.getIsAvailable() == true
 						&& carListing.getIsDeleted() == false)
@@ -260,4 +263,8 @@ public class CarListingServiceImpl implements CarListingService {
 					return carCardDto;
 				}).collect(Collectors.toList()));
 	}
+
+	
+
+	//
 }
