@@ -16,11 +16,11 @@ import lombok.ToString;
 public class CarPricing extends BaseEntity{
 	
 	@Column(nullable = false)
-	Double pricePerHr; 	// Boolean,not null
+	private Double pricePerHr; 	// Boolean,not null
 	
 	@Column(nullable = false)
-	Double pricePerDay; 	// Boolean,not null
+	private Double pricePerDay; 	// Boolean,not null
 	
 	@Column(nullable = false)
-	Double securityDeposit; 	// double,not null
+	private Double securityDeposit; 	// double,not null
 }

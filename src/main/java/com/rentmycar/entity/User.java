@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -51,8 +52,7 @@ public class User extends BaseEntity {
 // *****************************************************************************************
 	
 	// User 1<---->* Address
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // mandatory , otherwise
-																					// ,MappingException !
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY) // mandatory , otherwise
 	private List<Address> addressList = new ArrayList<>();
 
 	public void addAddress(Address address) {
@@ -68,7 +68,7 @@ public class User extends BaseEntity {
 // *******************************************************************************************
 
 	// Guest 1<---->* Booking
-	@OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Booking> bookingList = new ArrayList<>();
 
 	public void addBooking(Booking booking) {
@@ -79,7 +79,7 @@ public class User extends BaseEntity {
 // ********************************************************************************************
 
 	// Guest 1 <------> *Review
-	@OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "guest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Review> reviewList = new ArrayList<Review>();
 
 	public void addReview(Review review) {
@@ -90,7 +90,7 @@ public class User extends BaseEntity {
 //**********************************************************************************************
 	
 	// User 1 <------> 1 DrivingLicense
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private DrivingLicense drivingLicense;
 
 	public void addDrivingLicense(DrivingLicense drivingLicense) {
@@ -104,7 +104,7 @@ public class User extends BaseEntity {
 // ********************************************************************************************
 
 	// Host 1 <---------> * CarListing
-	@OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<CarListing> carListingList = new ArrayList<CarListing>();
 	
 	public void addCarListing(CarListing carListing) {

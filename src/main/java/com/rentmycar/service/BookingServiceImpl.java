@@ -3,6 +3,7 @@ package com.rentmycar.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -21,6 +22,8 @@ import com.rentmycar.dto.BookingCardDto;
 import com.rentmycar.dto.BookingDto;
 import com.rentmycar.dto.BookingResponseDto;
 import com.rentmycar.dto.CarListingDto;
+import com.rentmycar.dto.PaymentRequestDto;
+import com.rentmycar.dto.PaymentResponseDto;
 import com.rentmycar.dto.UserDto;
 import com.rentmycar.entity.Address;
 import com.rentmycar.entity.Booking;
@@ -129,5 +132,19 @@ public class BookingServiceImpl implements BookingService {
 		                return bookingCardDto;
 		            })
 		            .collect(Collectors.toList()));				
+	}
+	
+	//method to update booking after payment is made
+	@Override
+	public Optional<PaymentResponseDto> confirmBooking(Long bookingId ,PaymentRequestDto paymentRequestDto) {
+		Booking pBooking = bookingDao.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
+		
+		pBooking.setAmount(paymentRequestDto.getAmount());
+		pBooking.setPaymentDateTime(LocalDateTime.now());
+		pBooking.setBookingStatusEnum(pBooking.getBookingStatusEnum().SUCCESS);
+		pBooking.getCarListing().setNoOfTrips(pBooking.getCarListing().getNoOfTrips()+1);
+		pBooking.setTransactionId(UUID.randomUUID().toString());
+		PaymentResponseDto dto = mapper.map(pBooking, PaymentResponseDto.class);	
+		return Optional.of(dto);
 	}
 }

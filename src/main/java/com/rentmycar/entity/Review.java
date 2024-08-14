@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -27,12 +28,10 @@ public class Review extends BaseEntity{
 	private User guest;
 	
 // ***************************************************************************
-	
-	// Review * -----------> 1 CarHostAddressPricing
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private CarListing carHostAddressPricing;
-	
-//****************************************************************************
-	
+	// Review 1 <----> 1 User
+		@OneToOne(fetch = FetchType.LAZY) // mandatory
+		@JoinColumn(name = "booking_id")
+		private Booking booking;
+		
+// ***************************************************************************
 }
