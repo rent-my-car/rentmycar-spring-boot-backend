@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.CarCardDto;
+import com.rentmycar.dto.PendingCarApprovalDetailDto;
 import com.rentmycar.dto.ViewAllBookingDto;
 
 public interface AdminService {
@@ -17,6 +18,10 @@ public interface AdminService {
 	ApiResponseDto softDeleteCarById(Long carListingId);
 		
 	// get all car_listing pending approvals
-		public Optional<List<CarCardDto>> getAllPendingApprovals();
+	public Optional<List<CarCardDto>> getAllPendingApprovals();
+	
+	// get specific pending approval deatails by car_listing_id
+	public Optional<PendingCarApprovalDetailDto> getPendingApprovalByCarListingId(Long carListingId);
+
 
 }

@@ -10,8 +10,14 @@ import org.springframework.stereotype.Service;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.BookingDao;
 import com.rentmycar.dao.CarListingDao;
+import com.rentmycar.dto.AddressDto;
 import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.CarCardDto;
+import com.rentmycar.dto.CarDetailsDto;
+import com.rentmycar.dto.CarFeaturesDto;
+import com.rentmycar.dto.CarPricingDto;
+import com.rentmycar.dto.PendingCarApprovalDetailDto;
+import com.rentmycar.dto.UserDto;
 import com.rentmycar.dto.ViewAllBookingDto;
 import com.rentmycar.entity.Booking;
 import com.rentmycar.entity.BookingStatusEnum;
@@ -79,7 +85,24 @@ public class AdminServiceImpl implements AdminService{
 			}).collect(Collectors.toList()));
 		}
 
-	
+		// get specific pending approval deatails by car_listing_id
+		@Override
+		public Optional<PendingCarApprovalDetailDto> getPendingApprovalByCarListingId(Long carListingId) {
+			CarListing pCarListing = carListingDao.findById(carListingId)
+					.orElseThrow(() -> new ResourceNotFoundException("car_listing_doesn't exist"));
+			PendingCarApprovalDetailDto pendingCarApprovalDetailDto = new PendingCarApprovalDetailDto(new CarDetailsDto(),
+					new CarPricingDto(), new CarFeaturesDto(), new AddressDto(), new UserDto());
+
+			mapper.map(pCarListing.getCar(), pendingCarApprovalDetailDto.getCarDetailsDto());
+			mapper.map(pCarListing, pendingCarApprovalDetailDto.getCarDetailsDto());
+			mapper.map(pCarListing.getCarPricing(), pendingCarApprovalDetailDto.getCarPricingDto());
+			mapper.map(pCarListing.getCar().getCarFeatures(), pendingCarApprovalDetailDto.getCarFeaturesDto());
+			mapper.map(pCarListing.getAddress(), pendingCarApprovalDetailDto.getCarAddressDto());
+			mapper.map(pCarListing.getHost(), pendingCarApprovalDetailDto.getOwner());
+
+			return Optional.of(pendingCarApprovalDetailDto);
+		}
+
 	
 
 }

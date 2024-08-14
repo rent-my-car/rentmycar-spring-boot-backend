@@ -47,7 +47,15 @@ public class AdminController {
 					adminService.getAllPendingApprovals().orElseThrow(()->new ResourceNotFoundException("No Pending Approvals Found!!")));
 		}
 
-	
+		// get deatil about pending approval for a particualr car_listing_id
+	@Operation(description = "get deatil about pending approval for a particualr car_listing_id")
+	@GetMapping("/pendingCarListingId")
+	public ResponseEntity<?> getPendingApprovalByCarListingId(Long pendingCarListingId) {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(adminService.getPendingApprovalByCarListingId(pendingCarListingId)
+							.orElseThrow(()->new ResourceNotFoundException("No details found!!")));
+		}
+
 	
 	
 }
