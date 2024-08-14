@@ -242,7 +242,7 @@ git reset --hard HEAD~3
 ### 3. `CarController  (@RequestMapping="/car")`
    
 #### 1.Get CarCards By City,pickupDateTime,dropOffDateTime - public api
- - **URL** - <http://host:port/car_listing/{hostId}/{hostAddressId}
+ - **URL** - <http://host:port/car_listing/
  - **Method** - GET 
  - **Successful Resp** - SC 201 * Successful Resp - SC 201 `List<CarCardDto>`
  - **Error resp** - SC 400 `ResourceNotFoundException("No car list for particular city")`
