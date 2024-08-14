@@ -2,16 +2,10 @@ package com.rentmycar.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
-
-
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.rentmycar.custom_exception.CustomBadRequestException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.BookingDao;
 import com.rentmycar.dao.CarListingDao;
@@ -21,7 +15,7 @@ import com.rentmycar.dto.ViewAllBookingDto;
 import com.rentmycar.entity.Booking;
 import com.rentmycar.entity.BookingStatusEnum;
 import com.rentmycar.entity.CarListing;
-import com.rentmycar.entity.User;
+
 @Service
 @Transactional
 public class AdminServiceImpl implements AdminService{
@@ -56,6 +50,19 @@ public class AdminServiceImpl implements AdminService{
 			mapper.map(CarListing, viewApprovedCarCardDto);
 			return viewApprovedCarCardDto;
 		}).collect(Collectors.toList());
+	}
+	
+	@Override
+	public ApiResponseDto softDeleteCarById(Long carListingId) {
+		CarListing	pCarListing = carListingDao.findById(carListingId).orElseThrow(() -> new ResourceNotFoundException("Invalid CarListing Id."));
+
+		if (pCarListing.getIsDeleted())
+			throw new ResourceNotFoundException("Car is already deleted.");
+
+		pCarListing.setIsDeleted(true);
+		System.out.println("Car delete status made true");
+		return new ApiResponseDto("Car Deleted Successfully!");
+		
 	}
 
 	

@@ -30,6 +30,14 @@ public class AdminController {
 		return ResponseEntity.ok(adminService.getAllApprovedCars());
 	}
 	
+	@PatchMapping("delete/{carListingId}")
+	@Operation(description = "Soft delete a Car with CarListingId")
+	public ResponseEntity<?> softDeleteCarById(@PathVariable Long carListingId){
+		System.out.println("in soft delete" + carListingId);
+		return ResponseEntity.ok(adminService.softDeleteCarById(carListingId));
+	}
+
+	
 	
 	
 	

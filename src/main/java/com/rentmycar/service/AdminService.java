@@ -11,6 +11,8 @@ public interface AdminService {
 	
 	List<CarCardDto> getAllApprovedCars();
 	
-	
+	//soft-delete car with carListingId
+	ApiResponseDto softDeleteCarById(Long carListingId);
+		
 	
 }
