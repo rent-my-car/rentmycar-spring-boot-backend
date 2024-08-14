@@ -19,4 +19,8 @@ public interface CarListingDao extends JpaRepository<CarListing, Long> {
 	//method to get car details from date and city 
 	@Query("select c from CarListing c where c.address.city = :city and c.isAvailable=true and c.isDeleted=false and c.isApproved=true")
 	Optional<List<CarListing>> getCarListCarListingByCity(String city);
+	
+	List<CarListing> findByIsApproved(Boolean isApproved);
+	
+	
 }

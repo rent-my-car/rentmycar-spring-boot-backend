@@ -21,4 +21,6 @@ public interface UserDao extends JpaRepository<User, Long> {
 
 	//find list of users by user role
 	Optional<List<User>> findByRoleEnum(UserRoleEnum roleEnum);
+	
+	
 }
