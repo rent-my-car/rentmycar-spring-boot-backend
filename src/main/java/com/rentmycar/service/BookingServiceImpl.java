@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.AddressDao;
 import com.rentmycar.dao.BookingDao;
 import com.rentmycar.dao.CarListingDao;
@@ -81,6 +82,8 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public Optional<List<BookingCardDto>> getPastBookings(Long userId) {
 		User user = userDao.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		if(user.getBookingList().isEmpty())
+			throw new ResourceNotFoundException("Booking not Found!");
 		if (user.getRoleEnum().name() == "GUEST") {
 			return Optional.of(user.getBookingList().stream()
 					.filter(booking -> booking.getPickUp().isBefore(LocalDateTime.now())).map(booking -> {
@@ -107,6 +110,8 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public Optional<List<BookingCardDto>> getUpcomingBookings(Long userId) {
 		User user = userDao.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		if(user.getBookingList().isEmpty())
+			throw new ResourceNotFoundException("Booking not Found!");
 		if (user.getRoleEnum().name() == "GUEST") {
 			return Optional.of(user.getBookingList().stream()
 					.filter(booking -> booking.getPickUp().isAfter(LocalDateTime.now())).map(booking -> {
