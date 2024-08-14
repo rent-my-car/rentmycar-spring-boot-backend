@@ -5,11 +5,12 @@ import java.time.LocalDateTime;
 import com.rentmycar.entity.FuelTypeEnum;
 import com.rentmycar.entity.TransmisssionTypeEnum;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class BookingCardDto {
-		
+@Setter
+@Getter
+public class ViewAllBookingDto extends BaseDto{
 	private LocalDateTime pickUp;
 	
 	private LocalDateTime dropOff;
@@ -24,9 +25,9 @@ public class BookingCardDto {
 	
 	private int kmDriven; 
 		
-	private TransmisssionTypeEnum transmissionTypeEnum;
+	private TransmisssionTypeEnum transmissionTypeEnum;	
 	
-	
-		
-}
+	private String firstName;
 
+	private String lastName;
+}

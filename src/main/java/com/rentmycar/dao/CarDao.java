@@ -12,4 +12,6 @@ public interface CarDao extends JpaRepository<Car, Long> {
 
 	Optional<Car> findByBrandAndModelAndFuelTypeEnumAndSeatingCapacityAndTransmissionTypeEnum(String brand,
 			String model, FuelTypeEnum fuelTypeEnum, int seatingCapacity, TransmisssionTypeEnum transmissionTypeEnum);
+	
+	
 }
