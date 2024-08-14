@@ -1,6 +1,7 @@
 package com.rentmycar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.service.AdminService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +39,14 @@ public class AdminController {
 		return ResponseEntity.ok(adminService.softDeleteCarById(carListingId));
 	}
 
-	
+	// get all car_listing pending approvals
+		@Operation(description = "get all car_listing pending approvals")
+		@GetMapping("/pending_approvals")
+		public ResponseEntity<?> getAllPendingApprovals() {
+			return ResponseEntity.status(HttpStatus.OK).body(
+					adminService.getAllPendingApprovals().orElseThrow(()->new ResourceNotFoundException("No Pending Approvals Found!!")));
+		}
+
 	
 	
 	

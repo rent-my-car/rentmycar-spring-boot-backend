@@ -1,6 +1,7 @@
 package com.rentmycar.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -64,6 +65,19 @@ public class AdminServiceImpl implements AdminService{
 		return new ApiResponseDto("Car Deleted Successfully!");
 		
 	}
+	
+	// get all car_listing pending approvals
+		@Override
+		public Optional<List<CarCardDto>> getAllPendingApprovals() {
+			List<CarListing> carListings = carListingDao.findByIsApprovedAndIsDeleted(false, false)
+					.orElseThrow(() -> new ResourceNotFoundException("no pending approvals"));
+			return Optional.of(carListings.stream().map((carListing) -> {
+				CarCardDto carCardDto = mapper.map(carListing.getCar(), CarCardDto.class);
+				mapper.map(carListing.getCarPricing(), carCardDto);
+				mapper.map(carListing, carCardDto);
+				return carCardDto;
+			}).collect(Collectors.toList()));
+		}
 
 	
 	

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.rentmycar.entity.Address;
+import com.rentmycar.entity.Booking;
 import com.rentmycar.entity.CarListing;
 
 public interface CarListingDao extends JpaRepository<CarListing, Long> {
@@ -21,6 +22,9 @@ public interface CarListingDao extends JpaRepository<CarListing, Long> {
 	Optional<List<CarListing>> getCarListCarListingByCity(String city);
 	
 	List<CarListing> findByIsApproved(Boolean isApproved);
+
+	Optional<List<CarListing>> findByIsApprovedAndIsDeleted(boolean isDeleted, boolean isApproved);
+	
 	
 	
 }
