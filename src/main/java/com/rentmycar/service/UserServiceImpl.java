@@ -137,11 +137,12 @@ public class UserServiceImpl implements UserService {
 		if (userEntity.getIsDeleted())
 			throw new CustomAuthenticationException("User is De-Activated !");
 
-		System.out.println(userEntity.getDrivingLicense().getDrivingLicenseNo());
-		userEntity.getDrivingLicense().getIssueDate();
-		DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
 		UserDetailsResponseDto userDetailsResponseDto = mapper.map(userEntity, UserDetailsResponseDto.class);
-		userDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
+		if (userEntity.getDrivingLicense() != null) {
+			DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
+			userDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
+		}
+
 		return Optional.of(userDetailsResponseDto);
 
 	}

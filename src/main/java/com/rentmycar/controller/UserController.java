@@ -65,7 +65,7 @@ public class UserController {
 	//get Basic User profile details
 	@GetMapping("/profile/{userId}")
 	@Operation(description = "getProfileDetails By Id")
-	public ResponseEntity<?> getUserProfileDetails(@PathVariable @Max(100) Long userId) {
+	public ResponseEntity<?> getUserProfileDetails(@PathVariable Long userId) {
 		System.out.println("In User Profile" + userId);
 		return ResponseEntity.ok(userService.getUserProfileDetails(userId));
 

@@ -17,45 +17,43 @@ import io.swagger.v3.oas.annotations.Operation;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-	
+
 	@Autowired
 	private AdminService adminService;
-	
+
 	@GetMapping("/View_All_Bookings")
-	public ResponseEntity<?> getallBookings(){
+	public ResponseEntity<?> getallBookings() {
 		return ResponseEntity.ok(adminService.getAllBookings());
-		
+
 	}
-	
+
 	@GetMapping("/get_Approved_Cars")
-	public ResponseEntity<?> getAllApprovedCars(){
+	public ResponseEntity<?> getAllApprovedCars() {
 		return ResponseEntity.ok(adminService.getAllApprovedCars());
 	}
-	
+
 	@PatchMapping("delete/{carListingId}")
 	@Operation(description = "Soft delete a Car with CarListingId")
-	public ResponseEntity<?> softDeleteCarById(@PathVariable Long carListingId){
+	public ResponseEntity<?> softDeleteCarById(@PathVariable Long carListingId) {
 		System.out.println("in soft delete" + carListingId);
 		return ResponseEntity.ok(adminService.softDeleteCarById(carListingId));
 	}
 
 	// get all car_listing pending approvals
-		@Operation(description = "get all car_listing pending approvals")
-		@GetMapping("/pending_approvals")
-		public ResponseEntity<?> getAllPendingApprovals() {
-			return ResponseEntity.status(HttpStatus.OK).body(
-					adminService.getAllPendingApprovals().orElseThrow(()->new ResourceNotFoundException("No Pending Approvals Found!!")));
-		}
+	@Operation(description = "get all car_listing pending approvals")
+	@GetMapping("/pending_approvals")
+	public ResponseEntity<?> getAllPendingApprovals() {
+		return ResponseEntity.status(HttpStatus.OK).body(adminService.getAllPendingApprovals()
+				.orElseThrow(() -> new ResourceNotFoundException("No Pending Approvals Found!!")));
+	}
 
-		// get deatil about pending approval for a particualr car_listing_id
+	// get deatail about pending approval for a particular car_listing_id
 	@Operation(description = "get deatil about pending approval for a particualr car_listing_id")
 	@GetMapping("/pendingCarListingId")
 	public ResponseEntity<?> getPendingApprovalByCarListingId(Long pendingCarListingId) {
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(adminService.getPendingApprovalByCarListingId(pendingCarListingId)
-							.orElseThrow(()->new ResourceNotFoundException("No details found!!")));
-		}
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(adminService.getPendingApprovalByCarListingId(pendingCarListingId)
+						.orElseThrow(() -> new ResourceNotFoundException("No details found!!")));
+	}
 
-	
-	
 }
