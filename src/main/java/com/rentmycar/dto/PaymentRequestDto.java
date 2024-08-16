@@ -13,7 +13,7 @@ public class PaymentRequestDto {
 	
 	private String cardHolderName;
 	
-	private LocalDate expiryDate;
+	private String expiryDate;
 	
 	private String cvv;
 

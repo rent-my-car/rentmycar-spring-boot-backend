@@ -1,6 +1,5 @@
 package com.rentmycar.controller;
 
-
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -29,14 +28,12 @@ import com.rentmycar.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
-
 
 	// method for role based login for user
 	@PostMapping("/login")
@@ -61,8 +58,8 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(registerUserWithDlReqDto)
 				.orElseThrow(() -> new ApiException("internal server error")));
 	}
-	
-	//get Basic User profile details
+
+	// get Basic User profile details
 	@GetMapping("/profile/{userId}")
 	@Operation(description = "getProfileDetails By Id")
 	public ResponseEntity<?> getUserProfileDetails(@PathVariable Long userId) {
@@ -71,7 +68,7 @@ public class UserController {
 
 	}
 
-    //update user basic details
+	// update user basic details
 	@PutMapping("/update/{userId}")
 	@Operation(description = "Update User Basic Details By Id")
 	public ResponseEntity<?> updateBasicUserDetails(@PathVariable Long userId,
@@ -96,13 +93,21 @@ public class UserController {
 					.body(new ApiResponseDto("An unexpected error occurred: " + e.getMessage()));
 		}
 	}
-	
+
 	// Soft delete a user
 	@PatchMapping("delete/{userId}")
 	@Operation(description = "Soft delete a user with userId")
-	public ResponseEntity<?> softDeleteUserById(@PathVariable Long userId){
+	public ResponseEntity<?> softDeleteUserById(@PathVariable Long userId) {
 		System.out.println("in soft delete" + userId);
 		return ResponseEntity.ok(userService.softDeleteUserById(userId));
+	}
+
+	// activate the user with email and password
+	@PatchMapping("/activate")
+	@Operation(description = "Soft delete a user with userId")
+	public ResponseEntity<?> activateUser(@RequestBody @Valid SignInRequestDto activationreqDto) {
+		return ResponseEntity.status(HttpStatus.OK).body(userService.activateUser(activationreqDto));
+
 	}
 
 }

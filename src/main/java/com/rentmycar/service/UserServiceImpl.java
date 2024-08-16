@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rentmycar.custom_exception.ApiException;
 import com.rentmycar.custom_exception.ConflictException;
 import com.rentmycar.custom_exception.CustomAuthenticationException;
 import com.rentmycar.custom_exception.CustomAuthorizationException;
@@ -181,6 +182,22 @@ public class UserServiceImpl implements UserService {
 		puser.setIsDeleted(true);
 		System.out.println("user delete status made true");
 		return new ApiResponseDto("User Deleted Successfully!");
+	}
+
+	//activate the user with email and password
+	@Override
+	public ApiResponseDto activateUser(SignInRequestDto activationreqDto) {
+		User pUser = userDao
+				.findByEmailAndPasswordAndRoleEnum(activationreqDto.getEmail(), activationreqDto.getPassword(),
+						activationreqDto.getRoleEnum())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Email or Password !"));
+		if (!pUser.getIsDeleted()) {
+			throw new ConflictException("already an active user");
+		}
+		pUser.setIsDeleted(false);
+		userDao.save(pUser);
+		return new ApiResponseDto("activation successfull");
+		
 	}
 
 }

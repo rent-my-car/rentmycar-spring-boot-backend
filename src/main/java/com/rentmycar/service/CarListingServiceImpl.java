@@ -147,7 +147,7 @@ public class CarListingServiceImpl implements CarListingService {
 					// Map CarListing to CarCardDetailsDto using ModelMapper
 					CarCardDto carCardDetailsDto = mapper.map(carListing.getCar(), CarCardDto.class);
 					mapper.map(carListing.getCarPricing(), carCardDetailsDto);
-					mapper.map(carListings, carCardDetailsDto);
+					mapper.map(carListing, carCardDetailsDto);
 					return carCardDetailsDto;
 				}).collect(Collectors.toList());
 		return Optional.of(availableCars);

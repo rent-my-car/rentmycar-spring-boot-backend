@@ -149,7 +149,8 @@ public class BookingServiceImpl implements BookingService {
 		pBooking.setBookingStatusEnum(pBooking.getBookingStatusEnum().SUCCESS);
 		pBooking.getCarListing().setNoOfTrips(pBooking.getCarListing().getNoOfTrips()+1);
 		pBooking.setTransactionId(UUID.randomUUID().toString());
-		PaymentResponseDto dto = mapper.map(pBooking, PaymentResponseDto.class);	
+		Booking updatedBooking = bookingDao.save(pBooking);
+		PaymentResponseDto dto = mapper.map(updatedBooking, PaymentResponseDto.class);	
 		return Optional.of(dto);
 	}
 }

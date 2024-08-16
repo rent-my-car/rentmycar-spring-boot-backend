@@ -7,7 +7,7 @@ import com.rentmycar.entity.BookingStatusEnum;
 import lombok.Data;
 
 @Data
-public class PaymentResponseDto {
+public class PaymentResponseDto extends BaseDto{
 
 	private  BookingStatusEnum bookingStatusEnum;
 	
@@ -15,6 +15,6 @@ public class PaymentResponseDto {
 	
 	private String transactionId;
 	
-	private Double amount;
+	private Double amount; // double,not null
 
 }

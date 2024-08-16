@@ -542,28 +542,24 @@ git reset --hard HEAD~3
 # 3. **Anootated Entities**
 
 ### 0. BaseEntity
-		```java
-				package com.rentmycar.entity;
+```java
+package com.rentmycar.entity;
+@Setter
+@Getter
+@ToString
+@MappedSuperclass
+public class BaseEntity {
 
-				@Setter
-				@Getter
-				@ToString
-				@MappedSuperclass
-				public class BaseEntity {
-				
-					@Id
-					@GeneratedValue(strategy = GenerationType.IDENTITY)
-					private Long id;
-
-					@Column(updatable = false)
-					@CreationTimestamp
-					private LocalDate createdOn;
-
-					@UpdateTimestamp
-					private LocalDateTime updatedOn;
-
-				}
-		```
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(updatable = false)
+	@CreationTimestamp
+	private LocalDate createdOn;
+	@UpdateTimestamp
+	private LocalDateTime updatedOn;
+}
+```
 
 ### 1. User
 	```java

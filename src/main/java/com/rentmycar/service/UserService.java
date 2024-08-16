@@ -30,4 +30,7 @@ public interface UserService {
 
 	//soft-delete user with userId
 	ApiResponseDto softDeleteUserById(Long userId);
+	
+	//activate the user with email and password
+	ApiResponseDto activateUser(SignInRequestDto activationreqDto);
 }
