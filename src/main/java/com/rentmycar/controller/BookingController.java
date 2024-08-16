@@ -23,9 +23,9 @@ public class BookingController {
 	@Autowired
 	private BookingService bookingService;
 
-	@PostMapping("/{guestId}/{carId}/{guestAddressId}")
+	@PostMapping("/{guestId}/{carListingId}/{guestAddressId}")
 	public ResponseEntity<?> createBooking(@RequestBody BookingDto bookingDto, @PathVariable Long guestId,
-			@PathVariable Long guestAddressId, Long carListingId) {
+			@PathVariable Long guestAddressId, @PathVariable Long carListingId) {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(bookingService.addBooking(bookingDto, guestId, guestAddressId, carListingId)

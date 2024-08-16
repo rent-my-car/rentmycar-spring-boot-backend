@@ -6,8 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookingDto {
+public class BookingDto extends BaseDto {
 	private LocalDateTime pickUp;
-    private LocalDateTime dropOff;
-    private double amount;
+	private LocalDateTime dropOff;
+	private double amount;
 }
