@@ -27,7 +27,6 @@ public class CarListingController {
 
 	@Autowired
 	CarListingService carListingService;
-	
 
 	// add car listing by host id and host address id
 	@Operation(description = "add car listing by host id and host address id")
@@ -70,20 +69,18 @@ public class CarListingController {
 
 	}
 
-	
-	//get specific car details
+	// get specific car details
 	@GetMapping("/specific_car_details/{carListingId}")
 	@Operation(description = "get car specific car details by car_listing_id")
-	public ResponseEntity<?> getSpecificCarDetails(@RequestParam Long carListingId){
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(carListingService.getCarListingByCarListingId(carListingId)
-						.orElseThrow(() -> new ApiException("internal server error")));
+	public ResponseEntity<?> getSpecificCarDetails(@RequestParam Long carListingId) {
+		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getCarListingByCarListingId(carListingId)
+				.orElseThrow(() -> new ApiException("internal server error")));
 	}
-
 
 	// get pending car_listing by host_id
 	@Operation(description = "get pending car cards by host_id")
 	@GetMapping("/pending_approvals/{hostId}")
+
 	public ResponseEntity<?> getPendingApprovalsByHostId(@PathVariable Long hostId) {
 		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getPendingApprovalsByHostId(hostId)
 				.orElseThrow(() -> new ApiException("interanl server error")));
@@ -95,6 +92,7 @@ public class CarListingController {
 	public ResponseEntity<?> getConfirmedApprovalsByHostId(@PathVariable Long hostId) {
 		return ResponseEntity.status(HttpStatus.OK).body(carListingService.getConfirmedApprovalsByHostId(hostId)
 				.orElseThrow(() -> new ApiException("internal server error")));
+
 	}
 
 }

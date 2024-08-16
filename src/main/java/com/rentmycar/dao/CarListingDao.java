@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.rentmycar.entity.Address;
+import com.rentmycar.entity.Booking;
 import com.rentmycar.entity.CarListing;
 import com.rentmycar.entity.User;
 

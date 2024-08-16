@@ -79,7 +79,7 @@ public class AddressServiceImpl implements AddressService {
 		// making sure that AddressDto has same id as persistent address
 		if (addressDto.getId().equals(addressId)) {
 			Address pAddress = addressDao.findById(addressId)
-					.orElseThrow(() -> new ResourceNotFoundException("invalid address idD"));
+					.orElseThrow(() -> new ResourceNotFoundException("invalid address id"));
 			mapper.map(addressDto, pAddress);
 			Address updataedAddress = addressDao.save(pAddress);
 			return Optional.of(mapper.map(updataedAddress, AddressDto.class));
@@ -122,4 +122,12 @@ public class AddressServiceImpl implements AddressService {
 		deleteAddressResDto.setCarListingDtoList(carListingDtoList);
 		return Optional.of(deleteAddressResDto);
 	}
+	
+	// get distinct cities from car_listing_address
+		@Override
+		public Optional<List<String>> getdistinctCityNames() {
+			List<String> cityList = addressDao.getDistinctCityNames();
+			return Optional.of(cityList);
+		}
+
 }

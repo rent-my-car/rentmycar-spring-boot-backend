@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.rentmycar.custom_exception.ConflictException;
 import com.rentmycar.custom_exception.CustomAuthenticationException;
+import com.rentmycar.custom_exception.CustomAuthorizationException;
 import com.rentmycar.custom_exception.CustomBadRequestException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.DrivingLicenseDao;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
 						signInRequestDto.getRoleEnum())
 				.orElseThrow(() -> new CustomAuthenticationException("Invalid Email or Password !"));
 		if (userEntity.getIsDeleted()) {
-			throw new CustomAuthenticationException("User is Deactivated!");
+			throw new CustomAuthorizationException("User is Deactivated!");
 		} else
 			// valid login
 			return Optional.of(mapper.map(userEntity, SignInResponseDto.class));
