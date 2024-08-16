@@ -7,6 +7,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
+@Data
 @Table(name = "car")
 @Entity
 public class Car extends BaseEntity {

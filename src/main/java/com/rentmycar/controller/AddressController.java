@@ -1,6 +1,5 @@
 package com.rentmycar.controller;
 
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -48,7 +47,7 @@ public class AddressController {
 	// get address list by user id
 	@Operation(description = " get address list by user id")
 	@GetMapping("/get_all/{userId}")
-	public ResponseEntity<?> getAddressListbyUSerId(Long userId) {
+	public ResponseEntity<?> getAddressListbyUSerId(@PathVariable Long userId) {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.getAddressListbyUSerId(userId)
 				.orElseThrow(() -> new ApiException("interanl server error")));
 	}
@@ -56,7 +55,7 @@ public class AddressController {
 	// update address by address id
 	@Operation(description = "udpate address by address id")
 	@PutMapping("/{addressId}")
-	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto, Long addressId) {
+	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto,@PathVariable Long addressId) {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.updateAddressbyAddressId(addressDto, addressId)
 				.orElseThrow(() -> new ApiException("internal server error")));
 

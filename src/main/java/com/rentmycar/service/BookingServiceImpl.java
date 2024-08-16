@@ -47,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
 	@Autowired
 	private ModelMapper mapper;
 
-	//method to book car by userId
+	// method to book car by userId
 	public Optional<BookingResponseDto> addBooking(BookingDto bookingDto, Long guestId, Long guestAddressId,
 			Long carListingId) {
 
@@ -75,13 +75,14 @@ public class BookingServiceImpl implements BookingService {
 		return Optional.of(bookingResponseDto);
 	}
 
-	//method to get past bookings by userId
+	// method to get past bookings by userId
 	@Override
 	public Optional<List<BookingCardDto>> getPastBookings(Long userId) {
 		User user = userDao.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-		if(user.getBookingList().isEmpty())
-			throw new ResourceNotFoundException("Booking not Found!");
+
 		if (user.getRoleEnum().name() == "GUEST") {
+			if (user.getBookingList().isEmpty())
+				throw new ResourceNotFoundException("Booking not Found!");
 			return Optional.of(user.getBookingList().stream()
 					.filter(booking -> booking.getPickUp().isBefore(LocalDateTime.now())).map(booking -> {
 						BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
@@ -91,25 +92,27 @@ public class BookingServiceImpl implements BookingService {
 					}).collect(Collectors.toList()));
 
 		}
-		 return Optional.of(user.getCarListingList().stream()
-		            .flatMap(carListing -> carListing.getBookingList().stream())
-		            .filter(booking -> booking.getPickUp().isBefore(LocalDateTime.now()))
-		            .map(booking -> {
-		                BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
-		                mapper.map(booking.getCarListing(), bookingCardDto);
-		                mapper.map(booking.getCarListing().getCar(), bookingCardDto);
-		                return bookingCardDto;
-		            })
-		            .collect(Collectors.toList()));				
+		List<BookingCardDto> bookingCardDtoList = (user.getCarListingList().stream()
+				.flatMap(carListing -> carListing.getBookingList().stream())
+				.filter(booking -> booking.getPickUp().isBefore(LocalDateTime.now())).map(booking -> {
+					BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
+					mapper.map(booking.getCarListing(), bookingCardDto);
+					mapper.map(booking.getCarListing().getCar(), bookingCardDto);
+					return bookingCardDto;
+				}).collect(Collectors.toList()));
+		if (bookingCardDtoList.isEmpty())
+			throw new ResourceNotFoundException("No Past Booking!");
+		return Optional.of(bookingCardDtoList);
 	}
-	
-	//method to get upcoming bookings by userId
+
+	// method to get upcoming bookings by userId
 	@Override
 	public Optional<List<BookingCardDto>> getUpcomingBookings(Long userId) {
 		User user = userDao.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-		if(user.getBookingList().isEmpty())
-			throw new ResourceNotFoundException("Booking not Found!");
+
 		if (user.getRoleEnum().name() == "GUEST") {
+			if (user.getBookingList().isEmpty())
+				throw new ResourceNotFoundException("Booking not Found!");
 			return Optional.of(user.getBookingList().stream()
 					.filter(booking -> booking.getPickUp().isAfter(LocalDateTime.now())).map(booking -> {
 						BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
@@ -119,15 +122,17 @@ public class BookingServiceImpl implements BookingService {
 					}).collect(Collectors.toList()));
 
 		}
-		 return Optional.of(user.getCarListingList().stream()
-		            .flatMap(carListing -> carListing.getBookingList().stream())
-		            .filter(booking -> booking.getPickUp().isAfter(LocalDateTime.now()))
-		            .map(booking -> {
-		                BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
-		                mapper.map(booking.getCarListing(), bookingCardDto);
-		                mapper.map(booking.getCarListing().getCar(), bookingCardDto);
-		                return bookingCardDto;
-		            })
-		            .collect(Collectors.toList()));				
+
+		List<BookingCardDto> bookingCardDtoList = user.getCarListingList().stream()
+				.flatMap(carListing -> carListing.getBookingList().stream())
+				.filter(booking -> booking.getPickUp().isAfter(LocalDateTime.now())).map(booking -> {
+					BookingCardDto bookingCardDto = mapper.map(booking, BookingCardDto.class);
+					mapper.map(booking.getCarListing(), bookingCardDto);
+					mapper.map(booking.getCarListing().getCar(), bookingCardDto);
+					return bookingCardDto;
+				}).collect(Collectors.toList());
+		if (bookingCardDtoList.isEmpty())
+			throw new ResourceNotFoundException("No Upcoming Booking!");
+		return Optional.of(bookingCardDtoList);
 	}
 }

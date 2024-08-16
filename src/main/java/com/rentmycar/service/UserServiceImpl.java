@@ -136,11 +136,12 @@ public class UserServiceImpl implements UserService {
 		if (userEntity.getIsDeleted())
 			throw new CustomAuthenticationException("User is De-Activated !");
 
-		System.out.println(userEntity.getDrivingLicense().getDrivingLicenseNo());
-		userEntity.getDrivingLicense().getIssueDate();
-		DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
 		UserDetailsResponseDto userDetailsResponseDto = mapper.map(userEntity, UserDetailsResponseDto.class);
-		userDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
+		if (userEntity.getDrivingLicense() != null) {
+			DrivingLicenseDto drivingLicenseDto = mapper.map(userEntity.getDrivingLicense(), DrivingLicenseDto.class);
+			userDetailsResponseDto.setDrivingLicenseDto(drivingLicenseDto);
+		}
+
 		return Optional.of(userDetailsResponseDto);
 
 	}
@@ -168,14 +169,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ApiResponseDto softDeleteUserById(Long userId) {
 		User puser = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Invalid User Id."));
-		
+
 		// Check if the user is an admin
-		if ("ADMIN" == puser.getRoleEnum().name()) 
-			throw new CustomBadRequestException("Admin users cannot be deleted.");		
-		
+		if ("ADMIN" == puser.getRoleEnum().name())
+			throw new CustomBadRequestException("Admin users cannot be deleted.");
+
 		if (puser.getIsDeleted())
 			throw new ResourceNotFoundException("User is already deleted.");
-		
+
 		puser.setIsDeleted(true);
 		System.out.println("user delete status made true");
 		return new ApiResponseDto("User Deleted Successfully!");
