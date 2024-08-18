@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rentmycar.custom_exception.ApiException;
@@ -29,7 +31,7 @@ public class AddressController {
 
 	// add address by user id
 	@PostMapping("/{userId}")
-	public ResponseEntity<?> addAddress(@RequestBody @Valid AddressDto addressDto, @PathVariable Long userId) {
+	public ResponseEntity<?> addAddress(@RequestBody AddressDto addressDto, @PathVariable Long userId) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(addressService.addAddress(addressDto, userId)
 				.orElseThrow(() -> new ApiException("inernal server error")));
 	}
@@ -47,14 +49,17 @@ public class AddressController {
 	@GetMapping("/get_all/{userId}")
 	public ResponseEntity<?> getAddressListbyUSerId(@PathVariable Long userId) {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.getAddressListbyUSerId(userId)
-				.orElseThrow(() -> new ApiException("interanl server error")));
+				.orElseThrow(() -> new ApiException("internal server error")));
 	}
 
 	// update address by address id
 	@Operation(description = "udpate address by address id")
-	@PutMapping("/{addressId}")
-	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto, Long addressId) {
-		return ResponseEntity.status(HttpStatus.OK).body(addressService.updateAddressbyAddressId(addressDto, addressId)
+	@PutMapping
+	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto,
+			@RequestHeader Long addressId) {
+//		addressDto.setId(Long.parseLong(addressId));
+		addressDto.setId(addressId);
+		return ResponseEntity.status(HttpStatus.OK).body(addressService.updateAddressbyAddressId(addressDto)
 				.orElseThrow(() -> new ApiException("internal server error")));
 
 	}
@@ -64,14 +69,14 @@ public class AddressController {
 	public ResponseEntity<?> deleteAddressByAddressId(@PathVariable Long addressId) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.deleteAddressByAddressId(addressId)
-				.orElseThrow(() -> new ApiException("interanl server errorF")));
+				.orElseThrow(() -> new ApiException("internal server error")));
 	}
-	
-	// get distinct city names
-		@GetMapping("/cities")
-		public ResponseEntity<?> getCities() {
 
-			return ResponseEntity.status(HttpStatus.OK).body(
-					addressService.getdistinctCityNames().orElseThrow(() -> new ApiException("internal server error")));
-		}
+	// get distinct city names
+	@GetMapping("/cities")
+	public ResponseEntity<?> getCities() {
+
+		return ResponseEntity.status(HttpStatus.OK).body(
+				addressService.getdistinctCityNames().orElseThrow(() -> new ApiException("internal server error")));
+	}
 }

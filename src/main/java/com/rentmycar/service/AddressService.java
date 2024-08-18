@@ -24,7 +24,7 @@ public interface AddressService {
 	public Optional<List<AddressDto>> getAddressListbyUSerId(Long userId);
 
 	// update address by address id
-	public Optional<AddressDto> updateAddressbyAddressId(AddressDto addressDto, Long addressId);
+	public Optional<AddressDto> updateAddressbyAddressId(AddressDto addressDto);
 
 	// soft delete address by address id
 	public Optional<DeleteAddressResDto> deleteAddressByAddressId(Long addressId);

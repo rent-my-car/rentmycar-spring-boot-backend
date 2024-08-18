@@ -6,9 +6,7 @@ import javax.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class AddressDto {
-
-	private Long id;
+public class AddressDto extends BaseDto{
 
 	@NotBlank
 	private String adrLine1; // varchar(100) not null
