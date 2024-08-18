@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
+import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rentmycar.custom_exception.CustomBadRequestException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.AddressDao;
 import com.rentmycar.dao.CarListingDao;
@@ -73,19 +75,17 @@ public class AddressServiceImpl implements AddressService {
 		return Optional.of(addressDtoList);
 	}
 
-	// update address by address id
+	// update address
 	@Override
-	public Optional<AddressDto> updateAddressbyAddressId(AddressDto addressDto, Long addressId) {
-		// making sure that AddressDto has same id as persistent address
-		if (addressDto.getId().equals(addressId)) {
-			Address pAddress = addressDao.findById(addressId)
-					.orElseThrow(() -> new ResourceNotFoundException("invalid address id"));
-			mapper.map(addressDto, pAddress);
-			Address updataedAddress = addressDao.save(pAddress);
-			return Optional.of(mapper.map(updataedAddress, AddressDto.class));
-
+	public Optional<AddressDto> updateAddressbyAddressId(AddressDto addressDto) {
+		if (addressDto.getId() == null) {
+			throw new CustomBadRequestException("id should not be null");
 		}
-		throw new ConstraintViolationException("address id mismatch", null);
+		Address pAddress = addressDao.findById(addressDto.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("invalid address id"));
+		mapper.map(addressDto, pAddress);
+		Address updataedAddress = addressDao.save(pAddress);
+		return Optional.of(mapper.map(updataedAddress, AddressDto.class));
 
 	}
 
@@ -102,7 +102,7 @@ public class AddressServiceImpl implements AddressService {
 			Address deletedAddress = addressDao.save(pAddress);
 			return Optional.of(mapper.map(deletedAddress, DeleteAddressResDto.class));
 		}
-		// one or more cars are lsisted at particualr address
+		// one or more cars are listed at particular address
 
 		// changing the is deleted = true for listings
 		carListingList.forEach((carListing -> {
@@ -122,12 +122,12 @@ public class AddressServiceImpl implements AddressService {
 		deleteAddressResDto.setCarListingDtoList(carListingDtoList);
 		return Optional.of(deleteAddressResDto);
 	}
-	
+
 	// get distinct cities from car_listing_address
-		@Override
-		public Optional<List<String>> getdistinctCityNames() {
-			List<String> cityList = addressDao.getDistinctCityNames();
-			return Optional.of(cityList);
-		}
+	@Override
+	public Optional<List<String>> getdistinctCityNames() {
+		List<String> cityList = addressDao.getDistinctCityNames();
+		return Optional.of(cityList);
+	}
 
 }

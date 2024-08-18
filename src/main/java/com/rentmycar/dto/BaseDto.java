@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BaseDto {
-  @JsonProperty(access = Access.READ_ONLY)
+	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
 	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate createdOn;
