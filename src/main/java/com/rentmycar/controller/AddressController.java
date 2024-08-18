@@ -1,6 +1,5 @@
 package com.rentmycar.controller;
 
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rentmycar.custom_exception.ApiException;
 import com.rentmycar.dto.AddressDto;
-import com.rentmycar.dto.DeleteAddressResDto;
 import com.rentmycar.service.AddressService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +53,7 @@ public class AddressController {
 	// update address by address id
 	@Operation(description = "udpate address by address id")
 	@PutMapping("/{addressId}")
-	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto,@PathVariable Long addressId) {
+	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto, Long addressId) {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.updateAddressbyAddressId(addressDto, addressId)
 				.orElseThrow(() -> new ApiException("internal server error")));
 
@@ -68,13 +66,4 @@ public class AddressController {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.deleteAddressByAddressId(addressId)
 				.orElseThrow(() -> new ApiException("interanl server errorF")));
 	}
-	
-	//get city names
-	@GetMapping("/cities")
-	public ResponseEntity<?> getCities() {
-
-		return ResponseEntity.status(HttpStatus.OK).body(addressService.getdistinctCityNames()
-				.orElseThrow(() -> new ApiException("interanl server errorF")));
-	}
-	
 }
