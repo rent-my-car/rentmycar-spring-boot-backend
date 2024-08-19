@@ -46,7 +46,7 @@ public class User extends BaseEntity {
 	private Boolean isDeleted;
 
 	@Enumerated(EnumType.STRING)
-	@Column(length = 5)
+	@Column(length = 15)
 	private UserRoleEnum roleEnum;
 
 // *****************************************************************************************

@@ -7,12 +7,15 @@ import javax.validation.ConstraintViolationException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import com.rentmycar.custom_exception.ApiException;
 import com.rentmycar.custom_exception.ConflictException;
 import com.rentmycar.custom_exception.CustomAuthenticationException;
-import com.rentmycar.custom_exception.CustomAuthorizationException;
 import com.rentmycar.custom_exception.CustomBadRequestException;
 import com.rentmycar.custom_exception.ResourceNotFoundException;
 import com.rentmycar.dao.DrivingLicenseDao;
@@ -30,6 +33,7 @@ import com.rentmycar.dto.UserDetailsResponseDto;
 import com.rentmycar.entity.DrivingLicense;
 import com.rentmycar.entity.User;
 import com.rentmycar.entity.UserRoleEnum;
+import com.rentmycar.security.JwtUtils;
 
 @Service
 @Transactional
@@ -44,28 +48,49 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private DrivingLicenseDao drivingLicenseDao;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private JwtUtils jwtUtils;
+
+	@Autowired
+	private AuthenticationManager authMgr;
+
 	// Method for SignIn on basis of role
 	@Override
-	public Optional<SignInResponseDto> authenticateUser(SignInRequestDto signInRequestDto) {
-		User userEntity = userDao
-				.findByEmailAndPasswordAndRoleEnum(signInRequestDto.getEmail(), signInRequestDto.getPassword(),
-						signInRequestDto.getRoleEnum())
-				.orElseThrow(() -> new CustomAuthenticationException("Invalid Email or Password !"));
-		if (userEntity.getIsDeleted()) {
-			throw new CustomAuthorizationException("User is Deactivated!");
-		} else
-			// valid login
-			return Optional.of(mapper.map(userEntity, SignInResponseDto.class));
+	public Optional<SignInResponseDto> authenticateUser(SignInRequestDto request) {
+		System.out.println("in Log in " + request);
+		// create a token(implementation of Authentication i/f)
+		// to store un verified user email n pwd
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getEmail(),
+				request.getPassword());
+		// invoke auth mgr's authenticate method;
+		Authentication verifiedToken = authMgr.authenticate(token);
+		// => authentication n authorization successful !
+		System.out.println(verifiedToken.getPrincipal().getClass());// custom user details object
+		// create JWT n send it to the clnt in response
+		SignInResponseDto resp = new SignInResponseDto(jwtUtils.generateJwtToken(verifiedToken), "Successful Auth!!!!");
+		return Optional.of(resp);
+		// User userEntity = userDao
+//				.findByEmailAndPasswordAndRoleEnum(signInRequestDto.getEmail(), signInRequestDto.getPassword(),
+//						signInRequestDto.getRoleEnum())
+//				.orElseThrow(() -> new CustomAuthenticationException("Invalid Email or Password !"));
+//		if (userEntity.getIsDeleted()) {
+//			throw new CustomAuthorizationException("User is Deactivated!");
+//		} else
+//			// valid login
+//			return Optional.of(mapper.map(userEntity, SignInResponseDto.class));
 	}
 
 	// Register User with basic details
 	@Override
-	public Optional<RegisterUserResDto> registerUser(RegisterUserReqDto registerUserReqDto) {
+	public Optional<RegisterUserResDto> registerUser(@RequestBody RegisterUserReqDto registerUserReqDto) {
 		if (!registerUserReqDto.getPassword().equals(registerUserReqDto.getConfirmPassword())) {
 			throw new ConstraintViolationException("password mismatch", null);
-		} else if (!(registerUserReqDto.getRoleEnum().equals(UserRoleEnum.ADMIN)
-				|| registerUserReqDto.getRoleEnum().equals(UserRoleEnum.GUEST)
-				|| registerUserReqDto.getRoleEnum().equals(UserRoleEnum.HOST))) {
+		} else if (!(registerUserReqDto.getRoleEnum().equals(UserRoleEnum.ROLE_ADMIN)
+				|| registerUserReqDto.getRoleEnum().equals(UserRoleEnum.ROLE_GUEST)
+				|| registerUserReqDto.getRoleEnum().equals(UserRoleEnum.ROLE_HOST))) {
 			throw new ConstraintViolationException("invalid user role, user HOST, GUEST, ADMIN only", null);
 		} else if (userDao.existsByMobileAndEmailAndRoleEnum(registerUserReqDto.getMobile(),
 				registerUserReqDto.getEmail(), registerUserReqDto.getRoleEnum())) {
@@ -77,10 +102,12 @@ public class UserServiceImpl implements UserService {
 			throw new ConflictException("user with given mobile already registered");
 		} else {
 
-			User tHost = mapper.map(registerUserReqDto, User.class);
-			tHost.setIsDeleted(false);
-			User pHost = userDao.save(tHost);
-			return Optional.of(mapper.map(pHost, RegisterUserResDto.class));
+			User tUser = mapper.map(registerUserReqDto, User.class);
+
+			tUser.setPassword(passwordEncoder.encode(registerUserReqDto.getPassword()));
+			tUser.setIsDeleted(false);
+			User pUser = userDao.save(tUser);
+			return Optional.of(mapper.map(pUser, RegisterUserResDto.class));
 
 		}
 
@@ -88,12 +115,12 @@ public class UserServiceImpl implements UserService {
 
 	// Register User with driving license
 	@Override
-	public Optional<RegisterUserWithDlResDto> registerUser(RegisterUserWithDlReqDto registerUserWithDlReqDto) {
+	public Optional<RegisterUserWithDlResDto> registerUser(@RequestBody RegisterUserWithDlReqDto registerUserWithDlReqDto) {
 		if (!registerUserWithDlReqDto.getPassword().equals(registerUserWithDlReqDto.getConfirmPassword())) {
 			throw new ConstraintViolationException("password mismatch", null);
-		} else if (!(registerUserWithDlReqDto.getRoleEnum().equals(UserRoleEnum.ADMIN)
-				|| registerUserWithDlReqDto.getRoleEnum().equals(UserRoleEnum.GUEST)
-				|| registerUserWithDlReqDto.getRoleEnum().equals(UserRoleEnum.HOST))) {
+		} else if (!(registerUserWithDlReqDto.getRoleEnum().equals(UserRoleEnum.ROLE_ADMIN)
+				|| registerUserWithDlReqDto.getRoleEnum().equals(UserRoleEnum.ROLE_GUEST)
+				|| registerUserWithDlReqDto.getRoleEnum().equals(UserRoleEnum.ROLE_HOST))) {
 			throw new ConstraintViolationException("invalid user role, use HOST, GUEST, ADMIN only", null);
 		} else if (registerUserWithDlReqDto.getDrivingLicenseDto().getIssueDate()
 				.isAfter(registerUserWithDlReqDto.getDrivingLicenseDto().getExpirationDate())) {
@@ -184,7 +211,7 @@ public class UserServiceImpl implements UserService {
 		return new ApiResponseDto("User Deleted Successfully!");
 	}
 
-	//activate the user with email and password
+	// activate the user with email and password
 	@Override
 	public ApiResponseDto activateUser(SignInRequestDto activationreqDto) {
 		User pUser = userDao
@@ -197,7 +224,7 @@ public class UserServiceImpl implements UserService {
 		pUser.setIsDeleted(false);
 		userDao.save(pUser);
 		return new ApiResponseDto("activation successfull");
-		
+
 	}
 
 }

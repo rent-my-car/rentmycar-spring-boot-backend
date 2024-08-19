@@ -27,7 +27,7 @@ public class HostServiceImpl implements HostService {
 
 	@Override
 	public List<GetAllUsersDto> getAllHosts() {
-		List<User> guestList = userDao.findByRoleEnum(UserRoleEnum.HOST)
+		List<User> guestList = userDao.findByRoleEnum(UserRoleEnum.ROLE_HOST)
 				.orElseThrow(() -> new ResourceNotFoundException("Guest List is Empty!!"));
 		TypeToken<List<GetAllUsersDto>> getallGuestDtoToken = new TypeToken<>() {
 		};
