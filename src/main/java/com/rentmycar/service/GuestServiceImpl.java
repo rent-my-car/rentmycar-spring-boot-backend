@@ -36,7 +36,7 @@ public class GuestServiceImpl implements GuestService {
 	//get all guests
 	@Override
 	public List<GetAllUsersDto> getAllGuests() {
-		List<User> guestList = userDao.findByRoleEnum(UserRoleEnum.GUEST).orElseThrow(()->new ResourceNotFoundException("Guest List is Empty!!"));
+		List<User> guestList = userDao.findByRoleEnum(UserRoleEnum.ROLE_GUEST).orElseThrow(()->new ResourceNotFoundException("Guest List is Empty!!"));
 		TypeToken<List<GetAllUsersDto>> getallGuestDtoToken = new TypeToken<>() {};
 		return(mapper.map(guestList, getallGuestDtoToken.getType()));
 		

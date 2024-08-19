@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +55,8 @@ public class AddressController {
 
 	// update address by address id
 	@Operation(description = "udpate address by address id")
-	@PutMapping
+
+  @PutMapping
 	public ResponseEntity<?> updateAddressbyAddressId(@RequestBody @Valid AddressDto addressDto,
 			@RequestHeader Long addressId) {
 //		addressDto.setId(Long.parseLong(addressId));
@@ -71,6 +73,7 @@ public class AddressController {
 		return ResponseEntity.status(HttpStatus.OK).body(addressService.deleteAddressByAddressId(addressId)
 				.orElseThrow(() -> new ApiException("internal server error")));
 	}
+
 
 	// get distinct city names
 	@GetMapping("/cities")

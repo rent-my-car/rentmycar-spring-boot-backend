@@ -3,11 +3,13 @@ package com.rentmycar.controller;
 import java.util.Optional;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,9 @@ import com.rentmycar.dto.ApiResponseDto;
 import com.rentmycar.dto.RegisterUserReqDto;
 import com.rentmycar.dto.RegisterUserWithDlReqDto;
 import com.rentmycar.dto.SignInRequestDto;
+import com.rentmycar.dto.SignInResponseDto;
 import com.rentmycar.dto.UpdateBasicUserDetailsDto;
+import com.rentmycar.security.JwtUtils;
 import com.rentmycar.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,9 +41,8 @@ public class UserController {
 
 	// method for role based login for user
 	@PostMapping("/login")
-	public ResponseEntity<?> logInUser(@RequestBody @Valid SignInRequestDto signInRequestDto) {
-		System.out.println("in Log in " + signInRequestDto);
-		return ResponseEntity.ok(userService.authenticateUser(signInRequestDto));
+	public ResponseEntity<?> logInUser(@RequestBody @Valid SignInRequestDto request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.authenticateUser(request));
 	}
 
 	// register User with basic details

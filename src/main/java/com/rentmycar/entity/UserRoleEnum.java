@@ -1,5 +1,5 @@
 package com.rentmycar.entity;
 
 public enum UserRoleEnum {
-	GUEST,ADMIN,HOST
+	ROLE_GUEST,ROLE_ADMIN,ROLE_HOST
 }
